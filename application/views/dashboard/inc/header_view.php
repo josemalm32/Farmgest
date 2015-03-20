@@ -6,6 +6,13 @@
         <meta charset="UTF-8">
         <title>Nutrimondego | Dashboard</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        <?php
+            foreach($css_files as $file): ?>
+                <link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
+            <?php endforeach; ?>
+            <?php foreach($js_files as $file): ?>
+                <script src="<?php echo $file; ?>"></script>
+            <?php endforeach; ?>
         <!-- bootstrap 3.0.2 -->
         <link href="<?=base_url()?>public/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- font Awesome -->

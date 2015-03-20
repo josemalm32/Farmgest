@@ -23,7 +23,7 @@ class Dashboard extends CI_Controller
     
     public function index()
     {
-        $this->load->view('dashboard/inc/header_view');
+        $this->load->view('dashboard/inc/header_view', (object)array('js_files' => array() , 'css_files' => array()));
         $this->load->view('dashboard/admin_pages/dashboard_view');
         $this->load->view('dashboard/inc/footer_view');
     }
@@ -54,11 +54,13 @@ class Dashboard extends CI_Controller
         $crud = new grocery_CRUD();
         $crud->set_table('entitys');
         $crud->set_theme('datatables');
+        $crud->set_subject('Empresas Agricolas');
         $crud->columns('id','name','email');
         
         $output = $crud->render();  
-
-        $this->load->view('dashboard/inc/header_view');
+        $header_output = (array)$output;
+        unset($header_output['output']);
+        $this->load->view('dashboard/inc/header_view', $header_output);
         $this->load->view('dashboard/admin_pages/entity_view',$output);
         $this->load->view('dashboard/inc/footer_view');
         
@@ -77,7 +79,9 @@ class Dashboard extends CI_Controller
         
         $output = $crud->render();  
 
-         $this->load->view('dashboard/inc/header_view');
+        $header_output = (array)$output;
+        unset($header_output['output']);
+        $this->load->view('dashboard/inc/header_view', $header_output);
         $this->load->view('dashboard/admin_pages/farm_view',$output);
         $this->load->view('dashboard/inc/footer_view');
     }
@@ -96,7 +100,9 @@ class Dashboard extends CI_Controller
         
         $output = $crud->render();  
          
-        $this->load->view('dashboard/inc/header_view');
+        $header_output = (array)$output;
+        unset($header_output['output']);
+        $this->load->view('dashboard/inc/header_view', $header_output);
         $this->load->view('dashboard/admin_pages/fin_expenses_view',$output);
         $this->load->view('dashboard/inc/footer_view');
         
@@ -115,7 +121,9 @@ class Dashboard extends CI_Controller
         
         $output = $crud->render();  
          
-        $this->load->view('dashboard/inc/header_view');
+        $header_output = (array)$output;
+        unset($header_output['output']);
+        $this->load->view('dashboard/inc/header_view', $header_output);
         $this->load->view('dashboard/admin_pages/fin_expenses_detail_view',$output);
         $this->load->view('dashboard/inc/footer_view');
         
@@ -135,7 +143,9 @@ class Dashboard extends CI_Controller
         
         $output = $crud->render();  
          
-        $this->load->view('dashboard/inc/header_view');
+        $header_output = (array)$output;
+        unset($header_output['output']);
+        $this->load->view('dashboard/inc/header_view', $header_output);
         $this->load->view('dashboard/admin_pages/fin_expenses_type_view',$output);
         $this->load->view('dashboard/inc/footer_view');
         

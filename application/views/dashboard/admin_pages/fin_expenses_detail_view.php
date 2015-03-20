@@ -12,7 +12,7 @@
 		</section>
         <section class="content">
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-md-6">
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title">Expenses Detail Table</h3>

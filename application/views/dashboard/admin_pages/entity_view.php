@@ -12,13 +12,13 @@
 		</section>
         <section class="content">
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-md-6">
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title">Entity Table</h3>
                         </div>
-                        <div class="box-body table-responsive">
-                            <table class="table table-bordered table-hover">
+                        <div class="box-body ">
+                            <table >
                                 <?php echo $output; ?>
                             </table>
                         </div>
