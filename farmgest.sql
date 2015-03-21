@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 20, 2015 at 12:33 PM
+-- Generation Time: Mar 21, 2015 at 10:14 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `entitys` (
   `contacts` longtext,
   `notes` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `entitys`
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `entitys` (
 
 INSERT INTO `entitys` (`id`, `name`, `vat`, `logo`, `email`, `phone`, `website`, `address`, `contacts`, `notes`) VALUES
 (1, 'Nutrimondego', NULL, NULL, 'geral@nutrimondego.com', '123456789', 'www.nutrimondego.com', 'Brasfesmes', '123456789', '123456789'),
-(9, 'teste', 'teste', NULL, 'teste@teste.com', '546789213', 'www.teste.com', 'Rua da Estrada 43 R/C', '546789213', 'qualquer coisa');
+(12, 'teste', NULL, NULL, '1@1.C', 'asdasdqweq', 'asdasdsqweqw', '<p>\r\n asdasdas</p>\r\n', '<p>\r\n dasdada</p>\r\n', '<p>\r\n dasda</p>\r\n');
 
 -- --------------------------------------------------------
 
@@ -65,16 +65,16 @@ CREATE TABLE IF NOT EXISTS `farms` (
   `id_entity` int(10) DEFAULT NULL,
   `notes` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `farms`
 --
 
 INSERT INTO `farms` (`id`, `name`, `location`, `production_type`, `main_culture`, `seeding_unit`, `yeld_unit`, `id_entity`, `notes`) VALUES
-(2, 'farm1', 'rua da estrada 42', 'Hydroponic', 'mainculture', '0', '0', 1, '0'),
-(3, 'farm1', 'rua da estrada 42', 'Hydroponic', 'asdasdasd', '0', '0', 1, '0'),
-(4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(2, 'farm123', 'rua da estrada 42', 'Hydroponic', 'mainculture', '0', '0', 1, '<p>\r\n 0</p>\r\n'),
+(3, 'farm2', 'rua da estrada 42', 'Hydroponic', 'asdasdasd', '0', '0', 1, '<p>\r\n 0</p>\r\n'),
+(6, 'DFASD', 'AsdsdAS', 'Integrated', 'ASDsd', '20', '20', 12, '<p>\r\n dfsfsdfsdf</p>\r\n');
 
 -- --------------------------------------------------------
 
@@ -102,7 +102,6 @@ CREATE TABLE IF NOT EXISTS `fin_expenses` (
 --
 
 INSERT INTO `fin_expenses` (`id`, `id_type`, `description`, `id_vendor`, `n_document`, `total_cost`, `date_document`, `date_due`, `date_efective_payment`, `payment_type`, `notes`) VALUES
-(1, 0, '', 0, '', 0, '0000-00-00', '0000-00-00', '0000-00-00', '', ''),
 (2, 0, 'fdsfsdf', 0, 'sdfsd', 0, '2010-10-10', '2010-10-10', '2010-10-10', 'BankTransfer', '');
 
 -- --------------------------------------------------------
@@ -130,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `fin_expenses_detail` (
 --
 
 INSERT INTO `fin_expenses_detail` (`id`, `id_expense`, `id_item_type`, `item_description`, `item_quantity`, `unit_cost`, `tax_rate`, `brand`, `technical_name`, `notes`) VALUES
-(1, 0, 0, 'asdasd', 23, 2323, 23232, 'asdasd', 'asdasd', '');
+(1, 2, 0, 'asdasd', 23, 2323, 23232, 'asdasd', 'asdasd', '');
 
 -- --------------------------------------------------------
 
@@ -147,14 +146,16 @@ CREATE TABLE IF NOT EXISTS `fin_expenses_type` (
   `id_farm` int(10) NOT NULL,
   `id_entity` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `fin_expenses_type`
 --
 
 INSERT INTO `fin_expenses_type` (`id`, `description`, `type`, `state`, `notes`, `id_farm`, `id_entity`) VALUES
-(1, '3434', 'expense', 'active', 'qweqweqw', 3, 3);
+(1, '123', 'expense', 'active', '<p>\r\n qweqweqw</p>\r\n', 3, 1),
+(3, 'sadfhg', 'investment', 'active', '<p>\r\n zxcvv</p>\r\n', 2, 1),
+(4, 'asdsada', 'expense', 'inactive', '<p>\r\n dasda</p>\r\n', 6, 12);
 
 -- --------------------------------------------------------
 
@@ -217,18 +218,16 @@ CREATE TABLE IF NOT EXISTS `fin_vendor_client` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `type` enum('Vendor','Customer','Both','Other External') COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `contact_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `contact_phone` varchar(16) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `contact_email` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `address` varchar(200) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `payment_conditions` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `payment_type` enum('MB','BankTransfer','Money','Other') COLLATE utf8_unicode_ci NOT NULL,
   `payment_date` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `date_created` datetime NOT NULL,
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `observacoes` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `id_farm` int(10) NOT NULL,
   `id_entity` int(10) NOT NULL,
   `notes` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `id_g_contacts` int(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
@@ -384,6 +383,20 @@ CREATE TABLE IF NOT EXISTS `g_changelog` (
   `id_entity` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `g_contacts`
+--
+
+CREATE TABLE IF NOT EXISTS `g_contacts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `phone` int(12) NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `email` varchar(30) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
