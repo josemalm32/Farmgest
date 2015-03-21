@@ -21,16 +21,7 @@
         <link href="<?=base_url()?>public/css/ionicons.min.css" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
         <link href="<?=base_url()?>public/css/nutrimondego.css" rel="stylesheet" type="text/css" />
-        <!-- daterange picker -->
-        <link href="<?=base_url()?>public/css/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
-        <!-- iCheck for checkboxes and radio inputs -->
-        <link href="<?=base_url()?>public/css/iCheck/all.css" rel="stylesheet" type="text/css" />
-        <!-- Bootstrap Color Picker -->
-        <link href="<?=base_url()?>public/css/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet"/>
-        <!-- Bootstrap time Picker -->
-        <link href="<?=base_url()?>public/css/timepicker/bootstrap-timepicker.min.css" rel="stylesheet"/>
-        <!-- DATA TABLES -->
-        <link href="<?=base_url()?>public/css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+        
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
