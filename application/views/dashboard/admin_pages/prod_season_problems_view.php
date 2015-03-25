@@ -3,11 +3,11 @@
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 			<h1>
-            	Expenses Type
+            	Production Season Problems
             </h1>
             <ol class="breadcrumb">
             	<li><a href="<?=base_url()?>index.php/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-            	<li class="active">Expenses Type</li>
+            	<li class="active">Production Season Problems</li>
             </ol>
 		</section>
         <section class="content">
@@ -15,10 +15,10 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Expenses Type Table</h3>
+                            <h3 class="box-title">Production Season Problems Table</h3>
                         </div>
-                        <div class="box-body table-responsive">
-                            <table class="table table-bordered table-hover">
+                        <div class="box-body ">
+                            <table >
                                 <?php echo $output; ?>
                             </table>
                         </div>

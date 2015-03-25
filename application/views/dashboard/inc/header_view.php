@@ -6,6 +6,7 @@
         <meta charset="UTF-8">
         <title>Nutrimondego | Dashboard</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        <meta http-equiv="refresh" content="900;url=<?=base_url()?>index.php/home/lockscreen" />
         <?php
             foreach($css_files as $file): ?>
                 <link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
@@ -21,7 +22,6 @@
         <link href="<?=base_url()?>public/css/ionicons.min.css" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
         <link href="<?=base_url()?>public/css/nutrimondego.css" rel="stylesheet" type="text/css" />
-        
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -269,7 +269,7 @@
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="dashboard/logout" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="<?=base_url()?>index.php/dashboard/logout" class="btn btn-default btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>
@@ -311,78 +311,80 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                         </li>
-                        <li>
-                            <a href="<?=base_url()?>index.php/dashboard/entity_menu">
-                                <i class="fa fa-th"></i> <span>Entity</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu">
-                            <a href="<?=base_url()?>index.php/dashboard/farm_menu">
-                                <i class="fa fa-home"></i>
-                                <span>Farms</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                        </li>
                         <li class="treeview">
                             <a href="#">
-                                <i class="fa fa-bar-chart-o"></i>
-                                <span>Expenses</span>
+                                <i class="fa fa-th"></i> 
+                                <span>Finances</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="<?=base_url()?>index.php/dashboard/fin_expenses_menu"><i class="fa fa-angle-double-right"></i>Expenses</a></li>
                                 <li><a href="<?=base_url()?>index.php/dashboard/fin_expenses_detail_menu"><i class="fa fa-angle-double-right"></i>Expenses Detail</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/fin_expenses_type_menu"><i class="fa fa-angle-double-right"></i>Expenses Type</a></li>
-
+                                <li><a href="<?=base_url()?>index.php/dashboard/fin_expenses_type_menu"><i class="fa fa-angle-double-right"></i>Expenses Type</a></li>   
+                                <li><a href="<?=base_url()?>index.php/dashboard/fin_orders_menu"><i class="fa fa-angle-double-right"></i>Orders</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/fin_orders_detail_menu"><i class="fa fa-angle-double-right"></i>Orders Detail</a></li> 
+                                <li><a href="<?=base_url()?>index.php/dashboard/fin_vendor_client_menu"><i class="fa fa-angle-double-right"></i>Customer/Vendors</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/fin_product_type_menu"><i class="fa fa-angle-double-right"></i>Product Type</a></li>           
                             </ul>
                         </li>
                         <li class="treeview">
                             <a href="#">
-                                <i class="fa fa-edit"></i> <span>Forms</span>
+                                <i class="fa fa-home"></i>
+                                <span>Rastreability</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="pages/forms/general.html"><i class="fa fa-angle-double-right"></i> General Elements</a></li>
-                                <li><a href="pages/forms/advanced.html"><i class="fa fa-angle-double-right"></i> Advanced Elements</a></li>
-                                <li><a href="pages/forms/editors.html"><i class="fa fa-angle-double-right"></i> Editors</a></li>                                
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_menu"><i class="fa fa-angle-double-right"></i> Add Season</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_harvast_menu"><i class="fa fa-angle-double-right"></i> Season Harvast</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_problems_menu"><i class="fa fa-angle-double-right"></i> Season Problems</a></li>    
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_problems_actions_menu"><i class="fa fa-angle-double-right"></i> Season Problems/Actions</a></li>   
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_problems_actions_fieldsection_menu"><i class="fa fa-angle-double-right"></i> Season FieldSection Problems/Actions</a></li>  
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_fertilization_menu"><i class="fa fa-angle-double-right"></i>Fertilization</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_treatment_menu"><i class="fa fa-angle-double-right"></i>Treatment</a></li>
                             </ul>
                         </li>
                         <li class="treeview">
                             <a href="#">
-                                <i class="fa fa-table"></i> <span>Tables</span>
+                                <i class="fa fa-table"></i> 
+                                <span>Operation</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="pages/tables/simple.html"><i class="fa fa-angle-double-right"></i> Simple tables</a></li>
-                                <li><a href="pages/tables/data.html"><i class="fa fa-angle-double-right"></i> Data tables</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_storage_menu"><i class="fa fa-angle-double-right"></i>Production Storage</a></li>  
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_storage_consumed_menu"><i class="fa fa-angle-double-right"></i>Production Storage Consumed</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/g_contacts_menu"><i class="fa fa-angle-double-right"></i>Contacts</a></li>  
+                                <li><a href="<?=base_url()?>index.php/dashboard/g_tasks_menu"><i class="fa fa-angle-double-right"></i>Tasks</a></li>  
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_sorts_menu"><i class="fa fa-angle-double-right"></i>Users Tasks</a></li>  
+                                <li><a href="<?=base_url()?>index.php/dashboard/g_alarms_menu"><i class="fa fa-angle-double-right"></i>Alarms</a></li>  
+                                <li><a href="<?=base_url()?>index.php/dashboard/g_documents_menu"><i class="fa fa-angle-double-right"></i>Documents</a></li> 
+                                <li><a href="<?=base_url()?>index.php/dashboard/g_documents_lables_menu"><i class="fa fa-angle-double-right"></i>Documents Labels</a></li>   
+                                <li><a href="<?=base_url()?>index.php/dashboard/g_assets_reserve_menu"><i class="fa fa-angle-double-right"></i>Assets Reserve</a></li> 
+                                <li><a href="<?=base_url()?>index.php/dashboard/globalgap_documentation_menu"><i class="fa fa-angle-double-right"></i>GlobalGap Documentation Support</a></li>  
+                                <li><a href="<?=base_url()?>index.php/dashboard/globalgap_response_menu"><i class="fa fa-angle-double-right"></i>GlobalGap Response</a></li>   
                             </ul>
-                        </li>
-                        <li>
-                            <a href="pages/calendar.html">
-                                <i class="fa fa-calendar"></i> <span>Calendar</span>
-                                <small class="badge pull-right bg-red">3</small>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="pages/mailbox.html">
-                                <i class="fa fa-envelope"></i> <span>Mailbox</span>
-                                <small class="badge pull-right bg-yellow">12</small>
-                            </a>
                         </li>
                         <li class="treeview">
                             <a href="#">
-                                <i class="fa fa-folder"></i> <span>Examples</span>
+                                <i class="fa fa-folder"></i> 
+                                <span>Configuration</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-angle-double-right"></i> Invoice</a></li>
-                                <li><a href="pages/examples/login.html"><i class="fa fa-angle-double-right"></i> Login</a></li>
-                                <li><a href="pages/examples/register.html"><i class="fa fa-angle-double-right"></i> Register</a></li>
-                                <li><a href="pages/examples/lockscreen.html"><i class="fa fa-angle-double-right"></i> Lockscreen</a></li>
-                                <li><a href="pages/examples/404.html"><i class="fa fa-angle-double-right"></i> 404 Error</a></li>
-                                <li><a href="pages/examples/500.html"><i class="fa fa-angle-double-right"></i> 500 Error</a></li>                                
-                                <li><a href="pages/examples/blank.html"><i class="fa fa-angle-double-right"></i> Blank Page</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/g_changelog_menu"><i class="fa fa-angle-double-right"></i>ChangeLog</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/g_menus_menu"><i class="fa fa-angle-double-right"></i>Menus</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/g_rep_configuration_menu"><i class="fa fa-angle-double-right"></i>Configuration</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/g_assets_category_menu"><i class="fa fa-angle-double-right"></i>Assets Category</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/g_assets_menu"><i class="fa fa-angle-double-right"></i>Assets</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/g_labels_menu"><i class="fa fa-angle-double-right"></i>Labels</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/entitys_menu"><i class="fa fa-angle-double-right"></i>Entitys</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/farms_menu"><i class="fa fa-angle-double-right"></i>Farms</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/users_menu"><i class="fa fa-angle-double-right"></i>Users</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_storage_house_menu"><i class="fa fa-angle-double-right"></i>Production Storage House</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_sorts_menu"><i class="fa fa-angle-double-right"></i>Production Sorts</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_fields_menu"><i class="fa fa-angle-double-right"></i>Production Fields</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_fields_sections_menu"><i class="fa fa-angle-double-right"></i>Production FieldSection</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/globalgap_menu"><i class="fa fa-angle-double-right"></i>GlobalGap</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/globalgap_402_menu"><i class="fa fa-angle-double-right"></i>GlobalGap 402</a></li>
                             </ul>
                         </li>
                     </ul>

@@ -38,7 +38,7 @@ class Api extends CI_Controller
         $this->output->set_content_type('application_json');
 
         if ($result) {
-            $this->session->set_userdata(['id_user' => $result[0]['id_user']]);
+            $this->session->set_userdata(['id_user' => $result[0]['id']]);
             $this->output->set_output(json_encode(['result' => 1]));
             //return false;
             redirect('/dashboard');

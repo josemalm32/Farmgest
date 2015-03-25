@@ -2,8 +2,7 @@
 
 class Dashboard extends CI_Controller
 {
-    private $limit = 10;
-    // ------------------------------------------------------------------------ check
+    // ------------------------------------------------------------------------ 
     
     public function __construct() 
     {
@@ -19,17 +18,18 @@ class Dashboard extends CI_Controller
         $this->load->library('grocery_CRUD');
         $this->load->library('gc_dependent_select');
     }
-    
-    // ------------------------------------------------------------------------ check
+
+    // ------------------------------------------------------------------------ 
     
     public function index()
     {
-        $this->load->view('dashboard/inc/header_view', (object)array('js_files' => array() , 'css_files' => array()));
+        $this->load->view('dashboard/inc/header_view', ((object)array('js_files' => array() , 'css_files' => array())));
         $this->load->view('dashboard/admin_pages/dashboard_view');
+        $this->load->view('dashboard/inc/footer_main_view');
         $this->load->view('dashboard/inc/footer_view');
     }
     
-    // ------------------------------------------------------------------------ check
+    // ------------------------------------------------------------------------ 
      
     public function logout()
     {
@@ -37,7 +37,7 @@ class Dashboard extends CI_Controller
         redirect('/');
     }
 
-    // ------------------------------------------------------------------------ check
+    // ------------------------------------------------------------------------ 
     
     private function _require_login()
     {
@@ -47,7 +47,7 @@ class Dashboard extends CI_Controller
         }
     }
 
-    //-------------------------------- entity menu ---------------------------- check
+    //-------------------------------- entity menu ---------------------------- 
     public function entity_menu(){
 
         $this->_require_login();
@@ -67,7 +67,7 @@ class Dashboard extends CI_Controller
         
     }
 
-    //-------------------------------- farm menu ---------------------------- check
+    //-------------------------------- farm menu ---------------------------- 
 
      public function farm_menu(){
 
@@ -78,7 +78,7 @@ class Dashboard extends CI_Controller
         $crud->set_relation('id_entity', 'entitys', 'name');
         $crud->set_theme('datatables');
         $crud->set_subject('Farm');
-        $crud->columns('id','name','location', 'production_type', 'main_culture');
+        $crud->columns('name','location', 'production_type', 'main_culture');
 
         $fields = array(
             'id_entity' => array( // first dropdown name
@@ -90,7 +90,7 @@ class Dashboard extends CI_Controller
         $config = array(
             'main_table' => 'farms',
             'main_table_primary' => 'id',
-            "url" => base_url() . __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
+            "url" => base_url() .'index.php/'. __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
         );
         $categories = new gc_dependent_select($crud, $fields, $config);
 
@@ -108,7 +108,7 @@ class Dashboard extends CI_Controller
     }
 
     
-    //-------------------------------- expenses menu ----------------------------  check
+    //-------------------------------- expenses menu ----------------------------  
 
      public function fin_expenses_menu(){
 
@@ -130,7 +130,7 @@ class Dashboard extends CI_Controller
         
     }
 
-    //-------------------------------- expenses detail menu ----------------------------  check
+    //-------------------------------- expenses detail menu ----------------------------  
 
      public function fin_expenses_detail_menu(){
 
@@ -147,13 +147,14 @@ class Dashboard extends CI_Controller
             'id_expense' => array( // first dropdown name
             'table_name' => 'fin_expenses', // table of entitys
             'title' => 'description', // entitys name
-            'relate' => null // the first dropdown hasn't a relation
+            'relate' => null, // the first dropdown hasn't a relation
+            'data-placeholder' => 'select entity'
             ));
 
         $config = array(
             'main_table' => 'fin_expenses_detail',
             'main_table_primary' => 'id',
-            "url" => base_url() . __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
+            "url" => base_url() .'index.php/'. __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
         );
         $categories = new gc_dependent_select($crud, $fields, $config);
 
@@ -173,7 +174,7 @@ class Dashboard extends CI_Controller
     }
 
 
-    //-------------------------------- expenses type menu ----------------------------  check
+    //-------------------------------- expenses type menu ----------------------------  
 
      public function fin_expenses_type_menu(){
 
@@ -191,7 +192,8 @@ class Dashboard extends CI_Controller
             'id_entity' => array( // first dropdown name
             'table_name' => 'entitys', // table of entitys
             'title' => 'name', // entitys name
-            'relate' => null // the first dropdown hasn't a relation
+            'relate' => null, // the first dropdown hasn't a relation
+            'data-placeholder' => 'select entity'
             ),
             'id_farm' => array( // second dropdown name
             'table_name' => 'farms', // table of farms
@@ -204,11 +206,9 @@ class Dashboard extends CI_Controller
         $config = array(
             'main_table' => 'fin_expenses_type',
             'main_table_primary' => 'id',
-            "url" => base_url() . __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
+            "url" => base_url() .'index.php/'. __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
         );
         $categories = new gc_dependent_select($crud, $fields, $config);
-
-        
         
         $js = $categories->get_js();
         $output = $crud->render();
@@ -220,6 +220,892 @@ class Dashboard extends CI_Controller
         $this->load->view('dashboard/admin_pages/fin_expenses_type_view',$output);
         $this->load->view('dashboard/inc/footer_view');
         
+    }
+
+    //-------------------------------- orders menu ---------------------------- 
+
+    public function fin_orders_menu(){
+        $this->_require_login();
+
+        $crud = new grocery_CRUD();
+        $crud->set_table('fin_orders');
+        $crud->set_relation('id_farm', 'farms', 'name');
+        $crud->set_relation('id_entity', 'entitys', 'name');
+        $crud->set_relation('id_customer', 'fin_vendor_client', 'name');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Orders');
+        $crud->columns('id','notes', 'order_date', 'deliver_date', 'quantity');
+
+        $fields = array(
+                'id_entity' => array( // first dropdown name
+                'table_name' => 'entitys', // table of entitys
+                'title' => 'name', // entitys name
+                'relate' => null, // the first dropdown hasn't a relation
+                'data-placeholder' => 'select entity'
+            ),
+                'id_farm' => array( // second dropdown name
+                'table_name' => 'farms', // table of farms
+                'title' => 'name', // farm name
+                'id_field' => 'id',
+                'relate' => 'id_entity', // relate table entity to table farm, so you can choose one farm from the entity responsible
+                'data-placeholder' => 'select farm'
+            ),
+                'id_customer' => array(
+                'table_name' => 'fin_vendor_client',
+                'where' =>"type = 'Customer' or type = 'Both'",  //mostra apenas os customers e both da tabela, assim tendo apenas quem faz os pedidos.
+                'title' => 'name',  
+                'relate' => null,
+                'data-placeholder' => 'select customer'
+            ));
+
+        $config = array(
+            'main_table' => 'fin_orders',
+            'main_table_primary' => 'id',
+            "url" => base_url() .'index.php/'. __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
+        );
+        $categories = new gc_dependent_select($crud, $fields, $config);
+        
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.= $js; 
+         
+        $header_output = (array)$output;
+        unset($header_output['output']);
+        $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/fin_orders_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+
+    }
+
+    //-------------------------------- orders detail menu ---------------------------- 
+
+public function fin_orders_detail_menu(){
+        $this->_require_login();
+
+        $crud = new grocery_CRUD();
+        $crud->set_table('fin_orders_detail');
+        $crud->set_relation('id_order', 'fin_orders', 'notes');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Orders Detail');
+        $crud->columns('id_order','item', 'quantity', 'quantity_unit', 'notes');
+
+        $fields = array(
+                'id_entity' => array( // first dropdown name
+                'table_name' => 'fin_order', // table of fin_orders_detail
+                'title' => 'notes', // fin_orders_detail item
+                'relate' => null, // the first dropdown hasn't a relation
+                'data-placeholder' => 'select Order'
+            ));
+
+        $config = array(
+            'main_table' => 'fin_orders_detail',
+            'main_table_primary' => 'id',
+            "url" => base_url() .'index.php/'. __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
+        );
+        $categories = new gc_dependent_select($crud, $fields, $config);
+        
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.= $js; 
+         
+        $header_output = (array)$output;
+        unset($header_output['output']);
+        $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/fin_orders_detail_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+
+    }
+
+
+    //-------------------------------- vendor/client menu ---------------------------- 
+
+    public function fin_vendor_client_menu(){
+        $this->_require_login();
+
+        $crud = new grocery_CRUD();
+        $crud->set_table('fin_vendor_client');
+        $crud->set_relation('id_farm', 'farms', 'name');
+        $crud->set_relation('id_entity', 'entitys', 'name');
+        $crud->set_relation('id_g_contacts', 'g_contacts', 'name');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Vendor/Client');
+        $crud->columns('id', 'name', 'type');
+
+        $fields = array(
+                'id_entity' => array( // first dropdown name
+                'table_name' => 'entitys', // table of entitys
+                'title' => 'name', // entitys name
+                'relate' => null, // the first dropdown hasn't a relation
+                'data-placeholder' => 'select entity'
+            ),
+                'id_farm' => array( // second dropdown name
+                'table_name' => 'farms', // table of farms
+                'title' => 'name', // farm name
+                'id_field' => 'id',
+                'relate' => 'id_entity', // relate table entity to table farm, so you can choose one farm from the entity responsible
+                'data-placeholder' => 'select farm'
+            ),
+                'id_g_contacts' => array(
+                'table_name' => 'g_contacts',
+                'title' => 'name',
+                'relate' => null,
+                'data-placeholder' => 'select contact'
+            ));
+
+        $config = array(
+            'main_table' => 'fin_vendor_client',
+            'main_table_primary' => 'id',
+            "url" => base_url() .'index.php/'. __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
+        );
+        $categories = new gc_dependent_select($crud, $fields, $config);
+        
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.= $js; 
+         
+        $header_output = (array)$output;
+        unset($header_output['output']);
+        $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/fin_vendor_client_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+
+    }
+
+     //-------------------------------- vendor/client menu ---------------------------- 
+
+    public function fin_product_type_menu(){
+        $this->_require_login();
+
+        $crud = new grocery_CRUD();
+        $crud->set_table('fin_product_type');
+        $crud->set_relation('id_farm', 'farms', 'name');
+        $crud->set_relation('id_entity', 'entitys', 'name');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Product Type');
+        $crud->columns('type', 'status', 'id_entity', 'id_farm');
+        $crud->display_as('id_entity', 'Entity');
+        $crud->display_as('id_farm', 'Farm');
+
+        $fields = array(
+                'id_entity' => array( // first dropdown name
+                'table_name' => 'entitys', // table of entitys
+                'title' => 'name', // entitys name
+                'relate' => null, // the first dropdown hasn't a relation
+                'data-placeholder' => 'select entity'
+            ),
+                'id_farm' => array( // second dropdown name
+                'table_name' => 'farms', // table of farms
+                'title' => 'name', // farm name
+                'id_field' => 'id',
+                'relate' => 'id_entity', // relate table entity to table farm, so you can choose one farm from the entity responsible
+                'data-placeholder' => 'select farm'
+            ));
+
+        $config = array(
+            'main_table' => 'fin_product_type',
+            'main_table_primary' => 'id',
+            "url" => base_url() .'index.php/'. __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
+        );
+        $categories = new gc_dependent_select($crud, $fields, $config);
+        
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.= $js; 
+         
+        $header_output = (array)$output;
+        unset($header_output['output']);
+        $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/fin_product_type_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+
+    }
+
+    //-------------------------------- contacts menu ---------------------------- 
+
+    public function g_contacts_menu(){
+        $this->_require_login();
+
+        $crud = new grocery_CRUD();
+        $crud->set_table('g_contacts');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Contacts');
+        $crud->columns('id', 'name', 'phone', 'email');
+
+        $output = $crud->render();  
+        $header_output = (array)$output;
+        unset($header_output['output']);
+
+        $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/g_contacts_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+
+    }
+
+    //-------------------------------- add field section menu ---------------------------- 
+
+    public function prod_fields_sections_menu(){
+        $this->_require_login();
+
+        $crud = new grocery_CRUD();
+        $crud->set_table('prod_fields_sections');
+        $crud->set_relation('id_entity', 'entitys', 'name');
+        $crud->set_relation('id_farm', 'farms', 'name');
+        $crud->set_relation('id_field', 'prod_fields', 'name');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Field Section');
+        $crud->columns('section_name','id_entity', 'id_farm', 'id_field');
+        $crud->display_as('section_name','Section');
+        $crud->display_as('id_entity','Entity');
+        $crud->display_as('id_farm','Farm');
+
+        $fields = array(
+                'id_entity' => array( // first dropdown name
+                'table_name' => 'entitys', // table of entitys
+                'title' => 'name', // entitys name
+                'relate' => null, // the first dropdown hasn't a relation
+                'data-placeholder' => 'select entity'
+            ),
+                'id_farm' => array( // second dropdown name
+                'table_name' => 'farms', // table of farms
+                'title' => 'name', // farm name
+                'id_field' => 'id',
+                'relate' => 'id_entity', // relate table entity to table farm, so you can choose one farm from the entity responsible
+                'data-placeholder' => 'select farm'
+            ),
+                'id_field' => array( // second dropdown name
+                'table_name' => 'prod_fields', // table of fields
+                'title' => 'name', // field name
+                'id_field' => 'id',
+                'relate' => 'id_farm', // relate table entity to table farm, so you can choose one farm from the entity responsible
+                'data-placeholder' => 'select field'
+            )
+        );
+
+         $config = array(
+            'main_table' => 'prod_fields_sections',
+            'main_table_primary' => 'id',
+            "url" => base_url() .'index.php/'. __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
+        );
+
+        $categories = new gc_dependent_select($crud, $fields, $config);
+        
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.= $js; 
+
+        $header_output = (array)$output;
+        unset($header_output['output']);
+        $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/prod_fields_sections_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+    }
+
+    //-------------------------------- add field menu ---------------------------- 
+
+    public function prod_fields_menu(){
+        $this->_require_login();
+
+        $crud = new grocery_CRUD();
+        $crud->set_table('prod_fields');
+        $crud->set_relation('id_entity', 'entitys', 'name');
+        $crud->set_relation('id_farm', 'farms', 'name');
+        $crud->set_relation('id_season', 'prod_season', 'name');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Field');
+        $crud->columns('short_code','id_entity', 'id_farm', 'id_season');
+        $crud->display_as('short_code','Field');
+        $crud->display_as('id_entity','Entity');
+        $crud->display_as('id_farm','Farm');
+        $crud->display_as('id_season','Season');
+
+        $fields = array(
+                'id_entity' => array( // first dropdown name
+                'table_name' => 'entitys', // table of entitys
+                'title' => 'name', // entitys name
+                'relate' => null, // the first dropdown hasn't a relation
+                'data-placeholder' => 'select entity'
+            ),
+                'id_farm' => array( // second dropdown name
+                'table_name' => 'farms', // table of farms
+                'title' => 'name', // farm name
+                'id_field' => 'id',
+                'relate' => 'id_entity', // relate table entity to table farm, so you can choose one farm from the entity responsible
+                'data-placeholder' => 'select farm'
+            ),
+                'id_season' => array( // third dropdown name
+                'table_name' => 'prod_season', // table of season
+                'title' => 'name', // season name
+                'relate' => null, 
+                'data-placeholder' => 'select season'
+            )
+        );
+
+         $config = array(
+            'main_table' => 'prod_fields',
+            'main_table_primary' => 'id',
+            "url" => base_url() .'index.php/'. __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
+        );
+
+        $categories = new gc_dependent_select($crud, $fields, $config);
+        
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.= $js; 
+
+        $header_output = (array)$output;
+        unset($header_output['output']);
+        $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/prod_fields_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+    }
+
+    //-------------------------------- fertilization menu ---------------------------- 
+
+    public function prod_fertilization_menu(){
+
+        $this->_require_login();
+
+        $crud= new grocery_CRUD();
+
+        $crud->set_table('prod_fertilization');
+        $crud->set_relation('id_entity', 'entitys', 'name');
+        $crud->set_relation('id_farm', 'farms', 'name');
+        $crud->set_relation('id_user', 'users', 'username');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Fertilization');
+        $crud->columns('type', 'date', 'id_user', 'id_farm', 'id_entity');
+        $crud->display_as('id_entity', 'Entity');
+        $crud->display_as('id_farm', 'Farm');
+        $crud->display_as('id_user', 'User');
+
+        $fields = array(
+            'id_entity' => array(
+                'table_name'=>'entitys',
+                'title'=> 'name',
+                'relate'=> null,
+                'data-placeholder'=>'select entity'
+            ),
+            'id_farm'=> array(
+                'table_name'=>'farms',
+                'title' =>'name',
+                'id_field'=>'id',
+                'relate'=> 'id_entity',
+                'data-placeholder'=> 'select farm'
+            ),
+            'id_user'=> array(
+                'table_name'=>'users',
+                'title'=>'username',
+                'id_field'=>'id',
+                'relate'=> null,
+                'data-placeholder'=>'select user'
+            )
+        );
+
+        $config = array(
+            'main_table'=>'prod_fertilization',
+            'main_table_primary'=>'id',
+            "url"=> base_url().'index.php/'.__CLASS__.'/'.__FUNCTION__.'/'
+            );
+
+        $categories= new gc_dependent_select($crud,$fields,$config);
+
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.=$js;
+
+        $header_output=(array)$output;
+        unset($header_output['output']);
+         $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/prod_fertilization_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+
+    }
+
+    //-------------------------------- sorts menu ---------------------------- 
+
+    public function prod_sorts_menu(){
+
+        $this->_require_login();
+
+        $crud= new grocery_CRUD();
+
+        $crud->set_table('prod_sorts');
+        $crud->set_relation('id_entity', 'entitys', 'name');
+        $crud->set_relation('id_farm', 'farms', 'name');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Sorts');
+        $crud->columns('common_name', 'id_farm', 'id_entity');
+        $crud->display_as('id_entity', 'Entity');
+        $crud->display_as('id_farm', 'Farm');
+
+        $fields = array(
+            'id_entity' => array(
+                'table_name'=>'entitys',
+                'title'=> 'name',
+                'relate'=> null,
+                'data-placeholder'=>'select entity'
+            ),
+            'id_farm'=> array(
+                'table_name'=>'farms',
+                'title' =>'name',
+                'id_field'=>'id',
+                'relate'=> 'id_entity',
+                'data-placeholder'=> 'select farm'
+            )
+        );
+
+        $config = array(
+            'main_table'=>'prod_sorts',
+            'main_table_primary'=>'id',
+            "url"=> base_url().'index.php/'.__CLASS__.'/'.__FUNCTION__.'/'
+            );
+
+        $categories= new gc_dependent_select($crud,$fields,$config);
+
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.=$js;
+
+        $header_output=(array)$output;
+        unset($header_output['output']);
+         $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/prod_sorts_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+
+    }
+
+
+//-------------------------------- season menu ---------------------------- 
+
+    public function prod_season_menu(){
+
+        $this->_require_login();
+
+        $crud= new grocery_CRUD();
+
+        $crud->set_table('prod_season');
+        $crud->set_relation('id_entity', 'entitys', 'name');
+        $crud->set_relation('id_farm', 'farms', 'name');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Season');
+        $crud->columns('name','start_date', 'end_date', 'status', 'production_type', 'id_farm');
+        $crud->display_as('id_entity', 'Entity');
+        $crud->display_as('id_farm', 'Farm');
+
+        $fields = array(
+            'id_entity' => array(
+                'table_name'=>'entitys',
+                'title'=> 'name',
+                'relate'=> null,
+                'data-placeholder'=>'select entity'
+            ),
+            'id_farm'=> array(
+                'table_name'=>'farms',
+                'title' =>'name',
+                'id_field'=>'id',
+                'relate'=> 'id_entity',
+                'data-placeholder'=> 'select farm'
+            )
+        );
+
+        $config = array(
+            'main_table'=>'prod_season',
+            'main_table_primary'=>'id',
+            "url"=> base_url().'index.php/'.__CLASS__.'/'.__FUNCTION__.'/'
+            );
+
+        $categories= new gc_dependent_select($crud,$fields,$config);
+
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.=$js;
+
+        $header_output=(array)$output;
+        unset($header_output['output']);
+         $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/prod_season_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+
+    }
+
+    //-------------------------------- season problems menu ---------------------------- 
+
+    public function prod_season_problems_menu(){
+
+        $this->_require_login();
+
+        $crud= new grocery_CRUD();
+
+        $crud->set_table('prod_season_problems');
+        $crud->set_relation('id_season', 'prod_season', 'name');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Season Problems');
+        $crud->columns('id_season','name', 'type');
+        $crud->display_as('id_season', 'Season');
+
+        $fields = array(
+            'id_season' => array(
+                'table_name'=>'prod_season',
+                'title'=> 'name',
+                'relate'=> null,
+                'data-placeholder'=>'select season'
+            )
+        );
+
+        $config = array(
+            'main_table'=>'prod_season_problems',
+            'main_table_primary'=>'id',
+            "url"=> base_url().'index.php/'.__CLASS__.'/'.__FUNCTION__.'/'
+            );
+
+        $categories= new gc_dependent_select($crud,$fields,$config);
+
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.=$js;
+
+        $header_output=(array)$output;
+        unset($header_output['output']);
+         $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/prod_season_problems_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+
+    }
+
+    //-------------------------------- season problems action fieldsection  menu ---------------------------- 
+
+    public function prod_season_problems_actions_fieldsection_menu(){
+
+        $this->_require_login();
+
+        $crud= new grocery_CRUD();
+
+        $crud->set_table('prod_season_problems_actions_fieldsection');
+        $crud->set_relation('id_entity', 'entitys', 'name');
+        $crud->set_relation('id_fieldsection', 'prod_fields_sections', 'section_name');
+        $crud->set_relation('id_problem_action', 'prod_season_problems_actions', 'type');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Season Problems FieldSection');
+        $crud->columns('id_problem_action', 'id_fieldsection', 'id_entity', 'priority');
+        $crud->display_as('id_entity', 'Entity');
+        $crud->display_as('id_problem_action', 'Type');
+        $crud->display_as('id_fieldsection', 'Section');
+
+
+        $fields = array(
+            'id_entity' => array(
+                'table_name'=>'entitys',
+                'title'=> 'name',
+                'relate'=> null,
+                'data-placeholder'=>'Select Entity'
+            ),
+            'id_fieldsection'=> array(
+                'table_name'=>'farms',
+                'title' =>'name',
+                'id_field'=>'id',
+                'relate'=> 'id_entity',
+                'data-placeholder'=> 'Select FieldSection'
+            ),
+            'id_problem_action'=>array(
+                'table_name'=>'prod_season_problems_actions',
+                'title' =>'action',
+                'id_field'=>'id',
+                'relate'=> null,
+                'data-placeholder'=> 'Select'
+            )
+        );
+
+        $config = array(
+            'main_table'=>'prod_season_problems_actions_fieldsection',
+            'main_table_primary'=>'id',
+            "url"=> base_url().'index.php/'.__CLASS__.'/'.__FUNCTION__.'/'
+            );
+
+        $categories= new gc_dependent_select($crud,$fields,$config);
+
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.=$js;
+
+        $header_output=(array)$output;
+        unset($header_output['output']);
+         $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/prod_treatment_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+
+    }
+
+    //-------------------------------- season treatment  menu ---------------------------- 
+
+    public function prod_treatment_menu(){
+
+        $this->_require_login();
+
+        $crud= new grocery_CRUD();
+
+        $crud->set_table('prod_treatment');
+        $crud->set_relation('id_entity', 'entitys', 'name');
+        $crud->set_relation('id_farm', 'farms', 'name');
+        $crud->set_relation('id_problem_action', 'prod_season_problems_actions', 'type');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Season Treatment');
+        $crud->columns('active_substance', 'security_interval', 'type', 'id_entity', 'id_farm');
+        $crud->display_as('id_entity', 'Entity');
+        $crud->display_as('id_problem_action', 'Type');
+        $crud->display_as('id_farm', 'Farm');
+
+
+        $fields = array(
+            'id_entity' => array(
+                'table_name'=>'entitys',
+                'title'=> 'name',
+                'relate'=> null,
+                'data-placeholder'=>'Select Entity'
+            ),
+            'id_fieldsection'=> array(
+                'table_name'=>'prod_fields_sections',
+                'title' =>'name',
+                'id_field'=>'id',
+                'relate'=> 'id_entity',
+                'data-placeholder'=> 'Select Farm'
+            ),
+            'id_problem_action'=>array(
+                'table_name'=>'prod_season_problems_actions',
+                'title' =>'action',
+                'id_field'=>'id',
+                'relate'=> null,
+                'data-placeholder'=> 'Select'
+            )
+        );
+
+        $config = array(
+            'main_table'=>'prod_treatment',
+            'main_table_primary'=>'id',
+            "url"=> base_url().'index.php/'.__CLASS__.'/'.__FUNCTION__.'/'
+            );
+
+        $categories= new gc_dependent_select($crud,$fields,$config);
+
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.=$js;
+
+        $header_output=(array)$output;
+        unset($header_output['output']);
+         $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/prod_season_problems_actions_fieldsection_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+
+    }
+
+    //-------------------------------- season treatment  menu ---------------------------- 
+
+    public function prod_season_harvast_menu(){
+
+        $this->_require_login();
+
+        $crud= new grocery_CRUD();
+
+        $crud->set_table('prod_season_harvast');
+        $crud->set_relation('id_entity', 'entitys', 'name');
+        $crud->set_relation('id_farm', 'farms', 'name');
+        $crud->set_relation('id_field', 'prod_fields', 'short_code');
+        $crud->set_relation('id_field_section', 'prod_fields_sections', 'section_name');
+        $crud->set_relation('id_sort', 'prod_sorts', 'technical_name');
+        $crud->set_relation('id_season', 'prod_season', 'name');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Season Harvast');
+        $crud->columns('id_entity', 'id_farm', 'id_field', 'id_field_section', 'id_season', 'id_sort', 'harv_start_date', 'harv_end_date');
+        $crud->display_as('id_entity', 'Entity');
+        $crud->display_as('id_field', 'Short Code');
+        $crud->display_as('id_farm', 'Farm');
+        $crud->display_as('id_field_section', 'Section Name');
+        $crud->display_as('id_sort', 'Technical Name');
+        $crud->display_as('id_season', 'Season');
+        $crud->display_as('harv_start_date', 'Start Date');
+        $crud->display_as('harv_end_date', 'End Date');
+
+        $fields = array(
+            'id_entity' => array(
+                'table_name'=>'entitys',
+                'title'=> 'name',
+                'relate'=> null,
+                'data-placeholder'=>'Select Entity'
+            ),
+            'id_farm'=> array(
+                'table_name'=>'farms',
+                'title' =>'name',
+                'id_field'=>'id',
+                'relate'=> 'id_entity',
+                'data-placeholder'=> 'Select FieldSection'
+            ),
+            'id_field'=>array(
+                'table_name'=>'prod_fields',
+                'title' =>'short_code',
+                'id_field'=>'id',
+                'relate'=> 'id_farm',
+                'data-placeholder'=> 'Select'
+            ),
+            'id_sort' => array(
+                'table_name' => 'prod_sorts',
+                'title' => 'technical_name',
+                'relate' => null,
+                'data-placeholder'=> 'Select'
+            ),
+            'id_field_section' => array(
+                'table_name'=>'prod_fields_sections',
+                'title' =>'section_name',
+                'id_field'=>'id',
+                'relate'=> 'id_field',
+                'data-placeholder'=> 'Select'
+            ),
+            'id_season'=>array(
+                'table_name'=>'prod_season',
+                'title' =>'short_code',
+                'relate'=> null,
+                'data-placeholder'=> 'Select'
+            )
+        );
+
+        $config = array(
+            'main_table'=>'prod_season_harvast',
+            'main_table_primary'=>'id',
+            "url"=> base_url().'index.php/'.__CLASS__.'/'.__FUNCTION__.'/'
+            );
+
+        $categories= new gc_dependent_select($crud,$fields,$config);
+
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.=$js;
+
+        $header_output=(array)$output;
+        unset($header_output['output']);
+         $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/prod_season_harvast_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+
+    }
+
+    //-------------------------------- seson problems actions menu ---------------------------- 
+
+     public function prod_season_problems_actions_menu(){
+
+        $this->_require_login();
+
+        $crud = new grocery_CRUD();
+        $crud->set_table('prod_season_problems_actions');
+        $crud->set_relation('id_season', 'prod_season', 'name');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Season Problem Action');
+        $crud->columns('id_season', 'type', 'date_start', 'date_end');
+        $crud->display_as('id_season', 'Season');
+
+        $fields = array(
+            'id_season' => array( // first dropdown name
+            'table_name' => 'prod_season', // table of entitys
+            'title' => 'name', // entitys name
+            'relate' => null // the first dropdown hasn't a relation
+            ));
+
+        $config = array(
+            'main_table' => 'prod_season_problems_actions',
+            'main_table_primary' => 'id',
+            "url" => base_url() .'index.php/'. __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
+        );
+        $categories = new gc_dependent_select($crud, $fields, $config);
+
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.= $js; 
+
+        $header_output = (array)$output;
+        unset($header_output['output']);
+        $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/prod_season_problems_actions_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+    }
+
+    //-------------------------------- storage menu ---------------------------- 
+
+     public function prod_storage_menu(){
+
+        $this->_require_login();
+
+        $crud = new grocery_CRUD();
+        $crud->set_table('prod_storage');
+        $crud->set_relation('id_season', 'prod_season', 'name');
+        $crud->set_relation('id_entity', 'entitys', 'name');
+        $crud->set_relation('id_farm', 'farms', 'name');
+        $crud->set_relation('id_user', 'users', 'username');
+        $crud->set_relation('id_custumer', 'fin_vendor_client', 'name');
+        $crud->set_relation('id_storage', 'prod_storage_house', 'id');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Production Storage');
+        $crud->columns('id','date_in','id_season','id_entity','id_farm','id_user');
+        $crud->display_as('id_season', 'Season');
+        $crud->display_as('id_entity', 'Entity');
+        $crud->display_as('id_farm', 'Farm');
+        $crud->display_as('id_user', 'User');
+        $crud->display_as('id_custumer', 'Customer');
+        $crud->display_as('id_storage', 'Storage House');
+
+        $fields = array(
+                'id_entity' => array( // first dropdown name
+                'table_name' => 'entitys', // table of entitys
+                'title' => 'name', // entitys name
+                'relate' => null, // the first dropdown hasn't a relation
+                'data-placeholder'=> 'Select'
+            ),
+            'id_farm'=> array(
+                'table_name'=>'farms',
+                'title' =>'name',
+                'id_field'=>'id',
+                'relate'=> 'id_entity',
+                'data-placeholder'=> 'Select'
+            ),
+            'id_season'=>array(
+                'table_name'=>'prod_season',
+                'title' =>'short_code',
+                'relate'=> null,
+                'data-placeholder'=> 'Select'
+            ),
+            'id_user' => array(
+                'table_name'=>'users',
+                'title' => 'username',
+                'relate'=> null,
+                'data-placeholder'=> 'Select'
+            ),
+            'id_custumer' => array(
+                'table_name'=>'fin_vendor_client',
+                'title' => 'username',
+                'relate'=> null,
+                'data-placeholder'=> 'Select'
+            ),
+            'id_storage' => array(
+                'table_name'=>'prod_storage',
+                'title' => 'username',
+                'relate'=> null,
+                'data-placeholder'=> 'Select'
+            )
+        );
+
+        $config = array(
+            'main_table' => 'prod_storage',
+            'main_table_primary' => 'id',
+            "url" => base_url() .'index.php/'. __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
+        );
+        $categories = new gc_dependent_select($crud, $fields, $config);
+
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.= $js; 
+
+        $header_output = (array)$output;
+        unset($header_output['output']);
+        $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/admin_pages/prod_storage_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
     }
 
 }

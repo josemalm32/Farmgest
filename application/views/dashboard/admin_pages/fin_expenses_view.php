@@ -3,16 +3,16 @@
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 			<h1>
-            	Entity
+            	Expenses
             </h1>
             <ol class="breadcrumb">
             	<li><a href="<?=base_url()?>index.php/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-            	<li class="active">Entity</li>
+            	<li class="active">Expenses</li>
             </ol>
 		</section>
         <section class="content">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title">Expenses Table</h3>
