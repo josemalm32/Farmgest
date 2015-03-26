@@ -351,13 +351,13 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="<?=base_url()?>index.php/dashboard/prod_storage_menu"><i class="fa fa-angle-double-right"></i>Production Storage</a></li>  
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_storage_consumed_menu"><i class="fa fa-angle-double-right"></i>Production Storage Consumed</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_storage_consum_menu"><i class="fa fa-angle-double-right"></i>Production Storage Consumed</a></li>
                                 <li><a href="<?=base_url()?>index.php/dashboard/g_contacts_menu"><i class="fa fa-angle-double-right"></i>Contacts</a></li>  
                                 <li><a href="<?=base_url()?>index.php/dashboard/g_tasks_menu"><i class="fa fa-angle-double-right"></i>Tasks</a></li>  
                                 <li><a href="<?=base_url()?>index.php/dashboard/prod_sorts_menu"><i class="fa fa-angle-double-right"></i>Users Tasks</a></li>  
                                 <li><a href="<?=base_url()?>index.php/dashboard/g_alarms_menu"><i class="fa fa-angle-double-right"></i>Alarms</a></li>  
                                 <li><a href="<?=base_url()?>index.php/dashboard/g_documents_menu"><i class="fa fa-angle-double-right"></i>Documents</a></li> 
-                                <li><a href="<?=base_url()?>index.php/dashboard/g_documents_lables_menu"><i class="fa fa-angle-double-right"></i>Documents Labels</a></li>   
+                                <li><a href="<?=base_url()?>index.php/dashboard/g_documents_labels_menu"><i class="fa fa-angle-double-right"></i>Documents Labels</a></li>   
                                 <li><a href="<?=base_url()?>index.php/dashboard/g_assets_reserve_menu"><i class="fa fa-angle-double-right"></i>Assets Reserve</a></li> 
                                 <li><a href="<?=base_url()?>index.php/dashboard/globalgap_documentation_menu"><i class="fa fa-angle-double-right"></i>GlobalGap Documentation Support</a></li>  
                                 <li><a href="<?=base_url()?>index.php/dashboard/globalgap_response_menu"><i class="fa fa-angle-double-right"></i>GlobalGap Response</a></li>   
@@ -372,12 +372,12 @@
                             <ul class="treeview-menu">
                                 <li><a href="<?=base_url()?>index.php/dashboard/g_changelog_menu"><i class="fa fa-angle-double-right"></i>ChangeLog</a></li>
                                 <li><a href="<?=base_url()?>index.php/dashboard/g_menus_menu"><i class="fa fa-angle-double-right"></i>Menus</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/g_rep_configuration_menu"><i class="fa fa-angle-double-right"></i>Configuration</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/rep_configuration_menu"><i class="fa fa-angle-double-right"></i>Configuration</a></li>
                                 <li><a href="<?=base_url()?>index.php/dashboard/g_assets_category_menu"><i class="fa fa-angle-double-right"></i>Assets Category</a></li>
                                 <li><a href="<?=base_url()?>index.php/dashboard/g_assets_menu"><i class="fa fa-angle-double-right"></i>Assets</a></li>
                                 <li><a href="<?=base_url()?>index.php/dashboard/g_labels_menu"><i class="fa fa-angle-double-right"></i>Labels</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/entitys_menu"><i class="fa fa-angle-double-right"></i>Entitys</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/farms_menu"><i class="fa fa-angle-double-right"></i>Farms</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/entity_menu"><i class="fa fa-angle-double-right"></i>Entitys</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/farm_menu"><i class="fa fa-angle-double-right"></i>Farms</a></li>
                                 <li><a href="<?=base_url()?>index.php/dashboard/users_menu"><i class="fa fa-angle-double-right"></i>Users</a></li>
                                 <li><a href="<?=base_url()?>index.php/dashboard/prod_storage_house_menu"><i class="fa fa-angle-double-right"></i>Production Storage House</a></li>
                                 <li><a href="<?=base_url()?>index.php/dashboard/prod_sorts_menu"><i class="fa fa-angle-double-right"></i>Production Sorts</a></li>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 21, 2015 at 10:14 PM
+-- Generation Time: Mar 26, 2015 at 04:33 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -173,7 +173,14 @@ CREATE TABLE IF NOT EXISTS `fin_orders` (
   `id_entity` int(10) NOT NULL,
   `notes` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `fin_orders`
+--
+
+INSERT INTO `fin_orders` (`id`, `order_date`, `deliver_date`, `quantity`, `id_customer`, `id_farm`, `id_entity`, `notes`) VALUES
+(1, '2015-03-25', '2015-04-07', 123, 1, 3, 1, '<p>\r\n sdfsdf</p>\r\n');
 
 -- --------------------------------------------------------
 
@@ -189,7 +196,14 @@ CREATE TABLE IF NOT EXISTS `fin_orders_detail` (
   `quantity_unit` varchar(60) NOT NULL,
   `notes` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `fin_orders_detail`
+--
+
+INSERT INTO `fin_orders_detail` (`id`, `id_order`, `item`, `quantity`, `quantity_unit`, `notes`) VALUES
+(1, 1, 1231, 12323, '123213', '<p>\r\n asdadasdasd</p>\r\n');
 
 -- --------------------------------------------------------
 
@@ -221,7 +235,7 @@ CREATE TABLE IF NOT EXISTS `fin_vendor_client` (
   `address` varchar(200) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `payment_conditions` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `payment_type` enum('MB','BankTransfer','Money','Other') COLLATE utf8_unicode_ci NOT NULL,
-  `payment_date` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `payment_date` date NOT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `observacoes` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `id_farm` int(10) NOT NULL,
@@ -229,7 +243,16 @@ CREATE TABLE IF NOT EXISTS `fin_vendor_client` (
   `notes` longtext COLLATE utf8_unicode_ci NOT NULL,
   `id_g_contacts` int(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `fin_vendor_client`
+--
+
+INSERT INTO `fin_vendor_client` (`id`, `type`, `name`, `address`, `payment_conditions`, `payment_type`, `payment_date`, `date_created`, `observacoes`, `id_farm`, `id_entity`, `notes`, `id_g_contacts`) VALUES
+(1, 'Customer', 'Rui', 'asdasdas', 'sdasdasd', 'Money', '0000-00-00', '2015-03-24 00:00:00', 'asdasdasd', 3, 1, '<p>\r\n adasd</p>\r\n', 0),
+(2, 'Other External', 'sadasdas', 'dasdasd', 'asdasdasd', 'BankTransfer', '0000-00-00', '2015-03-23 15:40:01', 'asdasdasdas', 6, 12, '<p>\r\n asdasdasdasdasdasd</p>\r\n', 0),
+(3, 'Vendor', 'Luis', 'adasdasd', 'asdasdasdas', 'MB', '0000-00-00', '2015-03-23 21:46:07', 'asasd', 6, 12, '<p>\r\n asasdasdasd</p>\r\n', 1);
 
 -- --------------------------------------------------------
 
@@ -396,7 +419,14 @@ CREATE TABLE IF NOT EXISTS `g_contacts` (
   `name` varchar(50) CHARACTER SET utf8 NOT NULL,
   `email` varchar(30) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `g_contacts`
+--
+
+INSERT INTO `g_contacts` (`id`, `phone`, `name`, `email`) VALUES
+(1, 123456789, 'Luis', 'luis@luis.com');
 
 -- --------------------------------------------------------
 
@@ -505,6 +535,45 @@ CREATE TABLE IF NOT EXISTS `g_tasks_users` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `permission_item`
+--
+
+CREATE TABLE IF NOT EXISTS `permission_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `item_description` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `permission_list_item`
+--
+
+CREATE TABLE IF NOT EXISTS `permission_list_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_permission_list` int(11) NOT NULL,
+  `id_permission_item` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `permission_list_user_role`
+--
+
+CREATE TABLE IF NOT EXISTS `permission_list_user_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
+  `id_role` int(11) NOT NULL,
+  `id_permission_list` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `prod_fertilization`
 --
 
@@ -544,7 +613,14 @@ CREATE TABLE IF NOT EXISTS `prod_fields` (
   `id_entity` int(10) NOT NULL,
   `notes` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `prod_fields`
+--
+
+INSERT INTO `prod_fields` (`id`, `short_code`, `name`, `surface`, `surface_unit`, `location`, `production_id`, `cadastral_plots`, `id_season`, `id_farm`, `id_entity`, `notes`) VALUES
+(1, 'e1b1', 'asd123', '0', 'asd12', 'asd123', 1223, '<p>\r\n asdasdzxcvz</p>\r\n<p>\r\n dfdsafe</p>\r\n<p>\r\n afsd</p>\r\n<p>\r\n fa</p>\r\n<p>\r\n sd</p>\r\n<p>\r\n as</p>\r\n<p>\r\n d</p>\r\n', 0, 3, 1, '<p>\r\n asdasdasda</p>\r\n<p>\r\n sd</p>\r\n<p>\r\n as</p>\r\n<p>\r\n d</p>\r\n<p>\r\n as</p>\r\n<p>\r\n d</p>\r\n<p>\r\n asd</p>\r\n');
 
 -- --------------------------------------------------------
 
@@ -775,26 +851,54 @@ CREATE TABLE IF NOT EXISTS `rep_configuration` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `roles`
+--
+
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_name` varchar(50) NOT NULL,
+  `role_description` varchar(250) DEFAULT NULL,
+  `status` enum('active','inactive','demo','temporary') NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id_user` int(20) NOT NULL AUTO_INCREMENT,
+  `id` int(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) CHARACTER SET utf8 NOT NULL,
   `password` varchar(255) CHARACTER SET utf8 NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `type` enum('admin','moderator','user') CHARACTER SET utf8 NOT NULL,
   `id_entity` int(10) NOT NULL,
-  PRIMARY KEY (`id_user`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id_user`, `username`, `password`, `date_added`, `date_modified`, `type`, `id_entity`) VALUES
+INSERT INTO `users` (`id`, `username`, `password`, `date_added`, `date_modified`, `type`, `id_entity`) VALUES
 (1, 'admin', 'admin', '2015-03-10 20:31:59', '2015-03-10 20:31:59', 'admin', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_role`
+--
+
+CREATE TABLE IF NOT EXISTS `user_role` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id_user` int(10) NOT NULL,
+  `id_role` int(10) NOT NULL,
+  `status` enum('active','inactive','demo','temporary') NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
