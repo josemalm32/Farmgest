@@ -23,10 +23,10 @@ class Dashboard extends CI_Controller
     
     public function index()
     {
-        $this->load->view('dashboard/inc/header_view', ((object)array('js_files' => array() , 'css_files' => array())));
+        $this->load->view('dashboard/inc/header_main_view');
         $this->load->view('dashboard/admin_pages/dashboard_view');
         $this->load->view('dashboard/inc/footer_main_view');
-        $this->load->view('dashboard/inc/footer_view');
+        
     }
     
     // ------------------------------------------------------------------------ 
@@ -714,17 +714,21 @@ public function fin_orders_detail_menu(){
             "url"=> base_url().'index.php/'.__CLASS__.'/'.__FUNCTION__.'/'
             );
 
-        $categories= new gc_dependent_select($crud,$fields,$config);
+        $categories = new gc_dependent_select($crud,$fields,$config);
 
         $js = $categories->get_js();
         $output = $crud->render();
+
         $output->output.=$js;
 
         $header_output=(array)$output;
         unset($header_output['output']);
-         $this->load->view('dashboard/inc/header_view', $header_output);
+        $this->load->view('dashboard/inc/header_view', $header_output);
         $this->load->view('dashboard/admin_pages/prod_season_view',$output);
         $this->load->view('dashboard/inc/footer_view');
+
+        
+       
 
     }
 
@@ -898,7 +902,7 @@ public function fin_orders_detail_menu(){
 
     }
 
-    //-------------------------------- season treatment  menu ---------------------------- 
+    //-------------------------------- season harvast  menu ---------------------------- 
 
     public function prod_season_harvast_menu(){
 
@@ -1795,10 +1799,59 @@ public function fin_orders_detail_menu(){
         $this->load->view('dashboard/inc/footer_view');
     }
 
+    public function export_xls()
+    {
+        $this->_require_login();
+        /** Error reporting */
+        error_reporting(E_ALL);
+        ini_set('display_errors', TRUE);
+        ini_set('display_startup_errors', TRUE);
 
-    //-------------------------------- weather ---------------------------- 
+        define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
+
+        date_default_timezone_set('Europe/London');
+
+        /** PHPExcel_IOFactory */
+        require_once dirname(__FILE__) . '\Classes\PHPExcel\IOFactory.php';
+
+        $objReader = PHPExcel_IOFactory::createReader('Excel5');
+        $objPHPExcel = $objReader->load("templates/30template.xls");
+
+        $crud = new grocery_CRUD();
+
+        $crud->set_table('entitys');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Entidades');
+        $crud->columns('name', 'vat', 'email', 'phone', 'website', 'address', 'contacts', 'notes');
+
+        $data= $crud->render();
+
+        $baseRow=8;
+
+        foreach($data as $r => $dataRow) {
+            $row = $baseRow + $r;
+            $objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
+
+            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $r+1)
+                                          ->setCellValue('B'.$row, $dataRow['name'])
+                                          ->setCellValue('C'.$row, $dataRow['vat'])
+                                          ->setCellValue('D'.$row, $dataRow['Email'])
+                                          ->setCellValue('E'.$row, $dataRow['Phone'])
+                                          ->setCellValue('F'.$row, $dataRow['Address'])
+                                          ->setCellValue('G'.$row, $dataRow['Contacts'])
+                                          ->setCellValue('H'.$row, $dataRow['Notes']);                                  
+        }
+       
+        $objPHPExcel->getActiveSheet()->removeRow($baseRow-1,1);
 
 
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        $objWriter->save(str_replace('.php', '.xls', __FILE__));
 
+        echo "Creation Successful";
+
+
+    }
 
 }
+?>

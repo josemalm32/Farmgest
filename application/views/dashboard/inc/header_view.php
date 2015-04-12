@@ -334,7 +334,7 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_menu"><i class="fa fa-angle-double-right"></i> Add Season</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_menu"><i class="fa fa-angle-double-right"></i>Season</a></li>
                                 <li><a href="<?=base_url()?>index.php/dashboard/prod_season_harvast_menu"><i class="fa fa-angle-double-right"></i> Season Harvast</a></li>
                                 <li><a href="<?=base_url()?>index.php/dashboard/prod_season_problems_menu"><i class="fa fa-angle-double-right"></i> Season Problems</a></li>    
                                 <li><a href="<?=base_url()?>index.php/dashboard/prod_season_problems_actions_menu"><i class="fa fa-angle-double-right"></i> Season Problems/Actions</a></li>   

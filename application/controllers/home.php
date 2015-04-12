@@ -12,7 +12,7 @@ class Home extends CI_Controller
     }
     
     public function lockscreen(){
-        $this->load->view('home/inc/header_view');
+        $this->load->view('home/inc/header_lock_view');
         $this->load->view('home/lockscreen_view');
         $this->load->view('home/inc/footer_view');
     }

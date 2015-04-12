@@ -1,30 +1,57 @@
-<!-- start:container -->
-<div class="container">
-    <div class="row">
-        <div class="login-card">   
-            <form id="login_form" method="post" action="<?=site_url('api/login')?>">
-                <h3>Login</h3>
-                <div>
-                    <label>Login</label>
-                    <div>
-                        <input type="text" name="login" class="input-xlarge" />
+<div id="wrapper">
+        <div id="wrappertop"></div>
+
+        <div id="wrappermiddle">
+
+            <h2>Login</h2>
+            <form >
+                <div id="username_input">
+
+                    <div id="username_inputleft"></div>
+
+                    <div id="username_inputmiddle">
+                    <form>
+                        <input type="text" name="login" id="url" value="E-mail Address" onclick="this.value = ''">
+                        <img id="url_user" src="<?=base_url()?>/public/img/mailicon.png" alt="">
+                    </form>
                     </div>
+
+                    <div id="username_inputright"></div>
+
                 </div>
-                <div>
-                    <label>Password</label>
-                    <div>
-                        <input type="password" name="password" class="input-xlarge" />
+
+                <div id="password_input">
+
+                    <div id="password_inputleft"></div>
+
+                    <div id="password_inputmiddle">
+                    <form>
+                        <input type="password" name="password" id="url" value="Password" onclick="this.value = ''">
+                        <img id="url_password" src="<?=base_url()?>/public/img/passicon.png" alt="">
+                    </form>
                     </div>
+
+                    <div id="password_inputright"></div>
+
                 </div>
-                <div>
-                    <div>
-                        <input type="submit" value="Login" class="btn btn-primary" />
-                        <!-- <a class="btn" href="<?=site_url('home/register')?>">Register</a> -->
-                    </div>
+
+                <div id="submit">
+                    <form method="post" action="<?=site_url('api/login')?>">
+                        <input type="image" src="<?=base_url()?>/public/img/submit_hover.png" id="Login" value="Sign In">
+                    </form>
                 </div>
+
             </form>
+            <div id="links_left">
+
+            <a href="#">Forgot your Password?</a>
+
+            </div>
+
+            
+
         </div>
+
+        <div id="wrapperbottom"></div>
+        
     </div>
-</div>
-
-

@@ -3,23 +3,36 @@
     <head>
         <meta charset="UTF-8">
         <title>Nutrimondego | Login</title>
-        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-        <!-- bootstrap 3.0.2 -->
-        <link href="<?=base_url()?>public/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <!-- font Awesome -->
-        <link href="<?=base_url()?>public/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-        <!-- Theme style -->
-        <link href="<?=base_url()?>public/css/nutrimondego.css" rel="stylesheet" type="text/css" />
-        <link href="<?=base_url()?>public/css/style.css" rel="stylesheet" type="text/css" />
+            
+    
+    <!-- Load Javascript -->
+    <script type="text/javascript" src="<?=base_url()?>/public/js/jquery.js"></script>
+    <script type="text/javascript" src="<?=base_url()?>/public/js/jquery.query-2.1.7.js"></script>
+    <script type="text/javascript" src="<?=base_url()?>/public/js/rainbows.js"></script>
+    <!-- // Load Javascipt -->
 
-        
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
-    </head>
+    <!-- Load stylesheets -->
+    <link type="text/css" rel="stylesheet" href="<?=base_url()?>/public/css/style.css" media="screen" />
+    <!-- // Load stylesheets -->
+    
+<script>
+
+
+    $(document).ready(function(){
+ 
+    $("#submit1").hover(
+    function() {
+    $(this).animate({"opacity": "0"}, "slow");
+    },
+    function() {
+    $(this).animate({"opacity": "1"}, "slow");
+    });
+    });
+
+
+</script>
+    
+</head>
 <body>
 
 
