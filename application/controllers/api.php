@@ -9,6 +9,7 @@ class Api extends CI_Controller
     {
         parent::__construct();
         $this->load->model('user_model');
+        $this->load->model('todo_model');
 
     }
     
@@ -46,6 +47,24 @@ class Api extends CI_Controller
         
         $this->output->set_output(json_encode(['result' => 0]));
         redirect('/');
+    }
+
+    public function get_todo($id = null)
+    {
+        $this->_require_login();
+        
+        if ($id != null) {
+            $result = $this->todo_model->get([
+                'todo_id' => $id,
+                'user_id' => $this->session->userdata('user_id')
+            ]);
+        } else {
+            $result = $this->todo_model->get([
+                'user_id' => $this->session->userdata('user_id')
+            ]);
+        }
+        
+        $this->output->set_output(json_encode($result));
     }
 }
 ?>

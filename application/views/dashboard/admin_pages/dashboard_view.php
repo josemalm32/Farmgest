@@ -1,5 +1,5 @@
 
-<aside class="right-side">
+            <aside class="right-side">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
@@ -16,7 +16,7 @@
                 <section class="content">
                     <div class="row">
                         <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
+                        <!-- small box -->
                             <div class="small-box bg-aqua">
                                 <div class="inner">
                                     <h3>

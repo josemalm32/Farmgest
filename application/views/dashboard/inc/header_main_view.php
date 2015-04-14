@@ -228,7 +228,7 @@
                                     </ul>
                                 </li>
                                 <li class="footer">
-                                    <a href="#">View all tasks</a>
+                                    <a href="<?=base_url()?>index.php/dashboard/prod_sorts_menu">View all tasks</a>
                                 </li>
                             </ul>
                         </li>
@@ -331,12 +331,11 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="<?=base_url()?>index.php/dashboard/prod_season_menu"><i class="fa fa-angle-double-right"></i>Season</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_harvast_menu"><i class="fa fa-angle-double-right"></i> Season Harvast</a></li>
                                 <li><a href="<?=base_url()?>index.php/dashboard/prod_season_problems_menu"><i class="fa fa-angle-double-right"></i> Season Problems</a></li>    
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_problems_actions_menu"><i class="fa fa-angle-double-right"></i> Season Problems/Actions</a></li>   
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_problems_actions_fieldsection_menu"><i class="fa fa-angle-double-right"></i> Season FieldSection Problems/Actions</a></li>  
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_problems_actions_menu"><i class="fa fa-angle-double-right"></i> Season Actions</a></li> 
                                 <li><a href="<?=base_url()?>index.php/dashboard/prod_fertilization_menu"><i class="fa fa-angle-double-right"></i>Fertilization</a></li>
                                 <li><a href="<?=base_url()?>index.php/dashboard/prod_treatment_menu"><i class="fa fa-angle-double-right"></i>Treatment</a></li>
+                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_harvast_menu"><i class="fa fa-angle-double-right"></i> Season Harvast</a></li>
                             </ul>
                         </li>
                         <li class="treeview">

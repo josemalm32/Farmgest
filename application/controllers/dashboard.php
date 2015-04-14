@@ -116,11 +116,39 @@ class Dashboard extends CI_Controller
 
         $crud = new grocery_CRUD();
         $crud->set_table('fin_expenses');
+        $crud->set_relation('id_type', 'fin_expenses_type', 'description');
+        $crud->set_relation('id_vendor', 'fin_vendor_client', 'name');
+        //$crud->where('type','vendor' || 'Both');
         $crud->set_theme('datatables');
         $crud->set_subject('Expenses');
         $crud->columns('id','description','payment_type', 'total_cost');
+
+        $fields = array(
+                'id_expense' => array( // first dropdown name
+                'table_name' => 'fin_expenses', // table of entitys
+                'title' => 'description', // entitys name
+                'relate' => null, // the first dropdown hasn't a relation
+                'data-placeholder' => 'select'
+            ),
+                'id_vendor' => array( // first dropdown name
+                'table_name' => 'fin_vendor_client', // table of entitys
+                'title' => 'name', // entitys name
+                'relate' => null, // the first dropdown hasn't a relation 
+                'data-placeholder' => 'select'
+            ));
+
+        $config = array(
+            'main_table' => 'fin_expenses_detail',
+            'main_table_primary' => 'id',
+            "url" => base_url() .'index.php/'. __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
+        );
+        $categories = new gc_dependent_select($crud, $fields, $config);
+
         
-        $output = $crud->render();  
+        
+        $js = $categories->get_js();
+        $output = $crud->render();
+        $output->output.= $js;   
          
         $header_output = (array)$output;
         unset($header_output['output']);
@@ -144,11 +172,11 @@ class Dashboard extends CI_Controller
         $crud->columns('id','item_description','item_quantity', 'technical_name');
         
          $fields = array(
-            'id_expense' => array( // first dropdown name
-            'table_name' => 'fin_expenses', // table of entitys
-            'title' => 'description', // entitys name
-            'relate' => null, // the first dropdown hasn't a relation
-            'data-placeholder' => 'select entity'
+                'id_expense' => array( // first dropdown name
+                'table_name' => 'fin_expenses', // table of entitys
+                'title' => 'description', // entitys name
+                'relate' => null, // the first dropdown hasn't a relation
+                'data-placeholder' => 'select expense'
             ));
 
         $config = array(
@@ -157,8 +185,6 @@ class Dashboard extends CI_Controller
             "url" => base_url() .'index.php/'. __CLASS__ . '/' . __FUNCTION__ . '/' //path to method
         );
         $categories = new gc_dependent_select($crud, $fields, $config);
-
-        
         
         $js = $categories->get_js();
         $output = $crud->render();
@@ -681,55 +707,42 @@ public function fin_orders_detail_menu(){
 
         $this->_require_login();
 
-        $crud= new grocery_CRUD();
+        $crud = new grocery_CRUD();
 
+
+        $crud->where('prod_season.id_entity', 1);
+        
         $crud->set_table('prod_season');
-        $crud->set_relation('id_entity', 'entitys', 'name');
-        $crud->set_relation('id_farm', 'farms', 'name');
+        
         $crud->set_theme('datatables');
         $crud->set_subject('Season');
+        
         $crud->columns('name','start_date', 'end_date', 'status', 'production_type', 'id_farm');
-        $crud->display_as('id_entity', 'Entity');
-        $crud->display_as('id_farm', 'Farm');
-
-        $fields = array(
-            'id_entity' => array(
-                'table_name'=>'entitys',
-                'title'=> 'name',
-                'relate'=> null,
-                'data-placeholder'=>'select entity'
-            ),
-            'id_farm'=> array(
-                'table_name'=>'farms',
-                'title' =>'name',
-                'id_field'=>'id',
-                'relate'=> 'id_entity',
-                'data-placeholder'=> 'select farm'
-            )
-        );
-
-        $config = array(
-            'main_table'=>'prod_season',
-            'main_table_primary'=>'id',
-            "url"=> base_url().'index.php/'.__CLASS__.'/'.__FUNCTION__.'/'
-            );
-
-        $categories = new gc_dependent_select($crud,$fields,$config);
-
-        $js = $categories->get_js();
+        
+        $crud->set_relation('id_entity', 'entitys', 'name', array('id_entity' => 1));
+        $crud->display_as('id_entity','Entity');
+        
+        $crud->set_relation('id_farm', 'farms', 'name', array('id_entity' => 1));
+        $crud->display_as('id_farm','Farm');
+        
+        $crud->set_relation('production_type','prod_sorts','common_name', array('id_entity' => 1));
+        $crud->display_as('production_type','Poduction Type');
+        
+        $crud->field_type('id_entity', 'hidden', 1);
+    
         $output = $crud->render();
-
-        $output->output.=$js;
 
         $header_output=(array)$output;
         unset($header_output['output']);
         $this->load->view('dashboard/inc/header_view', $header_output);
         $this->load->view('dashboard/admin_pages/prod_season_view',$output);
-        $this->load->view('dashboard/inc/footer_view');
+        $this->load->view('dashboard/inc/footer_view');      
 
-        
-       
+    }
 
+    public function test(){
+        $session_id = $this->session->userdata('user_id');
+        echo " -> ".$this->session->userdata('id_user')." <-";
     }
 
     //-------------------------------- season problems menu ---------------------------- 
@@ -1520,8 +1533,8 @@ public function fin_orders_detail_menu(){
         $crud->set_relation('id_entity', 'entitys', 'name');
         $crud->set_relation('id_farm', 'farms', 'name');
         $crud->set_relation('id_season', 'prod_season', 'name');
-        $crud->set_relation('fields', 'prod_fields', 'short_code');
-        $crud->set_relation('fields_section', 'prod_fields_sections', 'section_name');
+        $crud->set_relation('id_fields', 'prod_fields', 'short_code');
+        $crud->set_relation('id_fields_section', 'prod_fields_sections', 'section_name');
         $crud->set_theme('datatables');
         $crud->set_subject('Tasks');
         $crud->columns('name', 'date_start', 'date_end', 'status','id_entity', 'id_farm', 'id_season');
@@ -1543,6 +1556,14 @@ public function fin_orders_detail_menu(){
                 'relate' => 'id_entity', // relate table entity to table farm, so you can choose one farm from the entity responsible
                 'data-placeholder' => 'select farm'
             ),
+                'id_fields' => array( // third dropdown name
+                'table_name' => 'prod_fields', // table of season
+                'title' => 'short_code', // season name
+                'id_field' => 'id',
+                'relate' => 'id_farm', 
+                'data-placeholder' => 'select season'
+                
+            ),
                 'id_season' => array( // third dropdown name
                 'table_name' => 'prod_season', // table of season
                 'title' => 'name', // season name
@@ -1550,14 +1571,7 @@ public function fin_orders_detail_menu(){
                 'relate' => 'id_farm', 
                 'data-placeholder' => 'select season'
             ),
-                'fields' => array( // third dropdown name
-                'table_name' => 'prod_fields', // table of season
-                'title' => 'short_code', // season name
-                'id_field' => 'id',
-                'relate' => 'id_farm', 
-                'data-placeholder' => 'select season'
-            ),
-                'fields_section' => array( // third dropdown name
+                'id_fields_section' => array( // third dropdown name
                 'table_name' => 'prod_fields_sections', // table of season
                 'title' => 'section_name', // season name
                 'id_field' => 'id',
@@ -1799,59 +1813,23 @@ public function fin_orders_detail_menu(){
         $this->load->view('dashboard/inc/footer_view');
     }
 
-    public function export_xls()
+    public function get_todo($id = null)
     {
         $this->_require_login();
-        /** Error reporting */
-        error_reporting(E_ALL);
-        ini_set('display_errors', TRUE);
-        ini_set('display_startup_errors', TRUE);
-
-        define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-
-        date_default_timezone_set('Europe/London');
-
-        /** PHPExcel_IOFactory */
-        require_once dirname(__FILE__) . '\Classes\PHPExcel\IOFactory.php';
-
-        $objReader = PHPExcel_IOFactory::createReader('Excel5');
-        $objPHPExcel = $objReader->load("templates/30template.xls");
-
-        $crud = new grocery_CRUD();
-
-        $crud->set_table('entitys');
-        $crud->set_theme('datatables');
-        $crud->set_subject('Entidades');
-        $crud->columns('name', 'vat', 'email', 'phone', 'website', 'address', 'contacts', 'notes');
-
-        $data= $crud->render();
-
-        $baseRow=8;
-
-        foreach($data as $r => $dataRow) {
-            $row = $baseRow + $r;
-            $objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
-
-            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $r+1)
-                                          ->setCellValue('B'.$row, $dataRow['name'])
-                                          ->setCellValue('C'.$row, $dataRow['vat'])
-                                          ->setCellValue('D'.$row, $dataRow['Email'])
-                                          ->setCellValue('E'.$row, $dataRow['Phone'])
-                                          ->setCellValue('F'.$row, $dataRow['Address'])
-                                          ->setCellValue('G'.$row, $dataRow['Contacts'])
-                                          ->setCellValue('H'.$row, $dataRow['Notes']);                                  
+        
+        if ($id != null) {
+            $result = $this->todo_model->get([
+                'todo_id' => $id,
+                'user_id' => $this->session->userdata('user_id')
+            ]);
+        } else {
+            $result = $this->todo_model->get([
+                'user_id' => $this->session->userdata('user_id')
+            ]);
         }
-       
-        $objPHPExcel->getActiveSheet()->removeRow($baseRow-1,1);
-
-
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-        $objWriter->save(str_replace('.php', '.xls', __FILE__));
-
-        echo "Creation Successful";
-
-
+        
+        $this->output->set_output(json_encode($result));
     }
-
+    
 }
 ?>
