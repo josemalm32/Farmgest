@@ -23,7 +23,10 @@ class Dashboard extends CI_Controller
     
     public function index()
     {
-        $this->load->view('dashboard/inc/header_main_view');
+        require('api.php');
+        $api = new api();
+        $query = $api->get_todo($this->session->userdata('id_user'));
+        $this->load->view('dashboard/inc/header_main_view', $query);
         $this->load->view('dashboard/admin_pages/dashboard_view');
         $this->load->view('dashboard/inc/footer_main_view');
         
@@ -305,7 +308,7 @@ class Dashboard extends CI_Controller
 
     //-------------------------------- orders detail menu ---------------------------- 
 
-public function fin_orders_detail_menu(){
+    public function fin_orders_detail_menu(){
         $this->_require_login();
 
         $crud = new grocery_CRUD();
@@ -713,7 +716,8 @@ public function fin_orders_detail_menu(){
         $crud->where('prod_season.id_entity', 1);
         
         $crud->set_table('prod_season');
-        
+        $crud->set_relation_n_n('template', 'prod_season_template', 'prod_template', 'id', 'id', 'name');
+
         $crud->set_theme('datatables');
         $crud->set_subject('Season');
         
@@ -736,14 +740,16 @@ public function fin_orders_detail_menu(){
         unset($header_output['output']);
         $this->load->view('dashboard/inc/header_view', $header_output);
         $this->load->view('dashboard/admin_pages/prod_season_view',$output);
-        $this->load->view('dashboard/inc/footer_view');      
-
+        $this->load->view('dashboard/inc/footer_view');
     }
 
     public function test(){
-        $session_id = $this->session->userdata('user_id');
-        echo " -> ".$this->session->userdata('id_user')." <-";
+        $session_id = $this->session->userdata('id_user');
+        // echo " -> ".$session_id." <-";
+
     }
+
+
 
     //-------------------------------- season problems menu ---------------------------- 
 

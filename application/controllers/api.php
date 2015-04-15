@@ -52,19 +52,19 @@ class Api extends CI_Controller
     public function get_todo($id = null)
     {
         $this->_require_login();
-        
+        $this->load->model('todo_model');
         if ($id != null) {
             $result = $this->todo_model->get([
-                'todo_id' => $id,
-                'user_id' => $this->session->userdata('user_id')
+                'id' => $id,
+                'id_user' => $this->session->userdata('id_user')
             ]);
         } else {
             $result = $this->todo_model->get([
-                'user_id' => $this->session->userdata('user_id')
+                'id_user' => $this->session->userdata('id_user')
             ]);
         }
-        
-        $this->output->set_output(json_encode($result));
+
+        return $result;
     }
 }
 ?>

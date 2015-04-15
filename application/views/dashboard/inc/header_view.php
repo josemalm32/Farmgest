@@ -232,7 +232,7 @@
                                     </ul>
                                 </li>
                                 <li class="footer">
-                                    <a href="<?=base_url()?>index.php/dashboard/prod_sorts_menu">View all tasks</a>
+                                    <a href="<?=base_url()?>index.php/dashboard/g_tasks_menu">View all tasks</a>
                                 </li>
                             </ul>
                         </li>
