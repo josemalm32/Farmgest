@@ -172,11 +172,11 @@
                                 <li>
                                     <!-- inner menu: contains the actual data -->
                                     <ul class="menu">
-                                    <?php foreach($query as $row): ?>
+                                    <?php foreach($query as $row) :?>
                                         <li><!-- Task item -->
                                             <a href="#">
                                                 <h3>
-                                                    <?php echo $row->id_task; ?><?php echo $row->name; ?>
+                                                    <?php echo $row['id_task'] ?> <?php echo $row['name'] ?>
                                                     <small class="pull-right">20%</small>
                                                 </h3>
                                                 <div class="progress xs">
@@ -186,7 +186,7 @@
                                                 </div>
                                             </a>
                                         </li><!-- end task item -->
-                                        <?php endforeach; ?>
+                                    <?php endforeach; ?>
                                     </ul>
                                 </li>
                                 <li class="footer">

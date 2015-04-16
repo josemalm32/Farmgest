@@ -25,8 +25,9 @@ class Dashboard extends CI_Controller
     {
         require('api.php');
         $api = new api();
-        $query = $api->get_todo($this->session->userdata('id_user'));
-        $this->load->view('dashboard/inc/header_main_view', $query);
+        $data['query'] = $api->get_todo();
+
+        $this->load->view('dashboard/inc/header_main_view', $data);
         $this->load->view('dashboard/admin_pages/dashboard_view');
         $this->load->view('dashboard/inc/footer_main_view');
         
