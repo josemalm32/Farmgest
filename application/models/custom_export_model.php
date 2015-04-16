@@ -43,7 +43,7 @@
 		require_once dirname(__FILE__) . '/Classes/PHPExcel/IOFactory.php';
 
 		$string_to_export = "";
-		
+		$i=0;
 		foreach($data->columns as $column){
 			$i++;
 			$string_to_export .= $column->display_as."\t";
