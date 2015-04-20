@@ -30,12 +30,14 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body class="skin-blue">
+   <body class="skin-blue">
         <!-- header logo: style can be found in header.less -->
         <header class="header">
             <a href="<?=base_url()?>index.php/dashboard" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
-                Nutrimondego
+
+                <?php echo $this->session->userdata('entity') ?>
+                
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
@@ -170,17 +172,17 @@
                         <li class="dropdown tasks-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-tasks"></i>
-                                <span class="label label-danger">9</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="header">You have 9 tasks</li>
+                                
                                 <li>
                                     <!-- inner menu: contains the actual data -->
                                     <ul class="menu">
+                                    <?php foreach($task as $row) :?>
                                         <li><!-- Task item -->
                                             <a href="#">
                                                 <h3>
-                                                    Design some buttons
+                                                    <?php echo $row['id_task'] ?> <?php echo $row['name'] ?>
                                                     <small class="pull-right">20%</small>
                                                 </h3>
                                                 <div class="progress xs">
@@ -190,45 +192,7 @@
                                                 </div>
                                             </a>
                                         </li><!-- end task item -->
-                                        <li><!-- Task item -->
-                                            <a href="#">
-                                                <h3>
-                                                    Create a nice theme
-                                                    <small class="pull-right">40%</small>
-                                                </h3>
-                                                <div class="progress xs">
-                                                    <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                        <span class="sr-only">40% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li><!-- end task item -->
-                                        <li><!-- Task item -->
-                                            <a href="#">
-                                                <h3>
-                                                    Some task I need to do
-                                                    <small class="pull-right">60%</small>
-                                                </h3>
-                                                <div class="progress xs">
-                                                    <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                        <span class="sr-only">60% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li><!-- end task item -->
-                                        <li><!-- Task item -->
-                                            <a href="#">
-                                                <h3>
-                                                    Make beautiful transitions
-                                                    <small class="pull-right">80%</small>
-                                                </h3>
-                                                <div class="progress xs">
-                                                    <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                        <span class="sr-only">80% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li><!-- end task item -->
+                                    <?php endforeach; ?>
                                     </ul>
                                 </li>
                                 <li class="footer">
@@ -240,14 +204,14 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="glyphicon glyphicon-user"></i>
-                                <span>Ricardo <i class="caret"></i></span>
+                                <span><?php echo $this->session->userdata('name') ?> <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
                                     <img src="<?=base_url()?>/public/img/avatar5.png" class="img-circle" alt="User Image" />
                                     <p>
-                                        Ricardo - Web Developer
+                                        <?php echo $this->session->userdata('name') ?>
                                         <small>Member since Nov. 2012</small>
                                     </p>
                                 </li>

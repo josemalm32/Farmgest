@@ -1,10 +1,9 @@
 <?php
 
-class User_model extends CRUD_model
+class entity_model extends CRUD_model
 {
-    protected $_table = 'users';
+    protected $_table = 'entitys';
     protected $_primary_key = 'id';
-    
     
     // ------------------------------------------------------------------------
     

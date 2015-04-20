@@ -10,6 +10,7 @@ class Api extends CI_Controller
         parent::__construct();
         $this->load->model('user_model');
         $this->load->model('todo_model');
+        $this->load->model('entity_model');
 
     }
     
@@ -27,11 +28,11 @@ class Api extends CI_Controller
     
     public function login()
     {
-        $login = $this->input->post('login');
+        $username = $this->input->post('username');
         $password = $this->input->post('password');
 
         $result = $this->user_model->get([
-            'username' => $login,
+            'username' => $username,
             'password' => $password
             //'password' => hash('sha256', $password . SALT)
         ]);
@@ -40,9 +41,21 @@ class Api extends CI_Controller
 
         if ($result) {
             $this->session->set_userdata(['id_user' => $result[0]['id']]);
+            $this->session->set_userdata(['id_entity' => $result[0]['id_entity']]);
+            $this->session->set_userdata(['name' => $result[0]['username']]);
             $this->output->set_output(json_encode(['result' => 1]));
+            $result_entity = $this->entity_model->get([
+                'id' => $result[0]['id_entity']
+            ]);
+            if($result_entity){
+                $this->session->set_userdata(['entity'=> $result_entity[0]['name']]);
+            }else{
+                $this->session->set_userdata(['entity'=> null]);
+            }
+                
             //return false;
             redirect('/dashboard');
+            
         }
         
         $this->output->set_output(json_encode(['result' => 0]));
@@ -52,7 +65,7 @@ class Api extends CI_Controller
     public function get_todo($id = null)
     {
         $this->_require_login();
-        $this->load->model('todo_model');
+        
         if ($id != null) {
             $result = $this->todo_model->get([
                 'id' => $id,
@@ -61,6 +74,24 @@ class Api extends CI_Controller
         } else {
             $result = $this->todo_model->get([
                 'id_user' => $this->session->userdata('id_user')
+            ]);
+        }
+
+        return $result;
+    }
+
+    public function get_entity($id = null)
+    {
+
+        $this->_require_login();
+        
+        if ($id != null) {
+            $result = $this->entity_model->get([
+                'id' => $id,
+            ]);
+        } else {
+            $result = $this->entity_model->get([
+                'id' => $this->session->userdata('id_entity')
             ]);
         }
 

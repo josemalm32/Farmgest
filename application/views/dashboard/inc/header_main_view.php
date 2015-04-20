@@ -31,7 +31,9 @@
         <header class="header">
             <a href="<?=base_url()?>index.php/dashboard" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
-                Nutrimondego
+
+                <?php echo $this->session->userdata('entity') ?>
+                
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
@@ -172,7 +174,7 @@
                                 <li>
                                     <!-- inner menu: contains the actual data -->
                                     <ul class="menu">
-                                    <?php foreach($query as $row) :?>
+                                    <?php foreach($task as $row) :?>
                                         <li><!-- Task item -->
                                             <a href="#">
                                                 <h3>
@@ -198,14 +200,14 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="glyphicon glyphicon-user"></i>
-                                <span>Ricardo <i class="caret"></i></span>
+                                <span><?php echo $this->session->userdata('name') ?> <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
                                     <img src="<?=base_url()?>/public/img/avatar5.png" class="img-circle" alt="User Image" />
                                     <p>
-                                        Ricardo - Web Developer
+                                        <?php echo $this->session->userdata('name') ?>
                                         <small>Member since Nov. 2012</small>
                                     </p>
                                 </li>
