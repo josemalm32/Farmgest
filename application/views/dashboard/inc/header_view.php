@@ -298,12 +298,13 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_menu"><i class="fa fa-angle-double-right"></i>Season</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_problems_menu"><i class="fa fa-angle-double-right"></i> Season Problems</a></li>    
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_problems_actions_menu"><i class="fa fa-angle-double-right"></i> Season Actions</a></li> 
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_fertilization_menu"><i class="fa fa-angle-double-right"></i>Fertilization</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_treatment_menu"><i class="fa fa-angle-double-right"></i>Treatment</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_harvast_menu"><i class="fa fa-angle-double-right"></i> Season Harvast</a></li>
+                                <li><a href="<?=base_url()?>index.php/rastreability/prod_season_menu"><i class="fa fa-angle-double-right"></i>Season</a></li>
+                                <li><a href="<?=base_url()?>index.php/rastreability/prod_season_problems_menu"><i class="fa fa-angle-double-right"></i>Season Problems</a></li>    
+                                <li><a href="<?=base_url()?>index.php/rastreability/prod_season_problems_actions_menu"><i class="fa fa-angle-double-right"></i>Season Actions</a></li> 
+                                <li><a href="<?=base_url()?>index.php/rastreability/prod_season_fields_sections_menu"><i class="fa fa-angle-double-right"></i>Season Fields</a></li>
+                                <li><a href="<?=base_url()?>index.php/rastreability/prod_fertilization_menu"><i class="fa fa-angle-double-right"></i>Fertilization</a></li>
+                                <li><a href="<?=base_url()?>index.php/rastreability/prod_treatment_menu"><i class="fa fa-angle-double-right"></i>Treatment</a></li>
+                                <li><a href="<?=base_url()?>index.php/rastreability/prod_season_harvast_menu"><i class="fa fa-angle-double-right"></i>Season Harvast</a></li>
                             </ul>
                         </li>
                         <li class="treeview">
@@ -317,7 +318,7 @@
                                 <li><a href="<?=base_url()?>index.php/dashboard/prod_storage_consum_menu"><i class="fa fa-angle-double-right"></i>Production Storage Consumed</a></li>
                                 <li><a href="<?=base_url()?>index.php/dashboard/g_contacts_menu"><i class="fa fa-angle-double-right"></i>Contacts</a></li>  
                                 <li><a href="<?=base_url()?>index.php/dashboard/g_tasks_menu"><i class="fa fa-angle-double-right"></i>Tasks</a></li>  
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_sorts_menu"><i class="fa fa-angle-double-right"></i>Users Tasks</a></li>  
+                                <li><a href="<?=base_url()?>index.php/dashboard/g_tasks_menu"><i class="fa fa-angle-double-right"></i>Users Tasks</a></li>  
                                 <li><a href="<?=base_url()?>index.php/dashboard/g_alarms_menu"><i class="fa fa-angle-double-right"></i>Alarms</a></li>  
                                 <li><a href="<?=base_url()?>index.php/dashboard/g_documents_menu"><i class="fa fa-angle-double-right"></i>Documents</a></li> 
                                 <li><a href="<?=base_url()?>index.php/dashboard/g_documents_labels_menu"><i class="fa fa-angle-double-right"></i>Documents Labels</a></li>   

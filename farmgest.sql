@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 14-Abr-2015 às 23:16
+-- Generation Time: 21-Abr-2015 às 21:48
 -- Versão do servidor: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -239,7 +239,6 @@ CREATE TABLE IF NOT EXISTS `fin_product_type` (
 
 CREATE TABLE IF NOT EXISTS `fin_vendor_client` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `type` enum('Vendor','Customer','Both','External') COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `address` varchar(200) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `payment_conditions` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
@@ -251,6 +250,9 @@ CREATE TABLE IF NOT EXISTS `fin_vendor_client` (
   `id_entity` int(10) NOT NULL,
   `notes` longtext COLLATE utf8_unicode_ci NOT NULL,
   `id_g_contacts` int(30) NOT NULL,
+  `Client` tinyint(1) NOT NULL,
+  `Vendor` tinyint(1) NOT NULL,
+  `Other` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
@@ -258,10 +260,10 @@ CREATE TABLE IF NOT EXISTS `fin_vendor_client` (
 -- Extraindo dados da tabela `fin_vendor_client`
 --
 
-INSERT INTO `fin_vendor_client` (`id`, `type`, `name`, `address`, `payment_conditions`, `payment_type`, `payment_date`, `date_created`, `observacoes`, `id_farm`, `id_entity`, `notes`, `id_g_contacts`) VALUES
-(1, 'Customer', 'Rui', 'asdasdas', 'sdasdasd', 'Money', '0000-00-00', '2015-03-24 00:00:00', 'asdasdasd', 3, 1, '<p>\r\n adasd</p>\r\n', 0),
-(2, '', 'sadasdas', 'dasdasd', 'asdasdasd', 'BankTransfer', '0000-00-00', '2015-03-23 15:40:01', 'asdasdasdas', 6, 12, '<p>\r\n asdasdasdasdasdasd</p>\r\n', 0),
-(3, 'Vendor', 'Luis', 'adasdasd', 'asdasdasdas', 'MB', '0000-00-00', '2015-03-23 21:46:07', 'asasd', 6, 12, '<p>\r\n asasdasdasd</p>\r\n', 1);
+INSERT INTO `fin_vendor_client` (`id`, `name`, `address`, `payment_conditions`, `payment_type`, `payment_date`, `date_created`, `observacoes`, `id_farm`, `id_entity`, `notes`, `id_g_contacts`, `Client`, `Vendor`, `Other`) VALUES
+(1, 'Rui', 'asdasdas', 'sdasdasd', 'Money', '0000-00-00', '2015-03-24 00:00:00', 'asdasdasd', 3, 1, '<p>\r\n adasd</p>\r\n', 0, 1, 0, 0),
+(2, 'sadasdas', 'dasdasd', 'asdasdasd', 'BankTransfer', '0000-00-00', '2015-03-23 15:40:01', 'asdasdasdas', 6, 1, '<p>\r\n asdasdasdasdasdasd</p>\r\n', 0, 0, 1, 0),
+(3, 'Luis', 'adasdasd', 'asdasdasdas', 'MB', '0000-00-00', '2015-03-23 21:46:07', 'asasd', 6, 1, '<p>\r\n asasdasdasd</p>\r\n', 1, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -493,13 +495,11 @@ CREATE TABLE IF NOT EXISTS `g_menus` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `id_master` int(10) NOT NULL,
   `order` int(5) NOT NULL,
-  `screenzone` char(4) COLLATE latin1_general_ci NOT NULL,
   `title` varchar(255) COLLATE latin1_general_ci NOT NULL,
   `link` varchar(255) COLLATE latin1_general_ci NOT NULL,
-  `new_window` enum('Y','N') COLLATE latin1_general_ci NOT NULL,
   `status` enum('active','inactive') COLLATE latin1_general_ci NOT NULL,
   `notes` longtext COLLATE latin1_general_ci NOT NULL,
-  `id_farm` int(10) NOT NULL,
+  `id_user_role` int(10) NOT NULL,
   `id_entity` int(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=36 ;
@@ -625,7 +625,6 @@ CREATE TABLE IF NOT EXISTS `prod_fields` (
   `location` varchar(255) NOT NULL,
   `production_id` int(10) NOT NULL,
   `cadastral_plots` longtext NOT NULL,
-  `id_season` int(11) NOT NULL,
   `id_farm` int(11) NOT NULL,
   `id_entity` int(10) NOT NULL,
   `notes` longtext NOT NULL,
@@ -636,8 +635,8 @@ CREATE TABLE IF NOT EXISTS `prod_fields` (
 -- Extraindo dados da tabela `prod_fields`
 --
 
-INSERT INTO `prod_fields` (`id`, `short_code`, `name`, `surface`, `surface_unit`, `location`, `production_id`, `cadastral_plots`, `id_season`, `id_farm`, `id_entity`, `notes`) VALUES
-(1, 'e1b1', 'asd123', '0', 'asd12', 'asd123', 1223, '<p>\r\n asdasdzxcvz</p>\r\n<p>\r\n dfdsafe</p>\r\n<p>\r\n afsd</p>\r\n<p>\r\n fa</p>\r\n<p>\r\n sd</p>\r\n<p>\r\n as</p>\r\n<p>\r\n d</p>\r\n', 0, 3, 1, '<p>\r\n asdasdasda</p>\r\n<p>\r\n sd</p>\r\n<p>\r\n as</p>\r\n<p>\r\n d</p>\r\n<p>\r\n as</p>\r\n<p>\r\n d</p>\r\n<p>\r\n asd</p>\r\n');
+INSERT INTO `prod_fields` (`id`, `short_code`, `name`, `surface`, `surface_unit`, `location`, `production_id`, `cadastral_plots`, `id_farm`, `id_entity`, `notes`) VALUES
+(1, 'e1b1', 'asd123', '0', 'asd12', 'asd123', 1223, '<p>\r\n asdasdzxcvz</p>\r\n<p>\r\n dfdsafe</p>\r\n<p>\r\n afsd</p>\r\n<p>\r\n fa</p>\r\n<p>\r\n sd</p>\r\n<p>\r\n as</p>\r\n<p>\r\n d</p>\r\n', 3, 1, '<p>\r\n asdasdasda</p>\r\n<p>\r\n sd</p>\r\n<p>\r\n as</p>\r\n<p>\r\n d</p>\r\n<p>\r\n as</p>\r\n<p>\r\n d</p>\r\n<p>\r\n asd</p>\r\n');
 
 -- --------------------------------------------------------
 
@@ -805,6 +804,7 @@ CREATE TABLE IF NOT EXISTS `prod_season_problems_actions_fieldsection` (
   `id_entity` int(10) NOT NULL,
   `notes` longtext NOT NULL,
   `priority` int(10) NOT NULL,
+  `id_farm` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -961,7 +961,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `role_description` varchar(250) DEFAULT NULL,
   `status` enum('active','inactive','demo','temporary') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -975,17 +975,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(255) CHARACTER SET utf8 NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `type` enum('admin','moderator','user') CHARACTER SET utf8 NOT NULL,
   `id_entity` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Extraindo dados da tabela `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `date_added`, `date_modified`, `type`, `id_entity`) VALUES
-(1, 'admin', 'admin', '2015-03-10 20:31:59', '2015-03-10 20:31:59', 'admin', 1);
+INSERT INTO `users` (`id`, `username`, `password`, `date_added`, `date_modified`, `id_entity`) VALUES
+(1, 'admin', 'admin', '2015-03-10 20:31:59', '2015-03-10 20:31:59', 1),
+(2, 'user', '123', '2015-04-21 11:32:57', '2015-04-21 11:32:57', 1),
+(3, 'Ricardo', 'cenas', '2015-04-21 11:32:57', '2015-04-21 11:32:57', 12);
 
 -- --------------------------------------------------------
 
@@ -999,7 +1000,7 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   `id_role` int(10) NOT NULL,
   `status` enum('active','inactive','demo','temporary') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 

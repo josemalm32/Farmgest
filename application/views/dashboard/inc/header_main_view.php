@@ -294,12 +294,13 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_menu"><i class="fa fa-angle-double-right"></i>Season</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_problems_menu"><i class="fa fa-angle-double-right"></i> Season Problems</a></li>    
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_problems_actions_menu"><i class="fa fa-angle-double-right"></i> Season Actions</a></li> 
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_fertilization_menu"><i class="fa fa-angle-double-right"></i>Fertilization</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_treatment_menu"><i class="fa fa-angle-double-right"></i>Treatment</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_season_harvast_menu"><i class="fa fa-angle-double-right"></i> Season Harvast</a></li>
+                                <li><a href="<?=base_url()?>index.php/rastreability/prod_season_menu"><i class="fa fa-angle-double-right"></i>Season</a></li>
+                                <li><a href="<?=base_url()?>index.php/rastreability/prod_season_problems_menu"><i class="fa fa-angle-double-right"></i>Season Problems</a></li>    
+                                <li><a href="<?=base_url()?>index.php/rastreability/prod_season_problems_actions_menu"><i class="fa fa-angle-double-right"></i>Season Actions</a></li> 
+                                <li><a href="<?=base_url()?>index.php/rastreability/prod_season_fields_sections_menu"><i class="fa fa-angle-double-right"></i>Season Fields</a></li>
+                                <li><a href="<?=base_url()?>index.php/rastreability/prod_fertilization_menu"><i class="fa fa-angle-double-right"></i>Fertilization</a></li>
+                                <li><a href="<?=base_url()?>index.php/rastreability/prod_treatment_menu"><i class="fa fa-angle-double-right"></i>Treatment</a></li>
+                                <li><a href="<?=base_url()?>index.php/rastreability/prod_season_harvast_menu"><i class="fa fa-angle-double-right"></i>Season Harvast</a></li>
                             </ul>
                         </li>
                         <li class="treeview">
