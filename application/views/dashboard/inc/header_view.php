@@ -269,29 +269,39 @@
                     <!-- /.search form -->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
-                        <li>
+                        <?php if ($id == 1): ?>
+                            <li class="treeview">
+                        <?php endif; ?>
                             <a href="<?=base_url()?>index.php/dashboard">
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>  
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                         </li>
-                        <li class="treeview">
+                        <?php if ($id == 2): ?>
+                            <li class="<?php echo $active ?>">
+                        <?php else: ?>
+                            <li class="treeview">
+                        <?php endif; ?>
                             <a href="#">
                                 <i class="fa fa-th"></i> 
                                 <span>Finances</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="<?=base_url()?>index.php/dashboard/fin_expenses_menu"><i class="fa fa-angle-double-right"></i>Expenses</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/fin_expenses_detail_menu"><i class="fa fa-angle-double-right"></i>Expenses Detail</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/fin_expenses_type_menu"><i class="fa fa-angle-double-right"></i>Expenses Type</a></li>   
-                                <li><a href="<?=base_url()?>index.php/dashboard/fin_orders_menu"><i class="fa fa-angle-double-right"></i>Orders</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/fin_orders_detail_menu"><i class="fa fa-angle-double-right"></i>Orders Detail</a></li> 
-                                <li><a href="<?=base_url()?>index.php/dashboard/fin_vendor_client_menu"><i class="fa fa-angle-double-right"></i>Customer/Vendors</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/fin_product_type_menu"><i class="fa fa-angle-double-right"></i>Product Type</a></li>           
+                                <li><a href="<?=base_url()?>index.php/finances/fin_expenses_menu"><i class="fa fa-angle-double-right"></i>Expenses</a></li>
+                                <li><a href="<?=base_url()?>index.php/finances/fin_expenses_detail_menu"><i class="fa fa-angle-double-right"></i>Expenses Detail</a></li>
+                                <li><a href="<?=base_url()?>index.php/finances/fin_expenses_type_menu"><i class="fa fa-angle-double-right"></i>Expenses Type</a></li>   
+                                <li><a href="<?=base_url()?>index.php/finances/fin_orders_menu"><i class="fa fa-angle-double-right"></i>Orders</a></li>
+                                <li><a href="<?=base_url()?>index.php/finances/fin_orders_detail_menu"><i class="fa fa-angle-double-right"></i>Orders Detail</a></li> 
+                                <li><a href="<?=base_url()?>index.php/finances/fin_vendor_client_menu"><i class="fa fa-angle-double-right"></i>Customer/Vendors</a></li>
+                                <li><a href="<?=base_url()?>index.php/finances/fin_product_type_menu"><i class="fa fa-angle-double-right"></i>Product Type</a></li>           
                             </ul>
                         </li>
-                        <li class="treeview">
+                        <?php if ($id == 3): ?>
+                            <li class="<?php echo $active ?>">
+                        <?php else: ?>
+                            <li class="treeview">
+                        <?php endif; ?>
                             <a href="#">
                                 <i class="fa fa-home"></i>
                                 <span>Rastreability</span>
@@ -307,48 +317,56 @@
                                 <li><a href="<?=base_url()?>index.php/rastreability/prod_season_harvast_menu"><i class="fa fa-angle-double-right"></i>Season Harvast</a></li>
                             </ul>
                         </li>
-                        <li class="treeview">
+                        <?php if ($id == 4): ?>
+                            <li class="<?php echo $active ?>">
+                        <?php else: ?>
+                            <li class="treeview">
+                        <?php endif; ?>
                             <a href="#">
                                 <i class="fa fa-table"></i> 
                                 <span>Operation</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_storage_menu"><i class="fa fa-angle-double-right"></i>Production Storage</a></li>  
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_storage_consum_menu"><i class="fa fa-angle-double-right"></i>Production Storage Consumed</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/g_contacts_menu"><i class="fa fa-angle-double-right"></i>Contacts</a></li>  
-                                <li><a href="<?=base_url()?>index.php/dashboard/g_tasks_menu"><i class="fa fa-angle-double-right"></i>Tasks</a></li>  
-                                <li><a href="<?=base_url()?>index.php/dashboard/g_tasks_menu"><i class="fa fa-angle-double-right"></i>Users Tasks</a></li>  
-                                <li><a href="<?=base_url()?>index.php/dashboard/g_alarms_menu"><i class="fa fa-angle-double-right"></i>Alarms</a></li>  
-                                <li><a href="<?=base_url()?>index.php/dashboard/g_documents_menu"><i class="fa fa-angle-double-right"></i>Documents</a></li> 
-                                <li><a href="<?=base_url()?>index.php/dashboard/g_documents_labels_menu"><i class="fa fa-angle-double-right"></i>Documents Labels</a></li>   
-                                <li><a href="<?=base_url()?>index.php/dashboard/g_assets_reserve_menu"><i class="fa fa-angle-double-right"></i>Assets Reserve</a></li> 
-                                <li><a href="<?=base_url()?>index.php/dashboard/globalgap_documentation_menu"><i class="fa fa-angle-double-right"></i>GlobalGap Documentation Support</a></li>  
-                                <li><a href="<?=base_url()?>index.php/dashboard/globalgap_response_menu"><i class="fa fa-angle-double-right"></i>GlobalGap Response</a></li>   
+                                <li><a href="<?=base_url()?>index.php/operation/prod_storage_menu"><i class="fa fa-angle-double-right"></i>Production Storage</a></li>  
+                                <li><a href="<?=base_url()?>index.php/operation/prod_storage_consum_menu"><i class="fa fa-angle-double-right"></i>Production Storage Consumed</a></li>
+                                <li><a href="<?=base_url()?>index.php/operation/g_contacts_menu"><i class="fa fa-angle-double-right"></i>Contacts</a></li>  
+                                <li><a href="<?=base_url()?>index.php/operation/g_tasks_menu"><i class="fa fa-angle-double-right"></i>Tasks</a></li>  
+                                <li><a href="<?=base_url()?>index.php/operation/g_tasks_users_menu"><i class="fa fa-angle-double-right"></i>Users Tasks</a></li>  
+                                <li><a href="<?=base_url()?>index.php/operation/g_alarms_menu"><i class="fa fa-angle-double-right"></i>Alarms</a></li>  
+                                <li><a href="<?=base_url()?>index.php/operation/g_documents_menu"><i class="fa fa-angle-double-right"></i>Documents</a></li> 
+                                <li><a href="<?=base_url()?>index.php/operation/g_documents_labels_menu"><i class="fa fa-angle-double-right"></i>Documents Labels</a></li>   
+                                <li><a href="<?=base_url()?>index.php/operation/g_assets_reserve_menu"><i class="fa fa-angle-double-right"></i>Assets Reserve</a></li> 
+                                <li><a href="<?=base_url()?>index.php/operation/globalgap_documentation_menu"><i class="fa fa-angle-double-right"></i>GlobalGap Documentation Support</a></li>  
+                                <li><a href="<?=base_url()?>index.php/operation/globalgap_response_menu"><i class="fa fa-angle-double-right"></i>GlobalGap Response</a></li>   
                             </ul>
                         </li>
-                        <li class="treeview">
+                        <?php if ($id == 5): ?>
+                            <li class="<?php echo $active ?>">
+                        <?php else: ?>
+                            <li class="treeview">
+                        <?php endif; ?>
                             <a href="#">
                                 <i class="fa fa-folder"></i> 
                                 <span>Configuration</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="<?=base_url()?>index.php/dashboard/g_changelog_menu"><i class="fa fa-angle-double-right"></i>ChangeLog</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/g_menus_menu"><i class="fa fa-angle-double-right"></i>Menus</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/rep_configuration_menu"><i class="fa fa-angle-double-right"></i>Configuration</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/g_assets_category_menu"><i class="fa fa-angle-double-right"></i>Assets Category</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/g_assets_menu"><i class="fa fa-angle-double-right"></i>Assets</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/g_labels_menu"><i class="fa fa-angle-double-right"></i>Labels</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/entity_menu"><i class="fa fa-angle-double-right"></i>Entitys</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/farm_menu"><i class="fa fa-angle-double-right"></i>Farms</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/users_menu"><i class="fa fa-angle-double-right"></i>Users</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_storage_house_menu"><i class="fa fa-angle-double-right"></i>Production Storage House</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_sorts_menu"><i class="fa fa-angle-double-right"></i>Production Sorts</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_fields_menu"><i class="fa fa-angle-double-right"></i>Production Fields</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/prod_fields_sections_menu"><i class="fa fa-angle-double-right"></i>Production FieldSection</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/globalgap_menu"><i class="fa fa-angle-double-right"></i>GlobalGap</a></li>
-                                <li><a href="<?=base_url()?>index.php/dashboard/globalgap_402_menu"><i class="fa fa-angle-double-right"></i>GlobalGap 402</a></li>
+                                <li><a href="<?=base_url()?>index.php/configuration/g_changelog_menu"><i class="fa fa-angle-double-right"></i>ChangeLog</a></li>
+                                <li><a href="<?=base_url()?>index.php/configuration/g_menus_menu"><i class="fa fa-angle-double-right"></i>Menus</a></li>
+                                <li><a href="<?=base_url()?>index.php/configuration/rep_configuration_menu"><i class="fa fa-angle-double-right"></i>Configuration</a></li>
+                                <li><a href="<?=base_url()?>index.php/configuration/g_assets_category_menu"><i class="fa fa-angle-double-right"></i>Assets Category</a></li>
+                                <li><a href="<?=base_url()?>index.php/configuration/g_assets_menu"><i class="fa fa-angle-double-right"></i>Assets</a></li>
+                                <li><a href="<?=base_url()?>index.php/configuration/g_labels_menu"><i class="fa fa-angle-double-right"></i>Labels</a></li>
+                                <li><a href="<?=base_url()?>index.php/configuration/entity_menu"><i class="fa fa-angle-double-right"></i>Entitys</a></li>
+                                <li><a href="<?=base_url()?>index.php/configuration/farm_menu"><i class="fa fa-angle-double-right"></i>Farms</a></li>
+                                <li><a href="<?=base_url()?>index.php/configuration/users_menu"><i class="fa fa-angle-double-right"></i>Users</a></li>
+                                <li><a href="<?=base_url()?>index.php/configuration/prod_storage_house_menu"><i class="fa fa-angle-double-right"></i>Production Storage House</a></li>
+                                <li><a href="<?=base_url()?>index.php/configuration/prod_sorts_menu"><i class="fa fa-angle-double-right"></i>Production Sorts</a></li>
+                                <li><a href="<?=base_url()?>index.php/configuration/prod_fields_menu"><i class="fa fa-angle-double-right"></i>Production Fields</a></li>
+                                <li><a href="<?=base_url()?>index.php/configuration/prod_fields_sections_menu"><i class="fa fa-angle-double-right"></i>Production FieldSection</a></li>
+                                <li><a href="<?=base_url()?>index.php/configuration/globalgap_menu"><i class="fa fa-angle-double-right"></i>GlobalGap</a></li>
+                                <li><a href="<?=base_url()?>index.php/configuration/globalgap_402_menu"><i class="fa fa-angle-double-right"></i>GlobalGap 402</a></li>
                             </ul>
                         </li>
                     </ul>

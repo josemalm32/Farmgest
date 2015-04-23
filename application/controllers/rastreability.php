@@ -48,6 +48,8 @@ class Rastreability extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $data['active'] = 'treeview active';
+        $data['id'] = 3;
 
         $crud = new grocery_CRUD();
 
@@ -89,11 +91,17 @@ class Rastreability extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $data['active'] = 'treeview active';
+        $data['id'] = 3;
 
         $crud= new grocery_CRUD();
 
-        $crud->where('prod_fertilization.id_entity', 1);
-        $crud->field_type('id_entity', 'hidden', 1);
+        $crud->where('prod_fertilization.id_entity', $this->session->userdata('id_entity'));
+        $crud->field_type('id_entity', 'hidden', $this->session->userdata('id_entity'));
+        $crud->where('prod_fertilization.id_user', $this->session->userdata('id_user'));
+        $crud->field_type('id_user', 'hidden', $this->session->userdata('id_user'));
+        $crud->display_as('id_user','User');
+        
         $crud->set_table('prod_fertilization');
 
         $crud->set_theme('datatables');
@@ -101,11 +109,8 @@ class Rastreability extends CI_Controller
         
         $crud->columns('type', 'date', 'id_user', 'id_farm');
         
-        $crud->set_relation('id_farm', 'farms', 'name', array('id_entity' => 1));
+        $crud->set_relation('id_farm', 'farms', 'name', array('id_entity' => $this->session->userdata('id_entity')));
         $crud->display_as('id_farm','Farm');
-       
-        $crud->set_relation('id_user', 'users', 'username', array('id_entity' => 1));
-        $crud->display_as('id_user','User');
 
         $crud->set_relation('id_season', 'prod_season', 'name');
         $crud->display_as('id_season', 'Season');
@@ -128,6 +133,8 @@ class Rastreability extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $data['active'] = 'treeview active';
+        $data['id'] = 3;
 
         $crud = new grocery_CRUD();
 
@@ -170,6 +177,8 @@ class Rastreability extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $data['active'] = 'treeview active';
+        $data['id'] = 3;
 
         $crud= new grocery_CRUD();
 
@@ -204,6 +213,8 @@ class Rastreability extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $data['active'] = 'treeview active';
+        $data['id'] = 3;
 
         $crud= new grocery_CRUD();
         
@@ -243,6 +254,8 @@ class Rastreability extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $data['active'] = 'treeview active';
+        $data['id'] = 3;
 
         $crud= new grocery_CRUD();
 
@@ -282,7 +295,8 @@ class Rastreability extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
-
+        $data['active'] = 'treeview active';
+        $data['id'] = 3;
 
         $crud = new grocery_CRUD();
 
@@ -300,8 +314,8 @@ class Rastreability extends CI_Controller
         $crud->set_relation('id_season', 'prod_season', 'name', array('id_entity' => $this->session->userdata('id_entity')));
         $crud->display_as('id_farm','Farm');
 
-        $crud->set_relation('id_fieldsection','prod_fields_sections','section_name', array('id_entity' => $this->session->userdata('id_entity')));
-        $crud->display_as('id_fieldsection','FieldSection');
+        $crud->set_relation('id_field_section','prod_fields_sections','section_name', array('id_entity' => $this->session->userdata('id_entity')));
+        $crud->display_as('id_field_section','FieldSection');
         
         $crud->set_relation('id_field','prod_fields','short_code', array('id_entity' => $this->session->userdata('id_entity')));
         $crud->display_as('id_field','Field');     
@@ -327,6 +341,8 @@ class Rastreability extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $data['active'] = 'treeview active';
+        $data['id'] = 3;
 
 
         $crud= new grocery_CRUD();
