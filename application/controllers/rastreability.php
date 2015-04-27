@@ -266,7 +266,7 @@ class Rastreability extends CI_Controller
         $crud->set_theme('datatables');
         $crud->set_subject('Season Treatment');
         
-        $crud->columns('active_substance', 'security_interval', 'type', 'id_entity', 'id_farm');
+        $crud->columns('name','active_substance', 'security_interval', 'persistence', 'id_entity', 'id_farm');
         
         $crud->set_relation('id_farm', 'farms', 'name', array('id_entity' => $this->session->userdata('id_entity')));
         $crud->display_as('id_farm','Farm');
