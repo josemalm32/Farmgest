@@ -96,10 +96,12 @@ class Finances extends CI_Controller
             $crud->field_type('id_expense','hidden', $this->uri->segment(4));
         }
         $crud->set_table('fin_expenses_detail');
-        
+        $crud->set_theme('datatables'); 
         $crud->set_subject('Expenses Detail');
         $crud->columns('id','item_description','item_quantity', 'technical_name');
         
+        $crud->callback_after_insert(array($this, 'inventory_management'));
+
         $output = $crud->render();
          
         $header_output = (array)$output;
@@ -110,33 +112,48 @@ class Finances extends CI_Controller
         
     }
 
-    public function inventory_management(){  //----------- UNDER GOING ------------- RESEARCH -----------
+    public function inventory_management($post_array,$primary_key){  
 
-        $crud = new grocery_CRUD();
+        $this->load->model('inventory_model');
 
-        $crud->set_relation('id_exp_detail', 'fin_expenses_detail', 'item_description');
-        
-        $crud->set_relation('id_fertilization', 'prod_fertilization', 'name', array('id_entity' => $this->session->userdata('id_entity')));
-        
-        $crud->set_relation('id_treatment', 'prod_treatment', 'name', array('id_entity' => $this->session->userdata('id_entity')));
-        
-        $crud->set_relation('id_prod_consum', 'prod_storage_consum', 'id');
-        
+        if($post_array['id_expense']!=null){
+            $type = 'add';
+            $id_expense = $primary_key;
 
-        $crud->set_table("inventory_management");
-        $crud->set_theme('datatables');
-        $crud->set_subject('Expenses Detail');
-        $crud->columns('id','id_user','type', 'date_operation');
+            $result = $this->inventory_model->insert([
+                'id_fertilization' = $id_fertilization;
+                'type' => $type;
+                'date' => date();
+                'id_user' => $this->session->userdata('id_user');
+                'id_entity' => $this->session->userdata('id_entity');
+            ]);
+        }else if ($post_array['name']!=null){
+            $type = 'sub';
+            $id_treatment = $primary_key;
 
-        $crud->field_type('id_entity','hidden', $this->session->userdata('id_entity'));
-        $crud->field_type('id_user','hidden', $this->session->userdata('id_user'));
-        $crud->field_type('date_operation','hidden', (new DateTime())->format('Y-m-d H:i:s'));
-        $crud->display_as('date_operation', 'Date');
-        $crud->display_as('id_user', 'User');
+            $result = $this->inventory_model->insert([
+                'id_fertilization' = $id_fertilization;
+                'type' => $type;
+                'date' => date();
+                'id_user' => $this->session->userdata('id_user');
+                'id_entity' => $this->session->userdata('id_entity');
+            ]);
+        }else{
+            $type = 'sub';
+            $id_fertilization = $primary_key;
 
-        $output = $crud->render();
-         
-        $this->load->view('dashboard/admin_pages/fin_expenses_detail_view',$output);
+            $result = $this->inventory_model->insert([
+                'id_fertilization' = $id_fertilization;
+                'type' => $type;
+                'date' => date();
+                'id_user' => $this->session->userdata('id_user');
+                'id_entity' => $this->session->userdata('id_entity');
+            ]);
+        }
+
+        if($result){
+            echo "validation Complete";
+        }
 
     }
 

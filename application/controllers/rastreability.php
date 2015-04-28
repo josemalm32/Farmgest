@@ -367,5 +367,50 @@ class Rastreability extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
     }
 
+    public function inventory_management($post_array,$primary_key){  
+
+        $this->load->model('inventory_model');
+
+        if($post_array['id_expense']!=null){
+            $type = 'add';
+            $id_expense = $primary_key;
+
+            $result = $this->inventory_model->insert([
+                'id_fertilization' = $id_fertilization;
+                'type' => $type;
+                'date' => date();
+                'id_user' => $this->session->userdata('id_user');
+                'id_entity' => $this->session->userdata('id_entity');
+            ]);
+        }else if ($post_array['name']!=null){
+            $type = 'sub';
+            $id_treatment = $primary_key;
+
+            $result = $this->inventory_model->insert([
+                'id_fertilization' = $id_fertilization;
+                'type' => $type;
+                'date' => date();
+                'id_user' => $this->session->userdata('id_user');
+                'id_entity' => $this->session->userdata('id_entity');
+            ]);
+        }else{
+            $type = 'sub';
+            $id_fertilization = $primary_key;
+
+            $result = $this->inventory_model->insert([
+                'id_fertilization' = $id_fertilization;
+                'type' => $type;
+                'date' => date();
+                'id_user' => $this->session->userdata('id_user');
+                'id_entity' => $this->session->userdata('id_entity');
+            ]);
+        }
+
+        if($result){
+            echo "validation Complete";
+        }
+
+    }
+
 }
 ?>
