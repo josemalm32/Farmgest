@@ -1,8 +1,8 @@
 <?php
 
-class inventory_model extends CRUD_model
+class Inventory_model extends CRUD_model
 {
-    protected $_table = 'entitys';
+    protected $_table = 'inventory_management';
     protected $_primary_key = 'id';
     
     // ------------------------------------------------------------------------

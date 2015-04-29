@@ -17,6 +17,7 @@ class Rastreability extends CI_Controller
         $this->load->database();
         $this->load->helper('url');
         $this->load->model('grocery_CRUD_model');
+        $this->load->model('inventory_model');
         $this->load->library('grocery_CRUD');
         
     }
@@ -114,6 +115,8 @@ class Rastreability extends CI_Controller
 
         $crud->set_relation('id_season', 'prod_season', 'name');
         $crud->display_as('id_season', 'Season');
+
+        $crud->callback_after_insert(array($this, 'inventory_management'));
         
         $output = $crud->render();
 
@@ -276,6 +279,8 @@ class Rastreability extends CI_Controller
        
         $crud->set_relation('id_season', 'prod_season', 'name', array('id_entity' => $this->session->userdata('id_entity')));
         $crud->display_as('id_season','Season');
+
+        $crud->callback_after_insert(array($this, 'inventory_management'));
        
         $output = $crud->render();
      
@@ -367,42 +372,45 @@ class Rastreability extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
     }
 
-    public function inventory_management($post_array,$primary_key){  
+    public function inventory_management($post_array,$primary_key)
+    {  
 
-        $this->load->model('inventory_model');
+        
 
         if($post_array['id_expense']!=null){
             $type = 'add';
-            $id_expense = $primary_key;
+            $id_exp_detail = $primary_key;
 
             $result = $this->inventory_model->insert([
-                'id_fertilization' = $id_fertilization;
-                'type' => $type;
-                'date' => date();
-                'id_user' => $this->session->userdata('id_user');
-                'id_entity' => $this->session->userdata('id_entity');
+                'id_exp_detail' => $id_exp_detail
             ]);
         }else if ($post_array['name']!=null){
             $type = 'sub';
             $id_treatment = $primary_key;
 
             $result = $this->inventory_model->insert([
-                'id_fertilization' = $id_fertilization;
-                'type' => $type;
-                'date' => date();
-                'id_user' => $this->session->userdata('id_user');
-                'id_entity' => $this->session->userdata('id_entity');
+                'id_treatment' => $id_treatment,
+                'name' => $post_array['name'],
+                'quantity' => $post_data['recomended_dose'],
+                'lote' => $post_array['id_package'],
+                'type' => $type,
+                'date' => date(),
+                'id_user' => $this->session->userdata('id_user'),
+                'id_entity' => $this->session->userdata('id_entity')
             ]);
         }else{
             $type = 'sub';
             $id_fertilization = $primary_key;
 
             $result = $this->inventory_model->insert([
-                'id_fertilization' = $id_fertilization;
-                'type' => $type;
-                'date' => date();
-                'id_user' => $this->session->userdata('id_user');
-                'id_entity' => $this->session->userdata('id_entity');
+                'id_fertilization' => $id_fertilization,
+                'name' => $post_data['name'],
+                'quantity' => $post_data['quantity'],
+                'lote' => $post_data['id_package'],
+                'type' => $type,
+                'date' => date(),
+                'id_user' => $this->session->userdata('id_user'),
+                'id_entity' => $this->session->userdata('id_entity')
             ]);
         }
 

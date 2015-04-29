@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 21-Abr-2015 às 21:48
+-- Generation Time: 30-Abr-2015 às 01:20
 -- Versão do servidor: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -97,15 +97,14 @@ CREATE TABLE IF NOT EXISTS `fin_expenses` (
   `id_entity` int(11) NOT NULL,
   `id_farm` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=5 ;
 
 --
 -- Extraindo dados da tabela `fin_expenses`
 --
 
 INSERT INTO `fin_expenses` (`id`, `id_type`, `description`, `id_vendor`, `n_document`, `total_cost`, `date_document`, `date_due`, `date_efective_payment`, `payment_type`, `notes`, `id_entity`, `id_farm`) VALUES
-(3, 1, 'QWASDASQWE', 0, '123', 123, '2015-04-01', '2015-04-14', '2015-04-02', 'Money', '<p>\r\n ADSDASDASDASDCXC</p>\r\n', 0, 0),
-(2, 0, 'fdsfsdf', 3, 'sdfsd', 0, '2010-10-10', '2010-10-10', '2010-10-10', 'BankTransfer', '', 0, 0);
+(4, 1, 'example', 2, '1', 111, '2015-04-21', '2015-04-23', '2015-04-22', 'MB', '<p>\r\n example</p>\r\n', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -127,15 +126,31 @@ CREATE TABLE IF NOT EXISTS `fin_expenses_detail` (
   `supplier_code` varchar(50) COLLATE latin1_general_ci NOT NULL,
   `weight` float NOT NULL,
   `package_code` varchar(100) COLLATE latin1_general_ci NOT NULL,
+  `stock_expense` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=18 ;
 
 --
 -- Extraindo dados da tabela `fin_expenses_detail`
 --
 
-INSERT INTO `fin_expenses_detail` (`id`, `id_expense`, `id_item_type`, `item_description`, `item_quantity`, `unit_cost`, `tax_rate`, `brand`, `technical_name`, `notes`, `supplier_code`, `weight`, `package_code`) VALUES
-(1, 2, 0, 'asdasd', 23, 2323, 23232, 'asdasd', 'asdasd', '', '', 0, '');
+INSERT INTO `fin_expenses_detail` (`id`, `id_expense`, `id_item_type`, `item_description`, `item_quantity`, `unit_cost`, `tax_rate`, `brand`, `technical_name`, `notes`, `supplier_code`, `weight`, `package_code`, `stock_expense`) VALUES
+(3, 4, 2, 'example2', 1, 12, 10, 'something', 'something', '<p>\r\n something</p>\r\n', '12313', 2, '1231234', 0),
+(2, 4, 1, 'example', 1, 12, 20, 'example', 'something', '<p>\r\n this is an example</p>\r\n', '123', 1, '712834123', 0),
+(4, 4, 4, 'Banana', 15, 1, 21, 'Banana', 'Banana', '', '12584', 15, '125495', 0),
+(5, 4, 4, 'Banana', 15, 1, 21, 'Banana', 'Banana', '', '12584', 15, '125495', 0),
+(6, 4, 4, 'Banana', 15, 1, 21, 'Banana', 'Banana', '', '12584', 15, '125495', 0),
+(7, 4, 4, 'Banana', 15, 1, 21, 'Banana', 'Banana', '', '12584', 15, '125495', 0),
+(8, 4, 4, 'Banana', 15, 1, 21, 'Banana', 'Banana', '', '12584', 15, '125495', 0),
+(9, 4, 4, 'Banana', 15, 1, 21, 'Banana', 'Banana', '', '12584', 15, '125495', 1),
+(10, 4, 4, 'Banana', 15, 1, 21, 'Banana', 'Banana', '', '12584', 15, '125495', 1),
+(11, 4, 4, 'Banana', 15, 1, 21, 'Banana', 'Banana', '', '12584', 15, '125495', 0),
+(12, 4, 4, 'Banana', 15, 1, 21, 'Banana', 'Banana', '', '12584', 15, '125495', 0),
+(13, 4, 4, 'Banana', 15, 1, 21, 'Banana', 'Banana', '', '12584', 15, '125495', 1),
+(14, 4, 4, 'Banana', 15, 1, 21, 'Banana', 'Banana', '', '12584', 15, '125495', 1),
+(15, 4, 4, 'Banana', 15, 1, 21, 'Banana', 'Banana', '', '12584', 15, '125495', 1),
+(16, 4, 4, 'Banana', 15, 1, 21, 'Banana', 'Banana', '', '12584', 15, '125495', 1),
+(17, 4, 4, 'Banana', 15, 1, 21, 'Banana', 'Banana', '', '12584', 15, '125495', 1);
 
 -- --------------------------------------------------------
 
@@ -229,7 +244,14 @@ CREATE TABLE IF NOT EXISTS `fin_product_type` (
   `id_farm` int(10) NOT NULL,
   `id_entity` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Extraindo dados da tabela `fin_product_type`
+--
+
+INSERT INTO `fin_product_type` (`id`, `description`, `type`, `status`, `notes`, `id_farm`, `id_entity`) VALUES
+(1, 'example', 'dunno', 'Active', '<p>\r\n something</p>\r\n', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -494,7 +516,7 @@ CREATE TABLE IF NOT EXISTS `g_labels` (
 CREATE TABLE IF NOT EXISTS `g_menus` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `id_master` int(10) NOT NULL,
-  `order` int(5) NOT NULL,
+  `order_menu` int(5) NOT NULL,
   `title` varchar(255) COLLATE latin1_general_ci NOT NULL,
   `link` varchar(255) COLLATE latin1_general_ci NOT NULL,
   `status` enum('active','inactive') COLLATE latin1_general_ci NOT NULL,
@@ -545,8 +567,45 @@ CREATE TABLE IF NOT EXISTS `g_tasks_users` (
   `id_task` int(10) NOT NULL,
   `id_user` int(10) NOT NULL,
   `priority` int(10) NOT NULL,
+  `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Extraindo dados da tabela `g_tasks_users`
+--
+
+INSERT INTO `g_tasks_users` (`id`, `id_task`, `id_user`, `priority`, `name`) VALUES
+(1, 2, 1, 2, 'Colher Batatas');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `inventory_management`
+--
+
+CREATE TABLE IF NOT EXISTS `inventory_management` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_exp_detail` int(11) DEFAULT NULL,
+  `id_fertilization` int(11) DEFAULT NULL,
+  `id_treatment` int(11) DEFAULT NULL,
+  `id_prod_consum` int(11) DEFAULT NULL,
+  `type` enum('add','sub') NOT NULL,
+  `date_operation` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `id_user` int(11) NOT NULL,
+  `id_entity` int(11) NOT NULL,
+  `lote` varchar(30) NOT NULL,
+  `quantity` int(3) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Extraindo dados da tabela `inventory_management`
+--
+
+INSERT INTO `inventory_management` (`id`, `id_exp_detail`, `id_fertilization`, `id_treatment`, `id_prod_consum`, `type`, `date_operation`, `id_user`, `id_entity`, `lote`, `quantity`, `name`) VALUES
+(1, 17, NULL, NULL, NULL, 'add', '2015-04-30 01:04:42', 1, 1, '125495', 15, 'Banana');
 
 -- --------------------------------------------------------
 
@@ -595,7 +654,7 @@ CREATE TABLE IF NOT EXISTS `permission_list_user_role` (
 
 CREATE TABLE IF NOT EXISTS `prod_fertilization` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `id_package` int(11) DEFAULT NULL,
+  `id_package` varchar(20) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   `quantity` float DEFAULT NULL,
   `unit` varchar(11) DEFAULT NULL,
@@ -607,8 +666,16 @@ CREATE TABLE IF NOT EXISTS `prod_fertilization` (
   `id_farm` int(10) NOT NULL,
   `id_entity` int(10) NOT NULL,
   `id_season` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Extraindo dados da tabela `prod_fertilization`
+--
+
+INSERT INTO `prod_fertilization` (`id`, `id_package`, `type`, `quantity`, `unit`, `water_volume`, `deposit`, `date`, `notes`, `id_user`, `id_farm`, `id_entity`, `id_season`, `name`) VALUES
+(1, '121', 'algo', 12, '1', 1, 1, '2015-04-22 11:19:21', '<p>\r\n example</p>\r\n', 1, 3, 1, 2, '');
 
 -- --------------------------------------------------------
 
@@ -710,7 +777,14 @@ CREATE TABLE IF NOT EXISTS `prod_season_fields_sections` (
   `state` enum('active','inactive') NOT NULL,
   `notes` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Extraindo dados da tabela `prod_season_fields_sections`
+--
+
+INSERT INTO `prod_season_fields_sections` (`id`, `id_season`, `id_entity`, `id_farm`, `id_field`, `id_fieldsection`, `state`, `notes`) VALUES
+(1, 2, 1, 3, 1, 1, 'active', '');
 
 -- --------------------------------------------------------
 
@@ -733,7 +807,14 @@ CREATE TABLE IF NOT EXISTS `prod_season_harvast` (
   `id_farm` int(10) DEFAULT NULL,
   `id_entity` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Extraindo dados da tabela `prod_season_harvast`
+--
+
+INSERT INTO `prod_season_harvast` (`id`, `id_season`, `id_sort`, `harv_start_date`, `harv_end_date`, `n_plants`, `plants_weight_totalkg`, `plants_weight_average`, `notes`, `id_field_section`, `id_field`, `id_farm`, `id_entity`) VALUES
+(1, 2, 1, '2015-04-23 00:00:00', '2015-04-24 00:00:00', 233, 1444, 1, '<p>\r\n this is an example</p>\r\n', 1, 1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -925,9 +1006,10 @@ CREATE TABLE IF NOT EXISTS `prod_treatment` (
   `id_season` int(11) NOT NULL,
   `name` varchar(100) COLLATE latin1_general_ci NOT NULL,
   `id_supplier` int(11) NOT NULL,
+  `persistence` int(3) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -961,7 +1043,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `role_description` varchar(250) DEFAULT NULL,
   `status` enum('active','inactive','demo','temporary') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -984,9 +1066,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `date_added`, `date_modified`, `id_entity`) VALUES
-(1, 'admin', 'admin', '2015-03-10 20:31:59', '2015-03-10 20:31:59', 1),
-(2, 'user', '123', '2015-04-21 11:32:57', '2015-04-21 11:32:57', 1),
-(3, 'Ricardo', 'cenas', '2015-04-21 11:32:57', '2015-04-21 11:32:57', 12);
+(1, 'admin', 'c7f5867734c1bb80892e13302d96a222e2ef25e8e0657c9d4b20e37b83e5f0af', '2015-03-10 20:31:59', '2015-03-10 20:31:59', 1),
+(2, 'user', '49877803644619a79f3c7a650cb0a93a084111841aa682e1a962d2b954f2d6dd', '2015-04-21 11:32:57', '2015-04-21 11:32:57', 1),
+(3, 'Ricardo', '6d00b36195821ad501a11f8e5c417460a5273563b036d7fcefbedcf8df7ffbae', '2015-04-21 11:32:57', '2015-04-21 11:32:57', 12);
 
 -- --------------------------------------------------------
 
@@ -1000,7 +1082,7 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   `id_role` int(10) NOT NULL,
   `status` enum('active','inactive','demo','temporary') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

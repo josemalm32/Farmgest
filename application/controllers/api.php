@@ -24,6 +24,7 @@ class Api extends CI_Controller
         }
     }
     
+    
     // ------------------------------------------------------------------------
     
     public function login()
@@ -33,8 +34,7 @@ class Api extends CI_Controller
 
         $result = $this->user_model->get([
             'username' => $username,
-            'password' => $password
-            //'password' => hash('sha256', $password . SALT)
+            'password' => hash('sha256', $password . SALT)
         ]);
         
         $this->output->set_content_type('application_json');

@@ -46,8 +46,9 @@ class CRUD_model extends CI_Model
      */
     public function insert($data)
     {
+
         $this->db->insert($this->_table, $data);
-        return $this->db->insert_id();
+        // return $this->db->insert_id();
     }
     
     // ------------------------------------------------------------------------
