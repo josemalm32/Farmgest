@@ -163,8 +163,14 @@ class Finances extends CI_Controller
             ]);
         }
 
-        if($result){
-            echo "validation Complete";
+/* dependendo do resultado obtido, vai inserir na base de dados como despesa ou utilização,
+ * consegue saber se e para adicionar ou  remover a quantidade do stock a partir do 'type' = add or sub
+ * PROBLEMA table storage precisa de ter um campo preciso quanto ao nome do item ou atraves do lote,
+ * dessa maneira ja se consegue baixar ou aumentar do stock fazendo um distinct na tabela com o sum do stock do mesmo item, já se visualiza tudo correctamente
+ */
+
+        if($result){  
+            echo "validation Complete";  
         }
 
     }

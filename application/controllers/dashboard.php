@@ -17,8 +17,8 @@ class Dashboard extends CI_Controller
         $this->load->database();
         $this->load->helper('url');
         $this->load->model('grocery_CRUD_model');
+        $this->load->model('report_model');
         $this->load->library('grocery_CRUD');
-        $this->load->library('gc_dependent_select');
         
     }
 
@@ -56,6 +56,11 @@ class Dashboard extends CI_Controller
         }
     }
 
-    
+    public function test(){
+        $sql = "SELECT * FROM users";
+        $result= $this->report_model->export_excel($sql);
+        if ($result!=null)
+            redirect('dashboard');
+    }
 }
 ?>
