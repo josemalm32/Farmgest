@@ -71,34 +71,27 @@ class report_model extends CI_Model
 			//echo date('H:i:s') , " Write to Excel2007 format" , EOL;
 			return 1;
 		}
-		return null;
-/*
-		echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME)) , EOL;
-		echo 'Call time to write Workbook was ' , sprintf('%.4f',$callTime) , " seconds" , EOL;
-		// Echo memory usage
-		echo date('H:i:s') , ' Current memory usage: ' , (memory_get_usage(true) / 1024 / 1024) , " MB" , EOL;
-
-
-		// Echo memory peak usage
-		echo date('H:i:s') , " Peak memory usage: " , (memory_get_peak_usage(true) / 1024 / 1024) , " MB" , EOL;
-
-		// Echo done
-		echo date('H:i:s') , " Done writing file" , EOL;
-		echo 'File has been created in ' , getcwd() , EOL;
 		
-*/
-    }
+		return null;
 
+    }
+/*
     public function export_word($query = null, $template = null){
 
     	require_once APPPATH.'PhpWord/Autoloader.php';
 
-    	\PhpOffice\PhpWord\Autoloader::register();
+    	use PhpOffice\PhpWord\Autoloader;
+		use PhpOffice\PhpWord\Settings;
+		
+		Autoloader::register();
+		Settings::loadConfig();
 
-    	$phpWord = new \PhpOffice\PhpWord\PhpWord();
+		error_reporting(E_ALL);
+
+    	$phpWord = new PhpWord();
 
     	
 
-    }
+    }*/
     
 }

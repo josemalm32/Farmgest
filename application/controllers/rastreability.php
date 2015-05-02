@@ -72,7 +72,7 @@ class Rastreability extends CI_Controller
         $crud->set_relation('production_type','prod_sorts','common_name', array('id_entity' => $this->session->userdata('id_entity')));
         $crud->display_as('production_type','Poduction Type');
         
-        $crud->fields('name','start_date', 'end_date', 'status', 'production_type', 'id_farm', 'expected_yeld', 'expected_yeld_unit', 'expected_income', 'n_plants', 'template');
+        //$crud->fields('name','start_date', 'end_date', 'status', 'production_type', 'id_farm', 'expected_yeld', 'expected_yeld_unit', 'expected_income', 'n_plants', 'template');
         $crud->add_action('Add Problem', '', 'rastreability/prod_season_problems_menu/add', 'ui-icon-alert');
         $crud->add_action('Add Action', '', 'rastreability/prod_season_problems_actions_menu/add', 'ui-icon-flag');
         $output = $crud->render();
@@ -113,9 +113,6 @@ class Rastreability extends CI_Controller
         $crud->set_relation('id_farm', 'farms', 'name', array('id_entity' => $this->session->userdata('id_entity')));
         $crud->display_as('id_farm','Farm');
 
-        $crud->set_relation('id_season', 'prod_season', 'name');
-        $crud->display_as('id_season', 'Season');
-
         $crud->callback_after_insert(array($this, 'inventory_management'));
         
         $output = $crud->render();
@@ -127,50 +124,6 @@ class Rastreability extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
 
     }
-
-    //-------------------------------- season fields section menu ---------------------------- 
-
-    public function prod_season_fields_sections_menu(){
-
-        $this->_require_login();
-        require('api.php');
-        $api = new api();
-        $data['task'] = $api->get_todo();
-        $data['active'] = 'treeview active';
-        $data['id'] = 3;
-
-        $crud = new grocery_CRUD();
-
-
-        $crud->where('prod_season_fields_sections.id_entity', $this->session->userdata('id_entity'));
-        $crud->field_type('id_entity', 'hidden', $this->session->userdata('id_entity'));
-        $crud->set_table('prod_season_fields_sections');
-        $crud->set_theme('datatables');
-        $crud->set_subject('Season Fields Section');
-        
-        $crud->columns('id_farm','id_season','state');
-        
-        $crud->set_relation('id_farm', 'farms', 'name', array('id_entity' => $this->session->userdata('id_entity')));
-        $crud->display_as('id_farm','Farm');
-        
-        $crud->set_relation('id_season', 'prod_season', 'name', array('id_entity' => $this->session->userdata('id_entity')));
-        $crud->display_as('id_farm','Farm');
-
-        $crud->set_relation('id_fieldsection','prod_fields_sections','section_name', array('id_entity' => $this->session->userdata('id_entity')));
-        $crud->display_as('id_fieldsection','FieldSection');
-        
-        $crud->set_relation('id_field','prod_fields','short_code', array('id_entity' => $this->session->userdata('id_entity')));
-        $crud->display_as('id_field','Field');        
-    
-        $output = $crud->render();
-
-        $header_output=(array)$output;
-        unset($header_output['output']);
-        $this->load->view('dashboard/inc/header_view', array_merge($data, $header_output));
-        $this->load->view('dashboard/admin_pages/prod_season_fields_sections_view',$output);
-        $this->load->view('dashboard/inc/footer_view');
-    }
-
 
     //-------------------------------- season problems menu ---------------------------- 
 
@@ -196,7 +149,7 @@ class Rastreability extends CI_Controller
         $crud->set_relation('id_season', 'prod_season', 'name');
         $crud->display_as('id_season', 'Season');
 
-        $crud->add_action('Add Action', '', 'rastreability/prod_season_problems_actions_fieldsection_menu234/add', 'ui-icon-flag');
+        $crud->add_action('Add Action', '', 'rastreability/prod_season_problems_actions_fieldsection_menu/add', 'ui-icon-flag');
 
         $output = $crud->render();
 
@@ -208,46 +161,7 @@ class Rastreability extends CI_Controller
 
     }
 
-    //-------------------------------- season problems action fieldsection  menu ---------------------------- 
-
-    public function prod_season_problems_actions_fieldsection_menu(){
-
-        $this->_require_login();
-        require('api.php');
-        $api = new api();
-        $data['task'] = $api->get_todo();
-        $data['active'] = 'treeview active';
-        $data['id'] = 3;
-
-        $crud= new grocery_CRUD();
-        
-        $crud->where('prod_season_problems_actions_fieldsection.id_entity', $this->session->userdata('id_entity'));
-        $crud->field_type('id_entity', 'hidden', $this->session->userdata('id_entity'));
-        $crud->set_table('prod_season_problems_actions_fieldsection');
-
-        $crud->set_theme('datatables');
-        $crud->set_subject('Problem Action in FieldSection');
-
-        $crud->set_relation('id_problem_action','prod_season_problems_actions','type');
-        $crud->display_as('id_problem_action','Problem Type');
-
-        $crud->set_relation('id_fieldsection','prod_fields_sections','section_name');
-        $crud->display_as('id_fieldsection', 'Section');
-
-        $crud->set_relation('id_farm', 'farms', 'name', array('id_entity' => $this->session->userdata('id_entity')));
-        $crud->display_as('id_farm','Farm');
-
-        $crud->columns('id_problem_action', 'id_fieldsection', 'id_entity', 'priority');
-
-        $output = $crud->render();
-
-        $header_output=(array)$output;
-        unset($header_output['output']);
-        $this->load->view('dashboard/inc/header_view', array_merge($data, $header_output));
-        $this->load->view('dashboard/admin_pages/prod_season_problems_actions_fieldsection_view',$output);
-        $this->load->view('dashboard/inc/footer_view');
-
-    }
+    
 
     //-------------------------------- season treatment  menu ---------------------------- 
 
@@ -374,8 +288,6 @@ class Rastreability extends CI_Controller
 
     public function inventory_management($post_array,$primary_key)
     {  
-
-        
 
         if($post_array['id_expense']!=null){
             $type = 'add';

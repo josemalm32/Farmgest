@@ -99,6 +99,10 @@ class Finances extends CI_Controller
         $crud->set_table('fin_expenses_detail');
         $crud->set_theme('datatables'); 
         $crud->set_subject('Expenses Detail');
+        
+        $crud->set_relation('id_expense', 'fin_expenses', 'description', array('id_entity' => $this->session->userdata('id_entity')));
+        $crud->set_relation('id_item_type', 'fin_expenses_type', 'description', array('id_entity' => $this->session->userdata('id_entity')));
+        
         $crud->columns('id','item_description','item_quantity', 'technical_name');
         
         $crud->callback_after_insert(array($this, 'inventory_management'));
@@ -263,7 +267,33 @@ class Finances extends CI_Controller
         $crud->set_theme('datatables');
         $crud->set_subject('Orders Detail');
         $crud->columns('id_order','item', 'quantity', 'quantity_unit', 'notes');
+        $crud->set_relation('id_order', 'fin_orders', 'description', array('id_entity' => $this->session->userdata('id_entity')));
+        $crud->set_relation('item', 'prod_sorts', 'common_name', array('id_entity' => $this->session->userdata('id_entity')));
+        $output = $crud->render();
+         
+        $header_output = (array)$output;
+        unset($header_output['output']);
+        $this->load->view('dashboard/inc/header_view', array_merge($header_output, $data));
+        $this->load->view('dashboard/admin_pages/fin_orders_detail_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
 
+    }
+
+    public function fin_orders_plants_menu(){
+        $this->_require_login();
+        require('api.php');
+        $api = new api();
+        $data['task'] = $api->get_todo();
+        $data['active'] = 'treeview active';
+        $data['id'] = 2;
+
+        $crud = new grocery_CRUD();
+
+        $crud->set_table('fin_orders_plants');
+        $crud->set_theme('datatables');
+        $crud->set_subject('Plants Orders');
+        $crud->columns('item','order_date', 'delivery_date', 'plants_quantity', 'notes');
+        $crud->set_relation('item', 'prod_sorts', 'common_name', array('id_entity' => $this->session->userdata('id_entity')));
         $output = $crud->render();
          
         $header_output = (array)$output;
@@ -315,7 +345,7 @@ class Finances extends CI_Controller
      //-------------------------------- vendor/client menu ---------------------------- 
 
     public function fin_product_type_menu(){
-        $this->_require_login();
+         $this->_require_login();
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();

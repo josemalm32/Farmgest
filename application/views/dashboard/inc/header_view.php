@@ -252,7 +252,7 @@
                             <img src="<?=base_url()?>/public/img/avatar5.png" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
-                            <p>Hello, Ricardo</p>
+                            <p>Hello, <?php echo $this->session->userdata('name') ?></p>
 
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
@@ -294,6 +294,7 @@
                                 <li><a href="<?=base_url()?>index.php/finances/fin_orders_menu"><i class="fa fa-angle-double-right"></i>Orders</a></li>
                                 <li><a href="<?=base_url()?>index.php/finances/fin_orders_detail_menu"><i class="fa fa-angle-double-right"></i>Orders Detail</a></li> 
                                 <li><a href="<?=base_url()?>index.php/finances/fin_vendor_client_menu"><i class="fa fa-angle-double-right"></i>Customer/Vendors</a></li>
+                                <li><a href="<?=base_url()?>index.php/finances/fin_orders_plants_menu"><i class="fa fa-angle-double-right"></i>Plants Orders</a></li>
                                 <li><a href="<?=base_url()?>index.php/finances/fin_product_type_menu"><i class="fa fa-angle-double-right"></i>Product Type</a></li>           
                             </ul>
                         </li>
@@ -310,8 +311,6 @@
                             <ul class="treeview-menu">
                                 <li><a href="<?=base_url()?>index.php/rastreability/prod_season_menu"><i class="fa fa-angle-double-right"></i>Season</a></li>
                                 <li><a href="<?=base_url()?>index.php/rastreability/prod_season_problems_menu"><i class="fa fa-angle-double-right"></i>Season Problems</a></li>    
-                                <li><a href="<?=base_url()?>index.php/rastreability/prod_season_problems_actions_menu"><i class="fa fa-angle-double-right"></i>Season Actions</a></li> 
-                                <li><a href="<?=base_url()?>index.php/rastreability/prod_season_fields_sections_menu"><i class="fa fa-angle-double-right"></i>Season Fields</a></li>
                                 <li><a href="<?=base_url()?>index.php/rastreability/prod_fertilization_menu"><i class="fa fa-angle-double-right"></i>Fertilization</a></li>
                                 <li><a href="<?=base_url()?>index.php/rastreability/prod_treatment_menu"><i class="fa fa-angle-double-right"></i>Treatment</a></li>
                                 <li><a href="<?=base_url()?>index.php/rastreability/prod_season_harvast_menu"><i class="fa fa-angle-double-right"></i>Season Harvast</a></li>
