@@ -16,6 +16,7 @@ class Rastreability extends CI_Controller
 
         $this->load->database();
         $this->load->helper('url');
+        $this->load->model('report_model');
         $this->load->model('grocery_CRUD_model');
         $this->load->model('inventory_model');
         $this->load->library('grocery_CRUD');
@@ -330,6 +331,22 @@ class Rastreability extends CI_Controller
             echo "validation Complete";
         }
 
+    }
+
+    public function reports($query_code=null)  //-------------- FALTA AINDA METER A FARM
+    {
+        $this->_require_login();
+        
+        if ($query_code!=null) {
+            $result = $this->report_model->get([
+                'id_entity' => $this->session->userdata('id_entity'),
+                'query_code' => $query_code
+            ]);
+        } else{
+            $result = null;
+        }
+
+        return $result;
     }
 
 }

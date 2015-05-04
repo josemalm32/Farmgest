@@ -8,7 +8,6 @@ class Dashboard extends CI_Controller
     {
         parent::__construct();
 
-        $session_entity = $this->session->userdata('id_entity');
         $user_id = $this->session->userdata('id_user');
         if (!$user_id) {
             $this->logout();
@@ -31,6 +30,7 @@ class Dashboard extends CI_Controller
         $api = new api();
         $data['task'] = $api->get_todo();
         $data['id'] = 1;
+
 
         $this->load->view('dashboard/inc/header_main_view', $data);
         $this->load->view('dashboard/admin_pages/dashboard_view');

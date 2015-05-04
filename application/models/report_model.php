@@ -2,6 +2,9 @@
 
 class report_model extends CI_Model
 {
+	protected $_table = 'rep_configuration';
+    protected $_primary_key = 'id';
+    protected $_query_code = 'query_code';
     
     public function __construct()
     {
@@ -93,5 +96,21 @@ class report_model extends CI_Model
     	
 
     }*/
+
+    public function getReports($query_code=null, $)
+    {     
+        if (is_numeric($query_code)) {
+            $this->db->where($this->_query_code, $query_code);
+        } 
+        
+        if (is_array($query_code)) {
+            foreach ($query_code as $_key => $_value) {
+                $this->db->where($_key, $_value);
+            }
+        }
+        $q = $this->db->get($this->_table);
+        return $q->result_array();
+    }
+    }
     
 }
