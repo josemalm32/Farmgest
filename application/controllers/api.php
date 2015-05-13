@@ -80,6 +80,8 @@ class Api extends CI_Controller
         return $result;
     }
 
+    
+
     public function get_entity($id = null)
     {
 

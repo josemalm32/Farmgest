@@ -56,9 +56,21 @@ class Dashboard extends CI_Controller
         }
     }
 
-    public function test(){
-        $sql = "SELECT * FROM users";
-        $result= $this->report_model->export_excel($sql);
+    public function test_layout(){
+        $this->_require_login();
+        require('api.php');
+        $api = new api();
+        $data['task'] = $api->get_todo();
+        $data['id'] = 1;
+
+        $this->load->view('dashboard/inc/header_main_view', $data);
+        $this->load->view('dashboard/admin_pages/test_view');
+        $this->load->view('dashboard/inc/footer_main_view');
+    }
+
+    public function test_query($id=null){
+        
+        $result= $this->report_model->export_excel($id);
         if ($result!=null)
             redirect('dashboard');
     }

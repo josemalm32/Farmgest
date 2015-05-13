@@ -1,6 +1,15 @@
         </div>
         <!-- ./wrapper -->
         <!-- jQuery 2.0.2 -->
+        <script>
+
+            var c = document.getElementById("CanvasRect");
+            var ctx = c.getContext("2d");
+            ctx.rect(20, 20, 100, 150);
+            ctx.fillStyle="Green";
+            ctx.fill();
+
+        </script> 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 		
 		<script src="<?=base_url()?>/public/js/jquery-ui-1.10.3.min.js" type="text/javascript"></script>

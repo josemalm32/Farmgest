@@ -192,8 +192,8 @@ class Rastreability extends CI_Controller
         $crud->set_relation('id_problem_action','prod_season_problems_actions','type');
         $crud->display_as('id_problem_action','Problem Type');
        
-        $crud->set_relation('id_season', 'prod_season', 'name', array('id_entity' => $this->session->userdata('id_entity')));
-        $crud->display_as('id_season','Season');
+        //$crud->set_relation('id_season', 'prod_season', 'name', array('id_entity' => $this->session->userdata('id_entity')));
+        //$crud->display_as('id_season','Season');
 
         $crud->callback_after_insert(array($this, 'inventory_management'));
        

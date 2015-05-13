@@ -18,6 +18,8 @@ class Finances extends CI_Controller
         $this->load->helper('url');
         $this->load->model('grocery_CRUD_model');
         $this->load->model('inventory_model');
+        $this->load->model('rep_configuration_model');
+        $this->load->model('report_model');
         $this->load->library('grocery_CRUD');
         
     }
@@ -30,7 +32,7 @@ class Finances extends CI_Controller
         $this->session->sess_destroy();
         redirect('/');
     }
-
+ 
     // ------------------------------------------------------------------------ 
     
     private function _require_login()
@@ -349,6 +351,8 @@ class Finances extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $query = 'queryFinances';
+        $data['query'] = $this->get_query($query);
         $data['active'] = 'treeview active';
         $data['id'] = 2;
 
@@ -371,5 +375,25 @@ class Finances extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
 
     }
+
+    //---------------------------- get_querys
+    public function get_query($query_code=null)
+    {
+        if ($query_code != null) {
+            $result = $this->rep_configuration_model->get([
+                'query_code' => $query_code
+            ]);
+            return $result;
+        }
+        return  null;
+    }
+
+     public function test_query($id){
+        
+        $result= $this->report_model->export_excel($id);
+       // if ($result!=null)
+            //redirect('dashboard');
+    }
+
 }
 ?>
