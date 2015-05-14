@@ -18,7 +18,6 @@ class Finances extends CI_Controller
         $this->load->helper('url');
         $this->load->model('grocery_CRUD_model');
         $this->load->model('inventory_model');
-        $this->load->model('rep_configuration_model');
         $this->load->model('report_model');
         $this->load->library('grocery_CRUD');
         
@@ -169,10 +168,10 @@ class Finances extends CI_Controller
             ]);
         }
 
-/* dependendo do resultado obtido, vai inserir na base de dados como despesa ou utilização,
- * consegue saber se e para adicionar ou  remover a quantidade do stock a partir do 'type' = add or sub
- * PROBLEMA table storage precisa de ter um campo preciso quanto ao nome do item ou atraves do lote,
- * dessa maneira ja se consegue baixar ou aumentar do stock fazendo um distinct na tabela com o sum do stock do mesmo item, já se visualiza tudo correctamente
+/*  dependendo do resultado obtido, vai inserir na base de dados como despesa ou utilização,
+ *  consegue saber se e para adicionar ou  remover a quantidade do stock a partir do 'type' = add or sub
+ *  PROBLEMA table storage precisa de ter um campo preciso quanto ao nome do item ou atraves do lote,
+ *  dessa maneira ja se consegue baixar ou aumentar do stock fazendo um distinct na tabela com o sum do stock do mesmo item, já se visualiza tudo correctamente
  */
 
         if($result){  
@@ -380,7 +379,7 @@ class Finances extends CI_Controller
     public function get_query($query_code=null)
     {
         if ($query_code != null) {
-            $result = $this->rep_configuration_model->get([
+            $result = $this->report_model->get([
                 'query_code' => $query_code
             ]);
             return $result;
