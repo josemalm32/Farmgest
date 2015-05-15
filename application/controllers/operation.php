@@ -126,7 +126,7 @@ class Operation extends CI_Controller
         $data['id'] = 4; 
 
         $crud = new grocery_CRUD();
-        $crud->set_table('prod_storage_consum');
+        $crud->set_table('g_documents_labels');
         $crud->set_theme('datatables');
         $crud->set_subject('Labels');
         
@@ -255,9 +255,9 @@ class Operation extends CI_Controller
 
         $crud = new grocery_CRUD();
 
-        $crud->where('prod_storage.id_entity', $this->session->userdata('id_entity'));
+        $crud->where('g_documents.id_entity', $this->session->userdata('id_entity'));
         $crud->field_type('id_entity', 'hidden', $this->session->userdata('id_entity'));
-        $crud->where('prod_storage.id_user', $this->session->userdata('id_user'));
+        $crud->where('g_documents.id_user', $this->session->userdata('id_user'));
         $crud->field_type('id_user', 'hidden', $this->session->userdata('id_user'));
 
         $crud->set_table('g_documents');

@@ -51,34 +51,32 @@
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
                         <!-- Messages: style can be found in dropdown.less-->
-
-        
-                <li class="dropdown tasks-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <label>Reports</label>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <!-- inner menu: contains the actual data -->
-                            <ul class="menu">
-                                <?php foreach($query as $row) :?>
-                                    <li><!-- Query item -->
-                                        <a href="<?=base_url()?>index.php/finances/test_query/<?php echo $row['id'] ?>">
-                                            <h3>
-                                                <?php echo $row['id'] ?> <?php echo $row['title'] ?>
-                                            </h3>
-                                        </a>
-                                    </li><!-- end task item -->
-                                <?php endforeach; ?>
+                        <?php if ($id == 2 || $id == 3): ?>
+                        <li class="dropdown tasks-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <label>Reports</label>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        <?php foreach($query as $row) :?>
+                                            <li><!-- Query item -->
+                                                <a href="<?=base_url()?>index.php/finances/test_query/<?php echo $row['id'] ?>">
+                                                    <h3>
+                                                        <?php echo $row['id'] ?> <?php echo $row['title'] ?>
+                                                    </h3>
+                                                </a>
+                                            </li><!-- end task item -->
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </li>
+                                <li class="footer">
+                                    <a href="#">View all Query</a>
+                                </li>
                             </ul>
                         </li>
-                        <li class="footer">
-                            <a href="#">View all tasks</a>
-                        </li>
-                    </ul>
-                </li>
-            
-
+                        <?php endif; ?>
                         <li class="dropdown messages-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-envelope"></i>

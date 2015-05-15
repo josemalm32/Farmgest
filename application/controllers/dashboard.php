@@ -68,11 +68,6 @@ class Dashboard extends CI_Controller
         $this->load->view('dashboard/inc/footer_main_view');
     }
 
-    public function test_query($id=null){
-        
-        $result= $this->report_model->export_excel($id);
-        if ($result!=null)
-            redirect('dashboard');
-    }
+   
 }
 ?>

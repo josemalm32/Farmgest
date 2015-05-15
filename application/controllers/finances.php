@@ -50,6 +50,8 @@ class Finances extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $query = 'queryFinances';
+        $data['query'] = $this->get_query($query);
         $data['active'] = 'treeview active';
         $data['id'] = 2; 
 
@@ -89,6 +91,8 @@ class Finances extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $query = 'queryFinances';
+        $data['query'] = $this->get_query($query);
         $data['active'] = 'treeview active';
         $data['id'] = 2;
 
@@ -189,6 +193,8 @@ class Finances extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $query = 'queryFinances';
+        $data['query'] = $this->get_query($query);
         $data['active'] = 'treeview active';
         $data['id'] = 2;
 
@@ -224,6 +230,8 @@ class Finances extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $query = 'queryFinances';
+        $data['query'] = $this->get_query($query);
         $data['active'] = 'treeview active';
         $data['id'] = 2;
 
@@ -259,6 +267,8 @@ class Finances extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $query = 'queryFinances';
+        $data['query'] = $this->get_query($query);
         $data['active'] = 'treeview active';
         $data['id'] = 2;
 
@@ -285,6 +295,8 @@ class Finances extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $query = 'queryFinances';
+        $data['query'] = $this->get_query($query);
         $data['active'] = 'treeview active';
         $data['id'] = 2;
 
@@ -313,6 +325,8 @@ class Finances extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $query = 'queryFinances';
+        $data['query'] = $this->get_query($query);
         $data['active'] = 'treeview active';
         $data['id'] = 2;
 
@@ -380,7 +394,8 @@ class Finances extends CI_Controller
     {
         if ($query_code != null) {
             $result = $this->report_model->get([
-                'query_code' => $query_code
+                'query_code' => $query_code,
+                'status' => 'active'
             ]);
             return $result;
         }

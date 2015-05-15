@@ -20,17 +20,31 @@ class report_model extends CI_Model
     {
     	require_once APPPATH.'Classes/PHPExcel.php';
     	require_once APPPATH.'Classes/PHPExcel/IOFactory.php';
-    	
-    	$queryResult = $this->get($id);
-    	
-    	$objPHPExcel = new PHPExcel();
 
-    	$objPHPExcel->setActiveSheetIndex(0);  
+    	$queryResult = $this->get($id);
+
     	
+    	$objReader = PHPExcel_IOFactory::createReader('Excel5');
+		$objPHPExcel = $objReader->load($queryResult[0]['template_location']);
+
+    	$objPHPExcel->getProperties()->setCreator("Nutrimondego,Lda")
+                             ->setLastModifiedBy("Nutrimondego,Lda")
+                             ->setTitle("Office 2007 XLS Test Document")
+                             ->setSubject("Office 2007 XLS Test Document")
+                             ->setDescription("Examples.")
+                             ->setKeywords("office 2007 openxml php")
+                             ->setCategory("Test result file");
+
+
+
+    	$objPHPExcel->setActiveSheetIndex(0); 
+
+    	$dateTimeNow = time(); 
+    	$objPHPExcel->getActiveSheet()->setCellValue('E1', PHPExcel_Shared_Date::PHPToExcel( $dateTimeNow ));
+    	$objPHPExcel->getActiveSheet()->getStyle('E1')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2);
     	
     	$result = mysql_query($queryResult[0]['query_sql']) or die (mysql_error());
-    	
-    	//echo "SQL = ", 	$queryResult[0]['query_sql'];  // pass query allright
+
     	
 		// Initialise the Excel row number 
 		$rowCount = $queryResult[0]['start_line'];
@@ -58,7 +72,6 @@ class report_model extends CI_Model
 		            $value = strip_tags($row[$j]);  
 		        else  
 		            $value = "";  
-
 		        $objPHPExcel->getActiveSheet()->getColumnDimension($column)->setAutoSize(true);
 		        $objPHPExcel->getActiveSheet()->setCellValue($column.$rowCount, $value);
 		        $column++;
@@ -66,26 +79,36 @@ class report_model extends CI_Model
 		    $rowCount++;
 		}
 
-		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel); 
-		//$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		//echo __FILE__,"    ";
+		//echo __DIR__."\\report_model.xls";
+		
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		
 		
-		// Write the Excel file to filename some_excel_file.xlsx in the current directory
+		
 		if($queryResult[0]['template_location'] !=null){
-			$objWriter->save($queryResult[0]['template_location']); 
-			//echo date('H:i:s') , " Write to Excel2007 format" , EOL;
-			return 1;
-		}
-		
-		else{
+
+			// Write the Excel file to filename some_excel_file.xlsx in the current directory
+			$objWriter->save(str_replace('.php', '.xls', __FILE__));
+
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="report.xls"');
+			header('Cache-Control: max-age=0');
+
+			$objReader = PHPExcel_IOFactory::createReader('Excel5');
+			$objPHPExcel = $objReader->load(__DIR__."\\report_model.xls");
+
+			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 			$objWriter->save('php://output');
-			//echo date('H:i:s') , " Write to Excel2007 format" , EOL;
+
 			return 1;
+
 		}
-		
-		return null;
+
+		return 0;
 
     }
+
 /*
     public function export_word($query = null, $template = null){
 
@@ -110,11 +133,13 @@ class report_model extends CI_Model
         if (is_numeric($id)) {
             $this->db->where($this->_primary_key, $id);
         } 
-        
+        if (is_array($id)) {
+            foreach ($id as $_key => $_value) {
+                $this->db->where($_key, $_value);
+            }
+        }
         $q = $this->db->get($this->_table);
         return $q->result_array();
     }
-    
 
-    
 }

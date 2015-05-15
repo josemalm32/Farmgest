@@ -50,6 +50,8 @@ class Rastreability extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $query = 'queryRastreability';
+        $data['query'] = $this->get_query($query);
         $data['active'] = 'treeview active';
         $data['id'] = 3;
 
@@ -93,6 +95,9 @@ class Rastreability extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $query = 'queryRastreability';
+        
+        $data['query'] = $this->get_query($query);
         $data['active'] = 'treeview active';
         $data['id'] = 3;
 
@@ -134,6 +139,9 @@ class Rastreability extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $query = 'queryRastreability';
+
+        $data['query'] = $this->get_query($query);
         $data['active'] = 'treeview active';
         $data['id'] = 3;
 
@@ -172,6 +180,8 @@ class Rastreability extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $query = 'queryRastreability';
+        $data['query'] = $this->get_query($query);
         $data['active'] = 'treeview active';
         $data['id'] = 3;
 
@@ -215,6 +225,8 @@ class Rastreability extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $query = 'queryRastreability';
+        $data['query'] = $this->get_query($query);
         $data['active'] = 'treeview active';
         $data['id'] = 3;
 
@@ -232,16 +244,7 @@ class Rastreability extends CI_Controller
         $crud->display_as('id_farm','Farm');
         
         $crud->set_relation('id_season', 'prod_season', 'name', array('id_entity' => $this->session->userdata('id_entity')));
-        $crud->display_as('id_farm','Farm');
-
-        $crud->set_relation('id_field_section','prod_fields_sections','section_name', array('id_entity' => $this->session->userdata('id_entity')));
-        $crud->display_as('id_field_section','FieldSection');
-        
-        $crud->set_relation('id_field','prod_fields','short_code', array('id_entity' => $this->session->userdata('id_entity')));
-        $crud->display_as('id_field','Field');     
-
-        $crud->set_relation('id_sort', 'prod_sorts', 'technical_name', array('id_entity' => $this->session->userdata('id_entity')));   
-        $crud->display_as('id_sort', 'Technical Name');
+        $crud->display_as('id_farm','Farm');  
 
         $output = $crud->render();
 
@@ -261,6 +264,8 @@ class Rastreability extends CI_Controller
         require('api.php');
         $api = new api();
         $data['task'] = $api->get_todo();
+        $query = 'queryRastreability';
+        $data['query'] = $this->get_query($query);
         $data['active'] = 'treeview active';
         $data['id'] = 3;
 
@@ -333,20 +338,24 @@ class Rastreability extends CI_Controller
 
     }
 
-    public function reports($query_code=null)  //-------------- FALTA AINDA METER A FARM
+     //---------------------------- get_querys ----------------
+    public function get_query($query_code=null)
     {
-        $this->_require_login();
-        
-        if ($query_code!=null) {
+        if ($query_code != null) {
             $result = $this->report_model->get([
-                'id_entity' => $this->session->userdata('id_entity'),
-                'query_code' => $query_code
+                'query_code' => $query_code,
+                'status' => 'active'
             ]);
-        } else{
-            $result = null;
+            return $result;
         }
-
-        return $result;
+        return  null;
+    }
+    //----------------- export selected query --------------------
+     public function test_query($id){
+        
+        $result= $this->report_model->export_excel($id);
+       // if ($result!=null)
+            //redirect('dashboard');
     }
 
 }
