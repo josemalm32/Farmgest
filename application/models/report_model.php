@@ -21,6 +21,7 @@ class report_model extends CI_Model
     	require_once APPPATH.'Classes/PHPExcel.php';
     	require_once APPPATH.'Classes/PHPExcel/IOFactory.php';
 
+    	// get data from rep configuration  where row id = id
     	$queryResult = $this->get($id);
 
     	
@@ -36,13 +37,15 @@ class report_model extends CI_Model
                              ->setCategory("Test result file");
 
 
-
+        //set active sheet 
     	$objPHPExcel->setActiveSheetIndex(0); 
 
+    	//get data from system and set data in specific cell
     	$dateTimeNow = time(); 
     	$objPHPExcel->getActiveSheet()->setCellValue('E1', PHPExcel_Shared_Date::PHPToExcel( $dateTimeNow ));
     	$objPHPExcel->getActiveSheet()->getStyle('E1')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2);
     	
+    	// execute query from query sql from rep configuration
     	$result = mysql_query($queryResult[0]['query_sql']) or die (mysql_error());
 
     	
@@ -94,10 +97,10 @@ class report_model extends CI_Model
 			header('Content-Type: application/vnd.ms-excel');
 			header('Content-Disposition: attachment;filename="report.xls"');
 			header('Cache-Control: max-age=0');
-
+			// read excel
 			$objReader = PHPExcel_IOFactory::createReader('Excel5');
 			$objPHPExcel = $objReader->load(__DIR__."\\report_model.xls");
-
+			//write and save excel created above and force download
 			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 			$objWriter->save('php://output');
 

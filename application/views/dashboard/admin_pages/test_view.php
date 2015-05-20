@@ -1,167 +1,37 @@
 <aside class="right-side">
 	<section class="content">
 		<div class="row">
-
-			<table>
-				<thead>
-					<tr>
-						<th colspan="5"><center> Farm 1 </center></th>
-						<th colspan="4"><center> Farm 2 </center></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-					    	<div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					    		<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        <canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					    	<div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					    		<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)" style="margin-right:10px">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					    	<div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					    		<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					</tr>
-					<tr>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					  	<td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					    	<div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					    		<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					    	<div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					    		<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					<tr>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					  	<td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					    	<div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					    		<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					    	<div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					    		<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-					    <td>
-					        <div class="col-xs-2" onDrop="drop(event)" onDragOver="allowDrop(event)">
-					        	<canvas id="CanvasRect" width="100px" height="150px"></canvas>
-					        </div>
-					    </td>
-			        </tr>
-			        <tr>
-		        </tbody>
-		    </table>
-
-		    
-	    </div>
-
-	    <div onDrop="drop(event)" onDragOver="allowDrop(event)" style="height:100px;padding-top:10px;border:1px solid #aaaaaa;">
-	    	<img id="dragF" src="<?=base_url()?>/public/img/fert.gif" draggable="true" ondragstart="drag(event)" width="69" height="69">
-			<img id="dragT" src="<?=base_url()?>/public/img/treat.gif" draggable="true" ondragstart="drag(event)" width="69" height="69">
+			<div id="frame">
+				<table>
+					<tbody>
+					<?php 
+					for($i = 0, $size = count($farm)-1; $i < $size; $i++) {
+						if($i == 0) 
+							echo '<tr>';
+						
+						if($flag == 1){
+							echo '</tr>';
+							echo '<tr>';
+							$flag = 0;
+						}
+						if($farm[$i]['id_field'] == $farm[$i+1]['id_field']) {
+							echo '<td>';
+						    	echo '<div id="'.$farm[$i]['section_name'].'"style="width:60px; height:60px; border:1px solid #aaaaaa; 
+						    	background:#CCFF99"><center>'.$farm[$i]['section_name'].'</center></div>';
+						    echo '</td>';
+						}else
+							$flag = 1;
+						
+						if($i == $size - 1)
+							echo '</tr>';
+					}?>
+			        </tbody>
+			    </table>
+		    </div>
+		    <div  id="drag1" class="drag">
+				<img id="treatment" src="<?=base_url()?>/public/img/treat.gif" width="40" height="40" />
+			</div>
 		</div>
-
 	</section>
 
 	

@@ -126,5 +126,31 @@ class CRUD_model extends CI_Model
     }
     
     // ------------------------------------------------------------------------
+
+    /*
+    *   get the tables inside of db 
+    */
+
+
+    public function getDBtables()
+    {
+       $tables = $this->db->query('SELECT table_name FROM information_schema.tables WHERE table_schema = "farmgest" AND table_type = "BASE TABLE"');
+       
+       return $tables; 
+    }
+
+
+    // ------------------------------------------------------------------------
+
+    /*
+    *   get the columns inside of the table selected and the data type of the column 
+    */
+
+    public function getDBColumns($tblname)
+    {
+        $columns = $this->db->query('SELECT c.column_name, c.column_type FROM information_schema.columns c WHERE c.table_name = "$tblname" AND c.table_schema  = "farmgest"');
+
+        return $columns;
+    }
     
 }

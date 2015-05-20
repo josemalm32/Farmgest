@@ -24,21 +24,59 @@
         <link href="<?=base_url()?>public/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
         <link href="<?=base_url()?>public/css/nutrimondego.css" rel="stylesheet" type="text/css" />
-        
-        <script>
-            function allowDrop(ev) {
-                ev.preventDefault();
-            }
-
-            function drag(ev) {
-                ev.dataTransfer.setData("text", ev.target.id);
-            }
-
-            function drop(ev) {
-                ev.preventDefault();
-                var data = ev.dataTransfer.getData("text"); 
-                ev.target.appendChild(document.getElementById(data));
-            }
+        <script src="http://www.google.com/jsapi" type="text/javascript"></script>
+        <script type="text/javascript">
+            google.load("jquery", "1.4.2");
+            google.load("jqueryui", "1.7.2");
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                //Counter
+                counter = 0;
+                //Make element draggable
+                $(".drag").draggable({
+                    helper: 'clone',
+                    containment: 'frame',
+                    //When first dragged
+                    stop: function (ev, ui) {
+                        var pos = $(ui.helper).offset();
+                        objName = "#clonediv" + counter
+                        $(objName).css({
+                            "left": pos.left,
+                            "top": pos.top
+                        });
+                        $(objName).removeClass("drag");
+                        //When an existiung object is dragged
+                        $(objName).draggable({
+                            containment: 'parent',
+                            stop: function (ev, ui) {
+                                var pos = $(ui.helper).offset();
+                                console.log($(this).attr("id"));
+                                console.log(pos.left)
+                                console.log(pos.top)
+                            }
+                        });
+                    }
+                });
+                //Make element droppable
+                $("#frame").droppable({
+                    drop: function (ev, ui) {
+                        if (ui.helper.attr('id').search(/drag[0-9]/) != -1) {
+                            counter++;
+                            var element = $(ui.draggable).clone();
+                            element.addClass("tempclass");
+                            $(this).append(element);
+                            $(".tempclass").attr("id", "clonediv" + counter);
+                            $("#clonediv" + counter).removeClass("tempclass");
+                            //Get the dynamically item id
+                            draggedNumber = ui.helper.attr('id').search(/drag([0-9])/)
+                            itemDragged = "dragged" + RegExp.$1
+                            console.log(itemDragged)
+                            $("#clonediv" + counter).addClass(itemDragged);
+                        }
+                    }
+                });
+            });
         </script>
 
     </head>
