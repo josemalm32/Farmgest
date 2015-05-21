@@ -27,7 +27,14 @@ function __autoload($class)
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/tutorial/';
+if ((substr($_SERVER['REMOTE_ADDR'],0,8) == "192.168.") || ($_SERVER['REMOTE_ADDR'] == "127.0.0.1")) {
+
+	$config['base_url']    = 'http://192.168.1.200:8080/tutorial/';
+
+} else {
+    $config['base_url']    = 'http://nutrimondego.no-ip.biz:8080/tutorial/';    
+}
+
 
 /*
 |--------------------------------------------------------------------------
