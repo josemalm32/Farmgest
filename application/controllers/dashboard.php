@@ -106,19 +106,13 @@ class Dashboard extends CI_Controller
 
         $result = $this->crud_model->getDBColumns($tblName);
 
-
-        foreach($result as $row)
-        {
-            if($row['column_type']==" ")
-                $data['type'] = array_push($row['column_type']);
-            
-        }
-
         if($result != null)    
         {
             $data['numRow'] = $numRows;
-            $data['columns'] = $result->column_name;
+            $data['columns'] = $result_array;
         }
+
+        $data['type'] = array("less","above","less than","above than","equals");
 
         $this->load->view('dashboard/inc/header_main_view', $data);
         $this->load->view('dashboard/admin_pages/test_builder_view');

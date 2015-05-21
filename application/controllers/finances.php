@@ -404,10 +404,23 @@ class Finances extends CI_Controller
     //----------------- export selected query to model--------------------
      public function test_query($id){
         
-        $result= $this->report_model->export_excel($id);
+        $result = $this->report_model->export_excel($id);
 
-        if ($result!=null)
-            redirect('dashboard');
+        if ($result!=null){
+            foreach($result as $row){
+                $newfile = FCPATH."report.xls";
+                $file = $row;
+                if(copy($file, $newfile)){      
+                    $data['file'] = "success";
+                }
+            }
+            
+        }
+        else{
+            $data['file'] = null;
+        }
+
+        $this->load->view('dashboard/admin_pages/report_view', $data);
     }
 
 }

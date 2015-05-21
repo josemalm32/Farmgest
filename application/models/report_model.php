@@ -20,7 +20,7 @@ class report_model extends CI_Model
     {
     	require_once APPPATH.'Classes/PHPExcel.php';
     	require_once APPPATH.'Classes/PHPExcel/IOFactory.php';
-
+    	
     	// get data from rep configuration  where row id = id
     	$queryResult = $this->get($id);
 
@@ -81,9 +81,7 @@ class report_model extends CI_Model
 		    }  
 		    $rowCount++;
 		}
-
-		//echo __FILE__,"    ";
-		//echo __DIR__."\\report_model.xls";
+		
 		
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		
@@ -94,23 +92,18 @@ class report_model extends CI_Model
 			// Write the Excel file to filename some_excel_file.xlsx in the current directory
 			$objWriter->save(str_replace('.php', '.xls', __FILE__));
 
-			header('Content-Type: application/vnd.ms-excel');
-			header('Content-Disposition: attachment;filename="report.xls"');
-			header('Cache-Control: max-age=0');
-			// read excel
-			$objReader = PHPExcel_IOFactory::createReader('Excel5');
-			$objPHPExcel = $objReader->load(__DIR__."\\report_model.xls");
-			//write and save excel created above and force download
-			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-			$objWriter->save('php://output');
-
-			return 1;
+			$files = glob(__DIR__."\\*.xls");
+			
+			return $files;
 
 		}
 
 		return 0;
 
     }
+
+
+
 
 /*
     public function export_word($query = null, $template = null){

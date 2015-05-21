@@ -351,12 +351,25 @@ class Rastreability extends CI_Controller
         return  null;
     }
     //----------------- export selected query --------------------
-     public function test_query($id){
+    public function test_query($id){
         
-        $result= $this->report_model->export_excel($id);
-        
-        if ($result!=null)
-            redirect('dashboard');
+        $result = $this->report_model->export_excel($id);
+
+        if ($result!=null){
+            foreach($result as $row){
+                $newfile = FCPATH."report.xls";
+                $file = $row;
+                if(copy($file, $newfile)){      
+                    $data['file'] = "success";
+                }
+            }
+            
+        }
+        else{
+            $data['file'] = null;
+        }
+
+        $this->load->view('dashboard/admin_pages/report_view', $data);
     }
 
 }
