@@ -41,7 +41,7 @@
                                 <?php if($numRow > 1) : ?>
                                     <form method="POST" action ="" >
                                         <?php for($i = 0; $i < $numRow; $i++){
-                                            echo form_dropdown('column', $columns[$i]->column_name);
+                                            echo form_dropdown('column', $columns[$i]['column_name']);
                                             echo form_dropdown('data', $type);
                                             echo '<input type="text" name="value'.$i.'" />';
                                         }

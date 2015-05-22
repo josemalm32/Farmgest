@@ -82,10 +82,7 @@ class report_model extends CI_Model
 		    $rowCount++;
 		}
 		
-		
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-		
-		
 		
 		if($queryResult[0]['template_location'] !=null){
 
@@ -97,32 +94,50 @@ class report_model extends CI_Model
 			return $files;
 
 		}
-
 		return 0;
-
     }
 
 
+    public function export_word($id)
+    {
 
+    	// Include the PHPWord.php, all other classes were loaded by an autoloader
+        require_once APPPATH.'PHPWord.php';
+        
+        // Create a new PHPWord Object
+        $PHPWord = new PHPWord();
+        //get query
+        $queryResult = $this->get($id);
+        //load template
+        $document = $PHPWord->loadTemplate($queryResult[0]['template_location']);
 
-/*
-    public function export_word($query = null, $template = null){
+        $document->setValue('weekday', date('l'));
+        $document->setValue('time', date('H:i'));
+        
+        $result = mysql_query($queryResult[0]['query_sql']) or die (mysql_error());
+        
+        $i='0';
 
-    	require_once APPPATH.'PhpWord/Autoloader.php';
+        while($row = mysql_fetch_row($result))
+        {
+            for($aux=0; $aux < mysql_num_fields($result); $aux++)
+            {
+                if(!isset($row[$aux]))  
+                    $value = NULL;  
+                elseif ($row[$aux] != "")  
+                    $value = strip_tags($row[$aux]);
+                else  
+                    $value = "";
+                $v = $i+1;
+                $document->setValue('Value'.$v.'', $value);
+                echo $i,"=",$value, " ";
+                $i++;
+            }
+        }
 
-    	use PhpOffice\PhpWord\Autoloader;
-		use PhpOffice\PhpWord\Settings;
-		
-		Autoloader::register();
-		Settings::loadConfig();
+        $document->save('report.docx');
+    }
 
-		error_reporting(E_ALL);
-
-    	$phpWord = new PhpWord();
-
-    	
-
-    }*/
 
     public function get($id = null)
     {       

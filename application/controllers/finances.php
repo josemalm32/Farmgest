@@ -390,6 +390,7 @@ class Finances extends CI_Controller
     }
 
     //---------------------------- get_querys with specific query code and status active to list on the view -------------------------
+    
     public function get_query($query_code=null)
     {
         if ($query_code != null) {
@@ -401,6 +402,8 @@ class Finances extends CI_Controller
         }
         return  null;
     }
+
+
     //----------------- export selected query to model--------------------
      public function test_query($id){
         

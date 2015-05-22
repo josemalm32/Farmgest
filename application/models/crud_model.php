@@ -147,7 +147,7 @@ class CRUD_model extends CI_Model
 
     public function getDBColumns($tblname=null)
     {
-        $columns = $this->db->query('SELECT column_name, column_type FROM information_schema.columns WHERE table_name = "$tblname" AND table_schema  = "farmgest"');
+        $columns = $this->db->query('SELECT column_name, column_type FROM information_schema.columns WHERE table_name = "'.$tblname.'" AND table_schema  = "farmgest"');
 
         return $columns;
     }
