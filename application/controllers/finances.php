@@ -20,6 +20,7 @@ class Finances extends CI_Controller
         $this->load->model('inventory_model');
         $this->load->model('report_model');
         $this->load->library('grocery_CRUD');
+        $this->load->model('crud_model');
         
     }
 
@@ -404,26 +405,162 @@ class Finances extends CI_Controller
     }
 
 
-    //----------------- export selected query to model--------------------
-     public function test_query($id){
+    //----------------- export selected query (XLS)--------------------
+    public function test_query($id=null){
+         $this->_require_login();
+        require('api.php');
+        $api = new api();
+        $data['task'] = $api->get_todo();
+        $query = 'queryFinances';
+        $data['query'] = $this->get_query($query);
+        $data['active'] = 'treeview active';
+        $data['id'] = 2;
+
+        if ($id==null)
+            $result = $this->report_model->get($this->session->userdata('id_report'));
+        else
+            $result = $this->report_model->get($id);
+
         
-        $result = $this->report_model->export_excel($id);
+        if ($result[0]['type'] == 'excel' ){
+            $result = $this->report_model->export_excel($id);
 
-        if ($result!=null){
-            foreach($result as $row){
-                $newfile = FCPATH."report.xls";
-                $file = $row;
-                if(copy($file, $newfile)){      
-                    $data['file'] = "success";
+            if ($result!=null){
+                foreach($result as $row){
+                    $newfile = FCPATH."report.xls";
+                    $file = $row;
+                    if(copy($file, $newfile)){      
+                        $data['file'] = "successExcel";
+                    }
                 }
+                
             }
-            
-        }
-        else{
-            $data['file'] = null;
+            else{
+                $data['file'] = null;
+            }
+
+            $this->load->view('dashboard/inc/header_main_view',$data);
+            $this->load->view('dashboard/admin_pages/report_view');
+            $this->load->view('dashboard/inc/footer_main_view');  
+        }else if ($result[0]['type']=='word'){
+
+            $result = $this->report_model->export_word($id);
+
+            if ($result!=null){
+                $newfile = FCPATH."report.docx";
+                $data['file'] = "successWord";     
+            }
+            else{
+                $data['file'] = null;
+            }
+            $this->load->view('dashboard/inc/header_main_view',$data);
+            $this->load->view('dashboard/admin_pages/report_view');
+            $this->load->view('dashboard/inc/footer_main_view');
         }
 
-        $this->load->view('dashboard/admin_pages/report_view', $data);
+        
+
+        
+    }
+
+    public function tableQuery()
+    {
+        $this->_require_login();
+
+        require('api.php');
+        $api = new api();
+        $data['task'] = $api->get_todo();
+        $data['id'] = 2;
+        $data['active'] = 'treeview active';
+
+        $result=$this->report_model->get($this->session->userdata('id_report'));
+        $pieces = explode(" ",$result[0]['query_sql']);
+        
+        for($i=0; $i<count($pieces); $i++)
+        {
+            if(strcmp("FROM",$pieces[$i])){
+                $i++;
+                $tblName = $pieces[$i];
+            }
+        }
+        $numRows = $this->input->post('numRow');
+
+        $allColumns = $this->crud_model->getDBColumns($tblName);
+        
+        foreach ($allColumns->result_array() as $key => $row) {
+            $dataColumns[$key] =array('name'=>$row['column_name'], 'type'=>$row['data_type']);
+        }
+
+        $data['numRow'] = $numRows;
+        $data['nameColumns'] = $dataColumns;
+        
+
+        $data['type'] = array("<",">","<=",">=","=","!=", "like");
+
+        $this->load->view('dashboard/inc/header_main_view', $data);
+        $this->load->view('dashboard/admin_pages/test_builder_view');
+        $this->load->view('dashboard/inc/footer_main_view');
+
+    }
+
+    public function transformQuery(){
+        $columnTable = array();
+        $typeColumn = array();
+        $insertedValue = array();
+        $query = " ";
+        $this->_require_login();
+        $j=0;
+
+        $data['id'] = 2;
+        $data['active'] = 'treeview active';
+
+        $maxCol = $this->input->post('nRow');
+
+        for($i=0; $i<$maxCol; $i++){
+            $ColumnName= explode(" ",$this->input->post('column'.$i));
+
+            $columnTable[$i] = $ColumnName[0];
+            //echo $columnTable[$i], " - ";
+            $typeColumn[$i] = $this->input->post('data'.$i);
+            //echo $typeColumn[$i], " - ";
+            $insertedValue[$i] = $this->input->post('restriction'.$i);
+            //echo $insertedValue[$i], " - ";
+        }
+     
+        $result=$this->report_model->get($this->session->userdata('id_report'));
+
+        $pieces = explode(" ",$result[0]['query_sql']);
+        $allPieces = count($pieces);
+
+        for($a=0; $a < $allPieces; $a++)
+        {
+            if(strcmp("WHERE",$pieces[$a]) || strcmp("where", $pieces[$a]))
+                $j = $a;
+        }
+
+        if($j==0){
+            $query = $result[0]['query_sql'].' WHERE ';
+        }else{
+
+            for($q = 0; $q<=$j; $q++){
+                $aux = $query.' '.$pieces[$q].' ';
+                $query = $aux;  
+            }
+        }
+        
+        $query = $query.' WHERE ';
+        for ($k = 0; $k<$maxCol; $k++){
+            if($insertedValue != null)
+            {
+                if($k == $maxCol-1)
+                    $query .= $columnTable[$k]." ".$typeColumn[$k]." ".$insertedValue[$k];
+                else
+                    $query .= $columnTable[$k]." ".$typeColumn[$k]." ".$insertedValue[$k]." AND ";
+            }
+        }
+        //echo $query;
+        $this->session->set_userdata(['query' => $query]);
+        $this->test_query();
     }
 
 }

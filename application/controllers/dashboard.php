@@ -17,7 +17,6 @@ class Dashboard extends CI_Controller
         $this->load->helper('url');
         $this->load->model('fieldsection_model');
         $this->load->model('crud_model');
-        
     }
 
     // ------------------------------------------------------------------------ 
@@ -33,8 +32,7 @@ class Dashboard extends CI_Controller
  
         $this->load->view('dashboard/inc/header_main_view', $data);
         $this->load->view('dashboard/admin_pages/dashboard_view');
-        $this->load->view('dashboard/inc/footer_main_view');
-        
+        $this->load->view('dashboard/inc/footer_main_view'); 
     }
     
     // ------------------------------------------------------------------------ 
@@ -70,54 +68,5 @@ class Dashboard extends CI_Controller
         $this->load->view('dashboard/inc/footer_main_view');
     }
 
-    public function testQueryBuilder()
-    {
-        $this->_require_login();
-
-        require('api.php');
-        $api = new api();
-        $data['task'] = $api->get_todo();
-        $data['id'] = 1;
-        $data['numRow'] = 0;
-        $table = $this->crud_model->getDBtables();
-
-        foreach ($table->result_array() as $key => $row) {
-            $info[$key] =array('name'=>$row['table_name']);
-        }
-
-        $data['tables']= $info;
-
-        $this->load->view('dashboard/inc/header_main_view', $data);
-        $this->load->view('dashboard/admin_pages/test_builder_view');
-        $this->load->view('dashboard/inc/footer_main_view');
-        
-    }
-
-    public function tableQuery()
-    {
-        $this->_require_login();
-
-        require('api.php');
-        $api = new api();
-        $data['task'] = $api->get_todo();
-        $data['id'] = 1;
-        $tblName = $this->input->post('table');
-        $numRows = $this->input->post('numRow');
-
-        $result = $this->crud_model->getDBColumns($tblName);
-
-        if($result != null)    
-        {
-            $data['numRow'] = $numRows;
-            $data['columns'] = $result_array;
-        }
-
-        $data['type'] = array("less","above","less than","above than","equals");
-
-        $this->load->view('dashboard/inc/header_main_view', $data);
-        $this->load->view('dashboard/admin_pages/test_builder_view');
-        $this->load->view('dashboard/inc/footer_main_view');
-
-    }
 }
 ?>

@@ -21,12 +21,27 @@ class report_model extends CI_Model
     	require_once APPPATH.'Classes/PHPExcel.php';
     	require_once APPPATH.'Classes/PHPExcel/IOFactory.php';
     	
-    	// get data from rep configuration  where row id = id
-    	$queryResult = $this->get($id);
+        $objReader = PHPExcel_IOFactory::createReader('Excel5');
 
-    	
-    	$objReader = PHPExcel_IOFactory::createReader('Excel5');
-		$objPHPExcel = $objReader->load($queryResult[0]['template_location']);
+    	// get data from rep configuration  where row id = id
+        if($id == null){
+
+            $queryResult = $this->get($this->session->userdata('id_report'));
+            $objPHPExcel = $objReader->load($queryResult[0]['template_location']);
+            
+            // execute query from query sql from rep configuration
+            $result = mysql_query($this->session->userdata('query')) or die (mysql_error());
+        }
+        else{
+
+            $this->session->set_userdata(['id_report' => $id]);
+    	    $queryResult = $this->get($id);
+            $objPHPExcel = $objReader->load($queryResult[0]['template_location']);
+            // execute query from query sql from rep configuration
+            $result = mysql_query($queryResult[0]['query_sql']) or die (mysql_error());
+
+        }
+        
 
     	$objPHPExcel->getProperties()->setCreator("Nutrimondego,Lda")
                              ->setLastModifiedBy("Nutrimondego,Lda")
@@ -44,10 +59,6 @@ class report_model extends CI_Model
     	$dateTimeNow = time(); 
     	$objPHPExcel->getActiveSheet()->setCellValue('E1', PHPExcel_Shared_Date::PHPToExcel( $dateTimeNow ));
     	$objPHPExcel->getActiveSheet()->getStyle('E1')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2);
-    	
-    	// execute query from query sql from rep configuration
-    	$result = mysql_query($queryResult[0]['query_sql']) or die (mysql_error());
-
     	
 		// Initialise the Excel row number 
 		$rowCount = $queryResult[0]['start_line'];
@@ -130,27 +141,39 @@ class report_model extends CI_Model
                     $value = "";
                 $v = $i+1;
                 $document->setValue('Value'.$v.'', $value);
-                echo $i,"=",$value, " ";
+                //echo $i,"=",$value, " ";
                 $i++;
             }
         }
 
         $document->save('report.docx');
+        $files = 1;
+            
+        return $files;
     }
 
 
     public function get($id = null)
     {       
-        if (is_numeric($id)) {
-            $this->db->where($this->_primary_key, $id);
-        } 
-        if (is_array($id)) {
-            foreach ($id as $_key => $_value) {
-                $this->db->where($_key, $_value);
+            if (is_numeric($id)) {
+                $this->db->where($this->_primary_key, $id);
+            } 
+            if (is_array($id)) {
+                foreach ($id as $_key => $_value) {
+                    $this->db->where($_key, $_value);
+                }
             }
-        }
-        $q = $this->db->get($this->_table);
-        return $q->result_array();
+            $q = $this->db->get($this->_table);
+            return $q->result_array();
+    }
+    
+
+    public function get_enum_values( $table, $field )
+    {
+        $type = $this->db->query( "SHOW COLUMNS FROM {$table} WHERE Field = '{$field}'" )->row( 0 )->Type;
+        preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
+        $enum = explode("','", $matches[1]);
+        return $enum;
     }
 
 }
