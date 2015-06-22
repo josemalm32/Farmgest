@@ -1,8 +1,12 @@
 <?php
-
+ 
 class Configuration extends CI_Controller
 {
-    // ------------------------------------------------------------------------ 
+    //------------------------------------------------------------------------------------------------
+    // no construtor tem sempre que se fazer load do models aqui, caso contrario 
+    // nao os consegues utilizar se apenas fizer load na funçao
+    // na construçao do controller verifica se esta logado o utilizador
+    //------------------------------------------------------------------------------------------------
     
     public function __construct() 
     {
@@ -23,7 +27,9 @@ class Configuration extends CI_Controller
     }
 
 
-     // ------------------------------------------------------------------------ 
+    //------------------------------------------------------------------------------------------------
+    // função de logout
+    //------------------------------------------------------------------------------------------------
      
     public function logout()
     {
@@ -41,7 +47,28 @@ class Configuration extends CI_Controller
         }
     }
 
-        //-------------------------------- entity menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // require_login, necessita de estar logado para ver a pagina
+    // vai buscar a funçao ao controlador get_todo, para apresentar na vista a lista de tasks
+    // como se trabalha com o grocery crud nesta pagina e interfere com o javascript desenvolvido, necessita-se de ter 
+    // a variavel active para saber qual dos modulos está activo
+    // 1 - dashboard
+    // 2 - finances
+    // 3 - rastreability
+    // 4 - operations
+    // 5 - configuration
+    //------------------------------------------------------------------------------------------------
+   
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar entidades, utilizando o grocery crud
+    // set_table = a tabela que escolhida para apresentar na tabela
+    // set_theme = selecionas o theme (database ou flexigrid)
+    // columns = as colunas selecionadas da tabela que vao aparecer
+    // render da tabela e mandas os dados para as views
+    //                   ---   
+    // Lista de funçoes do Grocery Crud
+    // (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
     public function entity_menu(){
 
         $this->_require_login();
@@ -67,7 +94,12 @@ class Configuration extends CI_Controller
         
     }
 
-    //-------------------------------- farm menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar farms, utilizando o grocery crud
+    // relação 1-N (entity - farm)
+    // relacionamento feito com o where juntamente com o field_type, aonde se procura a entidade da 
+    // farm e se submete apenas as farms de determinada entidade a qual o utilizador está associado
+    //------------------------------------------------------------------------------------------------
 
      public function farm_menu(){
 
@@ -98,7 +130,9 @@ class Configuration extends CI_Controller
     }
 
 
-    //-------------------------------- add field section menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar field sections, utilizando o grocery crud
+    //------------------------------------------------------------------------------------------------
 
     public function prod_fields_sections_menu(){
         $this->_require_login();
@@ -134,7 +168,9 @@ class Configuration extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
     }
 
-    //-------------------------------- add field menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar field, utilizando o grocery crud
+    //------------------------------------------------------------------------------------------------
 
     public function prod_fields_menu(){
         $this->_require_login();
@@ -169,7 +205,9 @@ class Configuration extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
     }
 
-    //-------------------------------- sorts menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar production sorts, utilizando o grocery crud
+    //------------------------------------------------------------------------------------------------
 
     public function prod_sorts_menu(){
 
@@ -205,7 +243,9 @@ class Configuration extends CI_Controller
     }
 
     
-    //-------------------------------- storage house menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar itens to storage house, utilizando o grocery crud
+    //------------------------------------------------------------------------------------------------
 
     public function prod_storage_house_menu(){
 
@@ -242,7 +282,9 @@ class Configuration extends CI_Controller
     }
 
 
-    //-------------------------------- changelog menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar change logs, utilizando o grocery crud
+    //------------------------------------------------------------------------------------------------
 
      public function g_changelog_menu(){
 
@@ -275,7 +317,9 @@ class Configuration extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
     }
 
-    //-------------------------------- assets category menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar category assets, utilizando o grocery crud
+    //------------------------------------------------------------------------------------------------
 
      public function g_assets_category_menu(){
 
@@ -308,7 +352,9 @@ class Configuration extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
     }
 
-    //-------------------------------- labels menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar labels, utilizando o grocery crud
+    //------------------------------------------------------------------------------------------------
 
      public function g_labels_menu(){
 
@@ -341,7 +387,9 @@ class Configuration extends CI_Controller
     }
 
 
-     //-------------------------------- users menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar users, utilizando o grocery crud + gc dependent
+    //------------------------------------------------------------------------------------------------
 
      public function users_menu(){
 
@@ -387,7 +435,9 @@ class Configuration extends CI_Controller
 
     
 
-    //-------------------------------- assets menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar assets, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
     public function g_assets_menu(){
 
@@ -426,7 +476,9 @@ class Configuration extends CI_Controller
     }
     
 
-     //-------------------------------- menus ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar menus, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
     public function g_menus_menu(){
 
@@ -461,7 +513,9 @@ class Configuration extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
     }
 
-     //-------------------------------- rep config menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar reports, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
     public function rep_configuration_menu(){
 

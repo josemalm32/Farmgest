@@ -38,7 +38,7 @@
         <script src="<?=base_url()?>/public/js/plugins/input-mask/jquery.inputmask.js" type="text/javascript"></script>
         <script src="<?=base_url()?>/public/js/plugins/input-mask/jquery.inputmask.date.extensions.js" type="text/javascript"></script>
         <script src="<?=base_url()?>/public/js/plugins/input-mask/jquery.inputmask.extensions.js" type="text/javascript"></script>
-        
+
         <!-- date-range-picker -->
         <script src="<?=base_url()?>/public/js/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
         
@@ -57,6 +57,8 @@
         
         <!-- dashboard -->
         <script src="<?=base_url()?>/public/js/Nutrimondego/dashboard.js" type="text/javascript"></script> 
+
+        
 
     </body>
 </html>

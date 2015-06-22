@@ -4,7 +4,7 @@
             </div><!-- /.headline -->
             
             <!-- User name -->
-            <div class="lockscreen-name">John Doe</div>
+            <div class="lockscreen-name"><?php echo $this->session->userdata('name')?></div>
             
             <!-- START LOCK SCREEN ITEM -->
             <div class="lockscreen-item">
@@ -16,13 +16,14 @@
 
                 <!-- lockscreen credentials (contains the form) -->
                 <div class="lockscreen-credentials">   
-
+                <form method="POST" action="<?=base_url()?>index.php/dashboard/lockscreen">
                     <div class="input-group">
-                        <input type="password" class="form-control" placeholder="password" />
+                        <input type="password" name="password" class="form-control" placeholder="password" />
                         <div class="input-group-btn">
                             <button class="btn btn-flat"><i class="fa fa-arrow-right text-muted"></i></button>
                         </div>
                     </div>
+                </form>
                 </div><!-- /.lockscreen credentials -->
 
             </div><!-- /.lockscreen-item -->

@@ -29,54 +29,21 @@
             google.load("jquery", "1.4.2");
             google.load("jqueryui", "1.7.2");
         </script>
+
+        <!-- Page script -->
         <script type="text/javascript">
-            $(document).ready(function () {
-                //Counter
-                counter = 0;
-                //Make element draggable
-                $(".drag").draggable({
-                    helper: 'clone',
-                    containment: 'frame',
-                    //When first dragged
-                    stop: function (ev, ui) {
-                        var pos = $(ui.helper).offset();
-                        objName = "#clonediv" + counter
-                        $(objName).css({
-                            "left": pos.left,
-                            "top": pos.top
-                        });
-                        $(objName).removeClass("drag");
-                        //When an existiung object is dragged
-                        $(objName).draggable({
-                            containment: 'parent',
-                            stop: function (ev, ui) {
-                                var pos = $(ui.helper).offset();
-                                console.log($(this).attr("id"));
-                                console.log(pos.left)
-                                console.log(pos.top)
-                            }
-                        });
-                    }
-                });
-                //Make element droppable
-                $("#frame").droppable({
-                    drop: function (ev, ui) {
-                        if (ui.helper.attr('id').search(/drag[0-9]/) != -1) {
-                            counter++;
-                            var element = $(ui.draggable).clone();
-                            element.addClass("tempclass");
-                            $(this).append(element);
-                            $(".tempclass").attr("id", "clonediv" + counter);
-                            $("#clonediv" + counter).removeClass("tempclass");
-                            //Get the dynamically item id
-                            draggedNumber = ui.helper.attr('id').search(/drag([0-9])/)
-                            itemDragged = "dragged" + RegExp.$1
-                            console.log(itemDragged)
-                            $("#clonediv" + counter).addClass(itemDragged);
-                        }
-                    }
-                });
+            $(function() {
+                //Datemask dd/mm/yyyy
+                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
             });
+        </script>
+
+        <!-- Script criado para definir o background para vermelho e para adicionar o seu valor á variavel, de maneira a obter o total de id clickados  -->
+        <script>
+            function myFunction(elmnt,clr) {
+                elmnt.style.backgroundColor = clr;
+                document.getElementById("allValues").value += elmnt.id;
+            }
         </script>
 
     </head>
@@ -84,8 +51,7 @@
         <!-- header logo: style can be found in header.less -->
         <header class="header">
             <a href="<?=base_url()?>index.php/dashboard" class="logo">
-                <!-- Add the class icon to your logo image or logo icon to add the margining -->
-
+                <!-- this put the entity from the user logged -->
                 <?php echo $this->session->userdata('entity') ?>
                 
             </a>
@@ -355,7 +321,7 @@
                         <?php endif; ?>
                             <a href="#">
                                 <i class="fa fa-home"></i>
-                                <span>Rastreability</span>
+                                <span>Traceability</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">

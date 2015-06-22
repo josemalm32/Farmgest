@@ -1,8 +1,12 @@
 <?php
-
+ 
 class Finances extends CI_Controller
 {
-    // ------------------------------------------------------------------------ 
+    //------------------------------------------------------------------------------------------------
+    // no construtor tem sempre que se fazer load do models aqui, caso contrario 
+    // nao os consegues utilizar se apenas fizer load na funçao
+    // na construçao do controller verifica se esta logado o utilizador
+    //------------------------------------------------------------------------------------------------
     
     public function __construct() 
     {
@@ -43,7 +47,19 @@ class Finances extends CI_Controller
         }
     }
 
-    //-------------------------------- expenses menu ----------------------------  
+    //------------------------------------------------------------------------------------------------
+    // require_login, necessita de estar logado para ver a pagina
+    // vai buscar a funçao ao controlador get_todo, para apresentar na vista a lista de tasks
+    // como se trabalha com o grocery crud nesta pagina e interfere com o javascript desenvolvido, necessita-se de ter 
+    // a variavel active para saber qual dos modulos está activo
+    // 1 - dashboard
+    // 2 - finances
+    // 3 - rastreability
+    // 4 - operations
+    // 5 - configuration
+    // A variavel query é utilizada para definir o modulo e os reports agregados aquele modulo
+    // queryFinances = Finances ou queryRastreability = Rastreability
+    //------------------------------------------------------------------------------------------------
 
     public function fin_expenses_menu(){
 
@@ -84,7 +100,12 @@ class Finances extends CI_Controller
         
     }
 
-    //-------------------------------- expenses detail menu ----------------------------  
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar detalhes das despesas, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    // com o pequeno pormenor, se for para adicionar novo registo apartir do das tabela despesas
+    // nao existe a necessidade de escolher a despesa, porque já vai ser preenchida pelo sistema 
+    // atraves do uri(4), isto é, passa-se o id pelo url e guarda-se na tabela para inserção escondendo o campo para preenchimento
+    //------------------------------------------------------------------------------------------------
 
      public function fin_expenses_detail_menu(){
 
@@ -122,6 +143,12 @@ class Finances extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
         
     }
+
+    //------------------------------------------------------------------------------------------------
+    // funçao destinada a automaticamente aumentar ou diminuir o stock existente apartir da inserção de novas
+    // despesas, que quer dizer, que se comprou algum tipo de bem, esse mesmo e aumentado no stock, 
+    // onde qualquer tipo de tratamento ou fertilizaçao utilizado, irá fazer com que seja descontado no stock existente
+    //------------------------------------------------------------------------------------------------
 
     public function inventory_management($post_array,$primary_key)
     {  
@@ -186,7 +213,9 @@ class Finances extends CI_Controller
     }
 
 
-    //-------------------------------- expenses type menu ----------------------------  
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar um tipo de despesa, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
      public function fin_expenses_type_menu(){
 
@@ -224,7 +253,9 @@ class Finances extends CI_Controller
     }
 
 
-    //-------------------------------- orders menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar encomendas, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
     public function fin_orders_menu(){
         $this->_require_login();
@@ -261,7 +292,9 @@ class Finances extends CI_Controller
 
     }
 
-    //-------------------------------- orders detail menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar os detalhes da encomenda, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
     public function fin_orders_detail_menu(){
         $this->_require_login();
@@ -291,6 +324,10 @@ class Finances extends CI_Controller
 
     }
 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar encomenda de plantas, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
+
     public function fin_orders_plants_menu(){
         $this->_require_login();
         require('api.php');
@@ -319,7 +356,9 @@ class Finances extends CI_Controller
     }
 
 
-    //-------------------------------- vendor/client menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar vendedores ou clientes, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
     public function fin_vendor_client_menu(){
         $this->_require_login();
@@ -358,7 +397,9 @@ class Finances extends CI_Controller
 
     }
 
-     //-------------------------------- vendor/client menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar tipo de produtos, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------ 
 
     public function fin_product_type_menu(){
          $this->_require_login();
@@ -390,7 +431,9 @@ class Finances extends CI_Controller
 
     }
 
-    //---------------------------- get_querys with specific query code and status active to list on the view -------------------------
+    //------------------------------------------------------------------------------------------------
+    // faz uma listagem de todas os report existentes para este modulo (queryFinances)
+    //------------------------------------------------------------------------------------------------
     
     public function get_query($query_code=null)
     {
@@ -405,7 +448,15 @@ class Finances extends CI_Controller
     }
 
 
-    //----------------- export selected query (XLS)--------------------
+    //------------------------------------------------------------------------------------------------
+    // verifica o id se encontra a null, caso se encontre a null, quer dizer que ja foi feita uma query inicial,
+    // caso contrario, encontra-se a fazer pela primeira vez, isto é, se for executada um dos reports 
+    // atraves da lista no canto superior direito, faz com que seja guardado o id desse report, 
+    // para caso se queira fazer alterações, adicionando restrições seja só pegar na 
+    // query inicial adicionando as restriçoes introduzidas, depois dessa verificação
+    // se o report já foi feito, grava-se o excel criado na root da pasta publica e manda-se para a 
+    // respectiva view
+    //------------------------------------------------------------------------------------------------
     public function test_query($id=null){
          $this->_require_login();
         require('api.php');
@@ -457,11 +508,12 @@ class Finances extends CI_Controller
             $this->load->view('dashboard/admin_pages/report_view');
             $this->load->view('dashboard/inc/footer_main_view');
         }
-
-        
-
         
     }
+
+    //------------------------------------------------------------------------------------------------
+    // apresenta a view com o numero de restriçoes a serem introduzidas e o link para download do report
+    //------------------------------------------------------------------------------------------------
 
     public function tableQuery()
     {
@@ -475,7 +527,8 @@ class Finances extends CI_Controller
 
         $result=$this->report_model->get($this->session->userdata('id_report'));
         $pieces = explode(" ",$result[0]['query_sql']);
-        
+       
+
         for($i=0; $i<count($pieces); $i++)
         {
             if(strcmp("FROM",$pieces[$i])){
@@ -502,6 +555,12 @@ class Finances extends CI_Controller
         $this->load->view('dashboard/inc/footer_main_view');
 
     }
+
+    
+    //------------------------------------------------------------------------------------------------
+    // trata a informação relevante as restriçoes introduzidas pelo utilizador, como o numero de restriçoes
+    // e as restriçoes efectuadas, gerando o report e apresenta o link para download voltando ao controller test_query
+    //------------------------------------------------------------------------------------------------
 
     public function transformQuery(){
         $columnTable = array();

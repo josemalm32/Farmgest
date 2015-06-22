@@ -2,7 +2,11 @@
 
 class Operation extends CI_Controller
 {
-    // ------------------------------------------------------------------------ 
+    //------------------------------------------------------------------------------------------------
+    // no construtor tem sempre que se fazer load do models aqui, caso contrario 
+    // nao os consegues utilizar se apenas fizer load na funçao
+    // na construçao do controller verifica se esta logado o utilizador
+    //------------------------------------------------------------------------------------------------
     
     public function __construct() 
     {
@@ -20,17 +24,12 @@ class Operation extends CI_Controller
         $this->load->library('grocery_CRUD');
         $this->load->library('gc_dependent_select');
     }
-
-
-     // ------------------------------------------------------------------------ 
      
     public function logout()
     {
         $this->session->sess_destroy();
         redirect('/');
     }
-
-    // ------------------------------------------------------------------------ 
     
     private function _require_login()
     {
@@ -40,7 +39,21 @@ class Operation extends CI_Controller
         }
     }
 
-    //-------------------------------- storage menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // require_login, necessita de estar logado para ver a pagina
+    // vai buscar a funçao ao controlador get_todo, para apresentar na vista a lista de tasks
+    // como se trabalha com o grocery crud nesta pagina e interfere com o javascript desenvolvido, necessita-se de ter 
+    // a variavel active para saber qual dos modulos está activo
+    // 1 - dashboard
+    // 2 - finances
+    // 3 - rastreability
+    // 4 - operations
+    // 5 - configuration
+    //------------------------------------------------------------------------------------------------
+
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar itens ao storage, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
      public function prod_storage_menu(){
 
@@ -84,7 +97,9 @@ class Operation extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
     }
 
-    //-------------------------------- storage consum menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar consumos do storage, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
      public function prod_storage_consum_menu(){
 
@@ -114,7 +129,9 @@ class Operation extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
     }
     
-    //-------------------------------- documents labels menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar labels de documentos, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
     public function g_documents_labels_menu(){
 
@@ -146,7 +163,9 @@ class Operation extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
     }
 
-    //-------------------------------- tasks menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar tasks, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
     public function g_tasks_menu(){
         $this->_require_login();
@@ -181,7 +200,10 @@ class Operation extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
     }
 
-    //-------------------------------- tasks users menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para associar tasks ao users, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
+
 
     public function g_tasks_users_menu(){
 
@@ -214,7 +236,10 @@ class Operation extends CI_Controller
     }
 
 
-    //-------------------------------- alarms menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar um alarm, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
+
 
     public function g_alarms_menu(){
 
@@ -241,7 +266,10 @@ class Operation extends CI_Controller
     }
 
 
-     //-------------------------------- documents menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar documentos, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
+
 
     public function g_documents_menu(){
 
@@ -280,7 +308,10 @@ class Operation extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
     }
 
-    //-------------------------------- contacts menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar contactos, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
+
 
     public function g_contacts_menu(){
 
@@ -308,7 +339,9 @@ class Operation extends CI_Controller
 
     }
     
-    //-------------------------------- assets category menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar reserva de assets, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
      public function g_assets_reserve_menu(){
 

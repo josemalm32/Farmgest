@@ -266,48 +266,7 @@ $(function() {
         area.redraw();
         donut.redraw();
     });
-    
-    var load_todo = function() {
-        $.get('api/get_todo', function(o) {
-            var output = '';
-            for (var i = 0; i < o.length; i++) {
-                output += app.todo(o[i]);
-            }  
-            $("#list_todo").html(output);
-        }, 'json');
-    };
 
-     var update_todo = function() {
-        $("body").on('click', '.todo_update', function(e) {
-            e.preventDefault();
-            
-            var self = $(this);
-            var url = $(this).attr('href');
-            var postData = {
-                todo_id: $(this).attr('data-id'),
-                completed: $(this).attr('data-completed')
-            };
-            
-            $.post(url, postData, function(o) {
-                if (o.result == 1) {
-                    
-                    if (postData.completed == 1) {
-                        $('#todo_' + postData.todo_id).addClass('todo_complete')
-                        self.html('<i class="icon-share-alt"></i>');
-                        self.attr('data-completed', 0);
-                    } else {
-                        $('#todo_' + postData.todo_id).removeClass('todo_complete')
-                        self.html('<i class="icon-ok"></i>');
-                        self.attr('data-completed', 1);
-                    }
-                    
-                } else {
-                    Result.error('Nothing Updated');
-                }
-            }, 'json');
-            
-        });
-    };
 
     /* BOX REFRESH PLUGIN EXAMPLE (usage with morris charts) */
     $("#loading-example").boxRefresh({

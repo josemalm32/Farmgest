@@ -1,10 +1,12 @@
-<?php
+<?php 
 
 class Api extends CI_Controller
 {
     
-    // ------------------------------------------------------------------------
-    
+    //------------------------------------------------------------------------------------------------
+    // no construtor tem sempre que se fazer load do models aqui, caso contrario 
+    // nao os consegues utilizar se apenas fizer load na funçao
+    //------------------------------------------------------------------------------------------------
     public function __construct() 
     {
         parent::__construct();
@@ -14,8 +16,10 @@ class Api extends CI_Controller
 
     }
     
-    // ------------------------------------------------------------------------
-    
+    //------------------------------------------------------------------------------------------------
+    // esta funçao obriga que apenas pessoas logadas consigam visualizar o que esta na pagina. mesmo que façam 
+    // acessos directos, sem estar logado, nao conseguem aceder as páginas
+    //------------------------------------------------------------------------------------------------
     private function _require_login()
     {
         if ($this->session->userdata('id_user') == false) {
@@ -25,8 +29,11 @@ class Api extends CI_Controller
     }
     
     
-    // ------------------------------------------------------------------------
-    
+    //------------------------------------------------------------------------------------------------
+    // retira-se do form da view home, username e password, das textbox's, liga-se ao modelo do user, que é derivado do crud_model (model 'pai')
+    // verifica-se o resultado do acesso a base de dados, se for 1 ou true, inicia-se as variaveis de sessao e redireciona-se para a view dashboard
+    // caso contrario o resultado do result seja 0 ou false, fica na mesma view (home)
+    //------------------------------------------------------------------------------------------------
     public function login()
     {
         $username = $this->input->post('username');
@@ -62,6 +69,11 @@ class Api extends CI_Controller
         redirect('/');
     }
 
+    //------------------------------------------------------------------------------------------------
+    // esta função faz a listagem de todas as tasks do utilizador que se loga
+    // atraves do acesso ao modelo todo, a qual esta ligado a tabela das tasks, 
+    // aonde procuras as tasks destinadas ao id da pessoa logada
+    //------------------------------------------------------------------------------------------------
     public function get_todo($id = null)
     {
         $this->_require_login();
@@ -80,7 +92,9 @@ class Api extends CI_Controller
         return $result;
     }
 
-    
+    //------------------------------------------------------------------------------------------------
+    // esta função serve para ir buscar a entity de determinado id
+    //------------------------------------------------------------------------------------------------
 
     public function get_entity($id = null)
     {

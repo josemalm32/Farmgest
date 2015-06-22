@@ -2,7 +2,11 @@
 
 class Rastreability extends CI_Controller
 {
-    // ------------------------------------------------------------------------ 
+    //------------------------------------------------------------------------------------------------
+    // no construtor tem sempre que se fazer load do models aqui, caso contrario 
+    // nao os consegues utilizar se apenas fizer load na funçao
+    // na construçao do controller verifica se esta logado o utilizador
+    //------------------------------------------------------------------------------------------------
     
     public function __construct() 
     {
@@ -16,9 +20,13 @@ class Rastreability extends CI_Controller
 
         $this->load->database();
         $this->load->helper('url');
+        $this->load->model('problem_fieldsection_model');
         $this->load->model('report_model');
+        $this->load->model('fieldsection_model');
         $this->load->model('grocery_CRUD_model');
         $this->load->model('inventory_model');
+        $this->load->model('prod_season_problem_model');
+        $this->load->model('prod_season_fields_sections_model');
         $this->load->library('grocery_CRUD');
         
     }
@@ -42,7 +50,22 @@ class Rastreability extends CI_Controller
         }
     }
 
-    //-------------------------------- season menu ---------------------------- 
+    //------------------------------------------------------------------------------------------------
+    // require_login, necessita de estar logado para ver a pagina
+    // vai buscar a funçao ao controlador get_todo, para apresentar na vista a lista de tasks
+    // como se trabalha com o grocery crud nesta pagina e interfere com o javascript desenvolvido, necessita-se de ter 
+    // a variavel active para saber qual dos modulos está activo
+    // 1 - dashboard
+    // 2 - finances
+    // 3 - rastreability
+    // 4 - operations
+    // 5 - configuration
+    //------------------------------------------------------------------------------------------------
+
+
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar seasons, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
     public function prod_season_menu(){
 
@@ -62,7 +85,7 @@ class Rastreability extends CI_Controller
         $crud->field_type('id_entity', 'hidden', $this->session->userdata('id_entity'));
         $crud->set_table('prod_season');
        
-        $crud->set_relation_n_n('template', 'prod_season_template', 'prod_template', 'id', 'id', 'name');
+        $crud->set_relation_n_n('season_fields', 'prod_season_fields_sections', 'prod_fields_sections', 'id_season', 'id_fields_section', 'section_name');
 
         $crud->set_theme('datatables'); 
         $crud->set_subject('Season');
@@ -75,9 +98,10 @@ class Rastreability extends CI_Controller
         $crud->set_relation('production_type','prod_sorts','common_name', array('id_entity' => $this->session->userdata('id_entity')));
         $crud->display_as('production_type','Poduction Type');
         
-        //$crud->fields('name','start_date', 'end_date', 'status', 'production_type', 'id_farm', 'expected_yeld', 'expected_yeld_unit', 'expected_income', 'n_plants', 'template');
-        $crud->add_action('Add Problem', '', 'rastreability/prod_season_problems_menu/add', 'ui-icon-alert');
+        $crud->fields('name','start_date', 'end_date', 'status', 'production_type', 'id_farm', 'expected_yeld', 'expected_yeld_unit', 'expected_income', 'n_plants', 'season_fields');
+        $crud->add_action('Add Problem', '', 'rastreability/apply_problem', 'ui-icon-alert');
         $crud->add_action('Add Action', '', 'rastreability/prod_season_problems_actions_menu/add', 'ui-icon-flag');
+        $crud->add_action('Add Treatment', '', 'dashboard/test_layout', 'ui-icon-alert');
         $output = $crud->render();
 
         $header_output=(array)$output;
@@ -87,7 +111,10 @@ class Rastreability extends CI_Controller
         $this->load->view('dashboard/inc/footer_view');
     }
 
-     //-------------------------------- fertilization menu ---------------------------- 
+
+    //------------------------------------------------------------------------------------------------------------------------------------------
+    // menu para adicionar fertilizantes, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------------------------------------------------
 
     public function prod_fertilization_menu(){
 
@@ -131,7 +158,10 @@ class Rastreability extends CI_Controller
 
     }
 
-    //-------------------------------- season problems menu ---------------------------- 
+
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar um tipo de despesa, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
     public function prod_season_problems_menu(){
 
@@ -153,10 +183,16 @@ class Rastreability extends CI_Controller
         $crud->set_theme('datatables');
         $crud->set_subject('Season Problem');
         
-        $crud->columns('id_season','name', 'type');
+        $crud->columns();
+
+        if($this->uri->segment(4)!=null)
+            $crud->field_type('id_season', 'hidden', $this->uri->segment(4));
+        else{
+            $crud->set_relation('id_season', 'prod_season', 'name');
+            $crud->display_as('id_season', 'Season');
+        }
         
-        $crud->set_relation('id_season', 'prod_season', 'name');
-        $crud->display_as('id_season', 'Season');
+        $crud->set_relation_n_n('problem_section', 'prod_problem_section', 'prod_season_fields_sections', 'id_problem' , 'id_season', 'section_name', 'id_field_section');
 
         $crud->add_action('Add Action', '', 'rastreability/prod_season_problems_actions_fieldsection_menu/add', 'ui-icon-flag');
 
@@ -170,9 +206,47 @@ class Rastreability extends CI_Controller
 
     }
 
-    
 
-    //-------------------------------- season treatment  menu ---------------------------- 
+    public function prod_season_treatment_fieldsection(){
+        
+        $this->_require_login();
+        require('api.php');
+        $api = new api();
+        $data['task'] = $api->get_todo();
+        $query = 'queryRastreability';
+
+        $data['query'] = $this->get_query($query);
+        $data['active'] = 'treeview active';
+        $data['id'] = 3;
+
+        $crud= new grocery_CRUD();
+        $crud->set_table('treatment_fieldsection');
+        $crud->field_type('id_entity', 'hidden', $this->session->userdata('id_entity'));
+        $crud->field_type('id_user', 'hidden', $this->session->userdata('id_user'));
+        $crud->set_theme('datatables');
+        $crud->set_subject('Treatment FieldSection');
+
+        $crud->columns('id','id_treatment', 'id_problem' , 'id_fieldsection', 'id_season');
+        
+        $crud->set_relation('id_treatment', 'prod_treatment', 'name');
+        $crud->set_relation('id_problem', 'prod_season_problems', 'name');
+        $crud->set_relation('id_fieldsection', 'prod_fields_sections', 'section_name');
+        $crud->set_relation('id_season', 'prod_season', 'name');
+
+        $output = $crud->render();
+
+        $header_output=(array)$output;
+        unset($header_output['output']);
+        $this->load->view('dashboard/inc/header_view', array_merge($data, $header_output));
+        $this->load->view('dashboard/admin_pages/treatment_fieldsection_view',$output);
+        $this->load->view('dashboard/inc/footer_view');
+
+        
+    }
+
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar um tipo de tratamento, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
     public function prod_treatment_menu(){
 
@@ -217,7 +291,10 @@ class Rastreability extends CI_Controller
 
     }
 
-    //-------------------------------- season harvast  menu ---------------------------- 
+
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar a colheita de uma season, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
     public function prod_season_harvast_menu(){
 
@@ -256,7 +333,10 @@ class Rastreability extends CI_Controller
 
     }
 
-    //-------------------------------- seson problems actions menu ---------------------------- 
+
+    //------------------------------------------------------------------------------------------------
+    // menu para adicionar problem action, utilizando o grocery crud (http://www.grocerycrud.com/documentation/options_functions)
+    //------------------------------------------------------------------------------------------------
 
      public function prod_season_problems_actions_menu(){
 
@@ -291,6 +371,13 @@ class Rastreability extends CI_Controller
         $this->load->view('dashboard/admin_pages/prod_season_problems_actions_view',$output);
         $this->load->view('dashboard/inc/footer_view');
     }
+
+
+    //------------------------------------------------------------------------------------------------
+    // funçao destinada a automaticamente aumentar ou diminuir o stock existente apartir da inserção de novas
+    // despesas, que quer dizer, que se comprou algum tipo de bem, esse mesmo e aumentado no stock, 
+    // onde qualquer tipo de tratamento ou fertilizaçao utilizado, irá fazer com que seja descontado no stock existente
+    //------------------------------------------------------------------------------------------------
 
     public function inventory_management($post_array,$primary_key)
     {  
@@ -335,11 +422,12 @@ class Rastreability extends CI_Controller
         if($result){
             echo "validation Complete";
         }
-
     }
+    
 
-    //---------------------------- get_querys with specific query code and status active to list on the view -------------------------
-    // --------------------------- queryCode = queryFinances OR queryRastreability ---------------------------------------------------
+    //------------------------------------------------------------------------------------------------
+    // faz uma listagem de todas os report existentes para este modulo (queryRastreability)
+    //------------------------------------------------------------------------------------------------
 
     public function get_query($query_code=null)
     {
@@ -353,7 +441,16 @@ class Rastreability extends CI_Controller
         return  null;
     }
 
-    //----------------- export selected query (XLS)--------------------
+    //------------------------------------------------------------------------------------------------
+    // verifica o id se encontra a null, caso se encontre a null, quer dizer que ja foi feita uma query inicial,
+    // caso contrario, encontra-se a fazer pela primeira vez, isto é, se for executada um dos reports 
+    // atraves da lista no canto superior direito, faz com que seja guardado o id desse report, 
+    // para caso se queira fazer alterações, adicionando restrições seja só pegar na 
+    // query inicial adicionando as restriçoes introduzidas, depois dessa verificação
+    // se o report já foi feito, grava-se o excel criado na root da pasta publica e manda-se para a 
+    // respectiva view
+    //------------------------------------------------------------------------------------------------
+
     public function test_query($id=null){
          $this->_require_login();
         require('api.php');
@@ -405,9 +502,12 @@ class Rastreability extends CI_Controller
             $this->load->view('dashboard/admin_pages/report_view');
             $this->load->view('dashboard/inc/footer_main_view');
         }
+   
     }
 
-
+    //------------------------------------------------------------------------------------------------
+    // apresenta a view com o numero de restriçoes a serem introduzidas e o link para download do report
+    //------------------------------------------------------------------------------------------------
 
     public function tableQuery()
     {
@@ -421,7 +521,8 @@ class Rastreability extends CI_Controller
 
         $result=$this->report_model->get($this->session->userdata('id_report'));
         $pieces = explode(" ",$result[0]['query_sql']);
-        
+       
+
         for($i=0; $i<count($pieces); $i++)
         {
             if(strcmp("FROM",$pieces[$i])){
@@ -449,6 +550,10 @@ class Rastreability extends CI_Controller
 
     }
 
+    //------------------------------------------------------------------------------------------------
+    // trata a informação relevante as restriçoes introduzidas pelo utilizador, como o numero de restriçoes
+    // e as restriçoes efectuadas, gerando o report e apresenta o link para download voltando ao controller test_query
+    //------------------------------------------------------------------------------------------------
 
     public function transformQuery(){
         $columnTable = array();
@@ -510,6 +615,57 @@ class Rastreability extends CI_Controller
         $this->test_query();
     }
 
+    public function apply_problem(){
+        $this->_require_login();
+        require('api.php');
+        $api = new api();
+        $data['task'] = $api->get_todo();
+        $query = 'queryRastreability';
+        $data['query'] = $this->get_query($query);
+        $data['active'] = 'treeview active';
+        $data['id'] = 3;
+        $data['flag'] = 0;
+        $this->session->set_userdata(['season' => $this->uri->segment(3)]);
+
+        $query = $this->db->query('select * from prod_season_fields_sections pfs, prod_fields_sections fs where pfs.id_season ='.$this->session->userdata['season'].' and pfs.id_fields_section = fs.id');
+        $data['season_rows']= $query->result_array();
+
+        $this->load->view('dashboard/inc/header_main_view', $data);
+        $this->load->view('dashboard/admin_pages/season_problem_view');
+        $this->load->view('dashboard/inc/footer_main_view');
+    }
+
+    public function problemDB(){
+        $selectItens = $this->input->post("allValues");
+        $pieces = explode(" ", $selectItens);
+        $name= $this->input->post("name");
+        $type = $this->input->post("type");
+        $status = $this->input->post("status");
+        $dateEnd = $this->input->post("dEnd");
+        $dateStart = $this->input->post("dStart");
+        $description = $this->input->post("description");
+        $notes = $this->input->post("notes");
+
+        $this->prod_season_problem_model->insert([
+                'id_season' => $this->session->userdata['season'],
+                'name' => $name,
+                'type' => $type,
+                'status' => $status,
+                'description' => $description,
+                'notes' => $notes,
+                'start_date' => $dateStart,
+                'end_date' => $dateEnd
+            ]);
+
+        $id_problem = $this->db->query('Select MAX(id) FROM prod_season_problems');
+        $prob = $id_problem->result_array();
+        
+        for($x=0; $x<count($pieces)-1; $x++){
+            $this->problem_fieldsection_model->insert(['id_problem' => $prob[0]['MAX(id)'],'id_fieldsection' => $pieces[$x], 'id_user' => $this->session->userdata('id_user'), 'id_entity' => $this->session->userdata('id_entity'), 'id_season' => $this->session->userdata('season')]);
+        }
+
+        redirect('/rastreability/prod_season_menu');
+    }
 
 }
 ?>

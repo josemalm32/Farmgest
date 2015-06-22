@@ -19,13 +19,13 @@
                             <h3 class="box-title">BUILD REPORT</h3>
                         </div>
                         <div class="box-body table-responsive">
-                                 
+                                 <!-- Create a number of restrictions to complete the previous sql query from before and create/update a new report -->
                                     <form method="POST" action ="<?php echo base_url();?>index.php/finances/transformQuery">
                                         <?php for($i = 0; $i < $numRow; $i++): ?>
                                         	<select name="column<?php echo $i ?>">
 	                                        	<option value = "0">Select...</option>
 	                                        	<?php for($counterC=0; $counterC < count($nameColumns); $counterC++): ?>
-	                                        		<option value="<?php echo $nameColumns[$counterC]['name']//," ",$nameColumns[$counterC]['type'] ?>"> <?php echo $nameColumns[$counterC]['name']; ?></option>
+	                                        		<option value="<?php echo $nameColumns[$counterC]['name'] ?>"> <?php echo $nameColumns[$counterC]['name']; ?></option>
 	                                        	<?php endfor; ?>
                                         	</select>
                                         	<select name="data<?php echo $i ?>">

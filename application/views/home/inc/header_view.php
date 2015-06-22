@@ -10,7 +10,7 @@
     <!-- // Load Javascipt -->
 
     <!-- Load stylesheets -->
-    <link type="text/css" rel="stylesheet" href="<?=base_url()?>/public/css/style.css" media="screen" />
+    <link type="text/css" rel="stylesheet" href="<?=base_url()?>/public/css/style.css" />
     <!-- // Load stylesheets -->
     
 </head>

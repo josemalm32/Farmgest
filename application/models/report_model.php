@@ -23,17 +23,17 @@ class report_model extends CI_Model
     	
         $objReader = PHPExcel_IOFactory::createReader('Excel5');
 
-    	// get data from rep configuration  where row id = id
+    	
         if($id == null){
-
+            // get data from id in session data, where return a row of rep_configuration
             $queryResult = $this->get($this->session->userdata('id_report'));
             $objPHPExcel = $objReader->load($queryResult[0]['template_location']);
             
-            // execute query from query sql from rep configuration
+            // execute query from query sql from session data modified with restrictions
             $result = mysql_query($this->session->userdata('query')) or die (mysql_error());
         }
         else{
-
+            // get data from rep configuration  where row id = id
             $this->session->set_userdata(['id_report' => $id]);
     	    $queryResult = $this->get($id);
             $objPHPExcel = $objReader->load($queryResult[0]['template_location']);
@@ -64,7 +64,7 @@ class report_model extends CI_Model
 		$rowCount = $queryResult[0]['start_line'];
 		//start of printing column names as names of MySQL fields  
 		$column = $queryResult[0]['title_cell'];
-
+        // filling table headers
 		for ($i = 1; $i < mysql_num_fields($result); $i++)  
 		{
 		    $objPHPExcel->getActiveSheet()->setCellValue($column.$rowCount, mysql_field_name($result,$i));
@@ -94,7 +94,7 @@ class report_model extends CI_Model
 		}
 		
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-		
+		//verify the existence of one template
 		if($queryResult[0]['template_location'] !=null){
 
 			// Write the Excel file to filename some_excel_file.xlsx in the current directory
@@ -117,18 +117,29 @@ class report_model extends CI_Model
         
         // Create a new PHPWord Object
         $PHPWord = new PHPWord();
-        //get query
-        $queryResult = $this->get($id);
-        //load template
-        $document = $PHPWord->loadTemplate($queryResult[0]['template_location']);
 
+        //id=null it means already do the normal query, so get the restrictions and do another query
+        if($id == null){
+            $queryResult = $this->get($this->session->userdata('id_report'));
+            $document = $PHPWord->loadTemplate($queryResult[0]['template_location']);       
+            // execute query from query sql from rep configuration
+            $result = mysql_query($this->session->userdata('query')) or die (mysql_error());
+        }else{
+            // normal procedure, first time report, set id report to session variable
+            // get rep_config data
+            // execute query
+            $this->session->set_userdata(['id_report' => $id]);
+            $queryResult = $this->get($id);
+            $document = $PHPWord->loadTemplate($queryResult[0]['template_location']);
+            // execute query from query sql from rep configuration
+            $result = mysql_query($queryResult[0]['query_sql']) or die (mysql_error());
+        }
+        // day and time
         $document->setValue('weekday', date('l'));
         $document->setValue('time', date('H:i'));
         
-        $result = mysql_query($queryResult[0]['query_sql']) or die (mysql_error());
-        
         $i='0';
-
+        // filling spaces where word have the {$variable} with data, it have to be custom made
         while($row = mysql_fetch_row($result))
         {
             for($aux=0; $aux < mysql_num_fields($result); $aux++)
@@ -146,13 +157,15 @@ class report_model extends CI_Model
             }
         }
 
+        //save document
         $document->save('report.docx');
+        //return 1, where 1 equals success
         $files = 1;
             
         return $files;
     }
 
-
+    //get by id if is numeric or array, if not either get all rows from the table
     public function get($id = null)
     {       
             if (is_numeric($id)) {
@@ -167,7 +180,7 @@ class report_model extends CI_Model
             return $q->result_array();
     }
     
-
+    // get enum values from columns where type = ENUM
     public function get_enum_values( $table, $field )
     {
         $type = $this->db->query( "SHOW COLUMNS FROM {$table} WHERE Field = '{$field}'" )->row( 0 )->Type;
